@@ -5,12 +5,20 @@
     android:layout_height="match_parent"
     tools:context="com.example.ethan.pokerjournal.HistoryFragment">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="History"
-        android:id="@+id/textView"
+        android:text="New Game"
+        android:id="@+id/buttonNewGame"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickNewGame" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listGames"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp" />
+        android:layout_below="@+id/buttonNewGame" />
+
 </RelativeLayout>
