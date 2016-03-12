@@ -43,6 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             GAMES_BUY_IN + " REAL NOT NULL," +
             GAMES_CASH_OUT + " REAL NOT NULL" +
             ")";
+    private static final String CREATE_TABLE_BANK = "CREATE TABLE " + TABLE_BANK +
+            "(" +
+            BANK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            BANK_DW + " TEXT NOT NULL," +
+            BANK_AMOUNT + " REAL NOT NULL" +
+            ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -51,12 +57,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_GAMES);
+        db.execSQL(CREATE_TABLE_BANK);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(oldVersion != newVersion) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_BANK);
             onCreate(db);
         }
     }
@@ -106,4 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GAMES, null, null);
     }
+
+    //bank database methods
+
 }

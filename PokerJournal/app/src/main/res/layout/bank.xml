@@ -8,9 +8,35 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bank"
-        android:id="@+id/textView"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Bank: "
+        android:id="@+id/textBank"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp" />
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Total Money"
+        android:id="@+id/textTotalMoney"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textBank" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit / Withdraw"
+        android:id="@+id/buttonDW"
+        android:layout_below="@+id/textBank"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listBank"
+        android:layout_below="@+id/buttonDW"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
