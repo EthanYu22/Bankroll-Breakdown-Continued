@@ -13,6 +13,7 @@ public class Game {
     private double cashOut;
 
     //set functions
+
     public void setId(int id) {
         this.id = id;
     }

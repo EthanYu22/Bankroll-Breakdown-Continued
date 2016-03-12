@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(GAMES_ID, game.getId());
+        //values.put(GAMES_ID, game.getId());//not needed, need to set null for autoincrement
         values.put(GAMES_TYPE, game.getType());
         values.put(GAMES_LOC, game.getLocation());
         values.put(GAMES_DATE, game.getDate());
