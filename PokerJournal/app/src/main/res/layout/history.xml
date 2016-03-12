@@ -21,4 +21,13 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/buttonNewGame" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset"
+        android:id="@+id/buttonResetGames"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onClickResetGame" />
+
 </RelativeLayout>

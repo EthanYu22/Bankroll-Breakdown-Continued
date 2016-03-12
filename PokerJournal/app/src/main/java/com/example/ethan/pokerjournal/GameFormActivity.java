@@ -39,7 +39,7 @@ public class GameFormActivity extends AppCompatActivity {
         EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
         //set values
-        game.setId(rand.nextInt(1000));
+        //game.setId(rand.nextInt(1000));//will auto increment
         game.setType(type);
         game.setLocation(location);
         game.setDate(date);

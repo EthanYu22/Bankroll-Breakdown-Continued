@@ -38,11 +38,11 @@ public class HistoryFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        gameList = db.getAllGames();
         displayGames();
     }
 
     public void displayGames() {
+        gameList = db.getAllGames();
         ListView lv = (ListView) getView().findViewById(R.id.listGames);
         GameArrayAdapter adapter = new GameArrayAdapter(getActivity(), gameList);
         lv.setAdapter(adapter);

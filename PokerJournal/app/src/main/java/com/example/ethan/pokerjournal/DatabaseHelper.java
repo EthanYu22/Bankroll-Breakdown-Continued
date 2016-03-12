@@ -101,4 +101,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return games;
     }
+
+    public void clearGames() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GAMES, null, null);
+    }
 }

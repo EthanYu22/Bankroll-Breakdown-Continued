@@ -2,7 +2,7 @@ package com.example.ethan.pokerjournal;
 /*
 Using a guide from www.androidhive.info for tabs and sqlite
  */
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ListView;
 
 import java.util.List;
 
@@ -23,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
     List<Game> gameList;
     DatabaseHelper db;
 
+    HistoryFragment hist;
+    StatsFragment stats;
+    BankFragment bank;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = new DatabaseHelper(this);
         gameList = db.getAllGames();
+        //
+        hist = new HistoryFragment();
+        stats = new StatsFragment();
+        bank = new BankFragment();
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -43,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void setupViewPager(ViewPager upViewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HistoryFragment(), "History");
-        adapter.addFragment(new StatsFragment(), "Stats");
-        adapter.addFragment(new BankFragment(), "Bank");
+        adapter.addFragment(hist, "History");
+        adapter.addFragment(stats, "Stats");
+        adapter.addFragment(bank, "Bank");
         viewPager.setAdapter(adapter);
     }
 
@@ -54,16 +61,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*
-    public void onResume() {
-        super.onResume();
-        displayGames();
+    public void onClickResetGame(View v) {
+        db.clearGames();
+        hist.displayGames();
     }
 
-    public void displayGames() {
-        ListView lv = (ListView) findViewById(R.id.listGames);
-        GameArrayAdapter adapter = new GameArrayAdapter(this, gameList);
-        lv.setAdapter(adapter);
-    }
-    */
 }
