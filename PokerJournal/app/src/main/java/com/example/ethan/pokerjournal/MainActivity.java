@@ -10,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static int gameId;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -69,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
     public void onClickResetGame(View v) {
         db.clearGames();
         hist.displayGames();
+    }
+
+    public void onClickTest(View v) {
+        gameId = v.getId();
+        Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
+        startActivity(intent);
     }
 
 }

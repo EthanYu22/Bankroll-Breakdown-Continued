@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GameFormActivity" />
-        <activity android:name=".BankFormActivity"></activity>
+        <activity android:name=".BankFormActivity" />
+        <activity android:name=".GameDetailActivity"></activity>
     </application>
 
 </manifest>

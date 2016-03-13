@@ -34,6 +34,7 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
 
         date.setText(game.getDate());
         description.setText(msg);
+        convertView.setId(game.getId());
 
         return convertView;
     }
