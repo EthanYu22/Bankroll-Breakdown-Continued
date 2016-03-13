@@ -137,7 +137,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Bank b = new Bank();
                 b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
-
+                b.setWd(c.getString(c.getColumnIndex(BANK_DW)));
+                b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
                 banks.add(b);
             } while (c.moveToNext());
         }

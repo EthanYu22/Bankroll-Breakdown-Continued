@@ -37,6 +37,7 @@ public class BankFormActivity extends AppCompatActivity {
         }
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
+        bank.setWd(type);
         bank.setAmount(amountMoney);
 
         db.createBank(bank);
