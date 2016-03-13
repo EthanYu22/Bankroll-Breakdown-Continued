@@ -24,7 +24,6 @@ public class GameFormActivity extends AppCompatActivity {
     public void onClickGameButton(View v) {
         DatabaseHelper db = new DatabaseHelper(this);
         Game game = new Game();
-        Random rand = new Random();
         //get values
         Spinner spin = (Spinner) findViewById(R.id.spinnerGameType);
         String type = spin.getSelectedItem().toString();
@@ -39,7 +38,6 @@ public class GameFormActivity extends AppCompatActivity {
         EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
         //set values
-        //game.setId(rand.nextInt(1000));//will auto increment
         game.setType(type);
         game.setLocation(location);
         game.setDate(date);
