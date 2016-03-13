@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(oldVersion != newVersion) {
+        if (oldVersion != newVersion) {
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMES);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_BANK);
             onCreate(db);
@@ -116,5 +116,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //bank database methods
+    public void createBank(Bank bank) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(BANK_AMOUNT, bank.getAmount());
+        values.put(BANK_DW, bank.getDw());
+
+        long bank_return = db.insert(TABLE_BANK, null, values);
+    }
+
+    public List<Bank> getAllBanks() {
+        List<Bank> banks = new ArrayList<Bank>();
+        String selectQuery = "SELECT * FROM " + TABLE_BANK;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Bank b = new Bank();
+                b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
+
+                banks.add(b);
+            } while (c.moveToNext());
+        }
+        return banks;
+    }
+
+    public void clearBank() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_BANK, null, null);
+    }
 }

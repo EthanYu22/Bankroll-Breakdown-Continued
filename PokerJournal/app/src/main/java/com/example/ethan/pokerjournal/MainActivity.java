@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickDepositWithdraw(View v) {
+        Intent intent = new Intent(MainActivity.this, BankFormActivity.class);
+        startActivity(intent);
+    }
+
     public void onClickResetGame(View v) {
         db.clearGames();
         hist.displayGames();

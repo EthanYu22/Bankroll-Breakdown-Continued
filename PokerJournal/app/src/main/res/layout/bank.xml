@@ -30,7 +30,8 @@
         android:id="@+id/buttonDW"
         android:layout_below="@+id/textBank"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickDepositWithdraw" />
 
     <ListView
         android:layout_width="wrap_content"

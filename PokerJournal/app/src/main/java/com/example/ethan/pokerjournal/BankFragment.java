@@ -5,11 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.List;
 
 /**
  * Created by Andrew on 3/9/2016.
  */
 public class BankFragment extends Fragment {
+
+    DatabaseHelper db;
+    List<Bank> banksList;
+
     public BankFragment() {
 
     }
@@ -17,6 +24,7 @@ public class BankFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate((savedInstanceState));
+        db = new DatabaseHelper(getActivity());
     }
 
     @Override
@@ -24,4 +32,18 @@ public class BankFragment extends Fragment {
         //inflate layout
         return inflater.inflate(R.layout.bank, container, false);
     }
+
+    public void onResume() {
+        super.onResume();
+        displayBanks();
+    }
+
+    public void displayBanks() {
+        banksList = db.getAllBanks();
+        ListView lv = (ListView) getView().findViewById(R.id.listBank);
+        BankArrayAdapter adapter = new BankArrayAdapter(getActivity(), banksList);
+        lv.setAdapter(adapter);
+    }
+
+
 }

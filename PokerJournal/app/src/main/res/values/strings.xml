@@ -7,6 +7,10 @@
         <item>5-Card Draw</item>
         <item>Chicago</item>
     </string-array>
+    <string-array name="deposit_withdraw">
+        <item>Deposit</item>
+        <item>Withdraw</item>
+    </string-array>
     <string-array name="months">
         <item>January</item>
         <item>February</item>
