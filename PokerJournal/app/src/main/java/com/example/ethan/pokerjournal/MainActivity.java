@@ -71,4 +71,8 @@ public class MainActivity extends AppCompatActivity {
         hist.displayGames();
     }
 
+    public void onClickResetBank(View v) {
+        db.clearBank();
+        bank.displayBanks();
+    }
 }
