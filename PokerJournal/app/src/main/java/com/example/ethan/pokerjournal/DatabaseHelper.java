@@ -115,6 +115,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_GAMES, null, null);
     }
 
+    public Game getGame(int gameId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * From " + TABLE_GAMES + " WHERE " + GAMES_ID + " = " + gameId;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        Game g = new Game();
+        g.setId(c.getInt(c.getColumnIndex(GAMES_ID)));
+        g.setType(c.getString(c.getColumnIndex(GAMES_TYPE)));
+        g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
+        g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
+        g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
+        g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
+        g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
+
+        return g;
+    }
+
     //bank database methods
     public void createBank(Bank bank) {
         SQLiteDatabase db = this.getWritableDatabase();

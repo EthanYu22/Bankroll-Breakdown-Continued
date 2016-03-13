@@ -12,8 +12,65 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
-        android:id="@+id/textTest"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ID:"
+        android:id="@+id/textGameId"
         android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Type:"
+        android:id="@+id/textGameType"
+        android:layout_below="@+id/textGameId"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textGameId" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Location:"
+        android:id="@+id/textGameLocation"
+        android:layout_below="@+id/textGameType"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Date:"
+        android:id="@+id/textGameDate"
+        android:layout_below="@+id/textGameLocation"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Time:"
+        android:id="@+id/textGameTime"
+        android:layout_below="@+id/textGameDate"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Buy In: "
+        android:id="@+id/textGameBuyIn"
+        android:layout_below="@+id/textGameTime"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Cash Out:"
+        android:id="@+id/textGameCashOut"
+        android:layout_below="@+id/textGameBuyIn"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

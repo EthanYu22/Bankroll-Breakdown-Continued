@@ -106,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cash Out (Dollars):"
-        android:id="@+id/textCashOut"
+        android:id="@+id/textGameCashOut"
         android:layout_below="@+id/editBuyIn"
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
@@ -117,7 +117,7 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/editCashOut"
-        android:layout_below="@+id/textCashOut"
+        android:layout_below="@+id/textGameCashOut"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/editBuyIn" />
 
