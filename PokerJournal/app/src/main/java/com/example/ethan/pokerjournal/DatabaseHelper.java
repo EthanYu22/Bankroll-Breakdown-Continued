@@ -137,6 +137,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return g;
     }
 
+    public void deleteGame(int gameId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GAMES, GAMES_ID + " = ?", new String[] {String.valueOf(gameId)});
+    }
+
     //bank database methods
     public void createBank(Bank bank) {
         SQLiteDatabase db = this.getWritableDatabase();

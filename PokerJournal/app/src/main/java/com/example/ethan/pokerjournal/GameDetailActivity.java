@@ -2,18 +2,21 @@ package com.example.ethan.pokerjournal;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameDetailActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     Game game;
+    int gameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_detail);
-        int gameId = MainActivity.gameId;
+        gameId = MainActivity.gameId;
         db = new DatabaseHelper(this);
         game = db.getGame(gameId);
     }
@@ -44,5 +47,12 @@ public class GameDetailActivity extends AppCompatActivity {
         time.setText("Time: " + game.getTime() + " Hours");
         buyIn.setText("Buy In: $" + game.getBuyIn());
         cashOut.setText("Cash Out: $" + game.getCashOut());
+    }
+
+    public void onClickDeleteGame(View v) {
+        db.deleteGame(gameId);
+        Toast toast = Toast.makeText(getApplication(), "Game Deleted", Toast.LENGTH_SHORT);
+        toast.show();
+        finish();
     }
 }
