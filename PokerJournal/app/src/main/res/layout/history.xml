@@ -18,8 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listGames"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/buttonNewGame" />
+        android:layout_below="@+id/buttonNewGame"
+        android:layout_alignEnd="@+id/buttonNewGame"
+        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="true" />
+        android:scrollbars="vertical"
 
     <Button
         android:layout_width="wrap_content"
