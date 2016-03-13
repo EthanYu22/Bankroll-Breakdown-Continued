@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -46,6 +48,15 @@ public class HistoryFragment extends Fragment {
         ListView lv = (ListView) getView().findViewById(R.id.listGames);
         GameArrayAdapter adapter = new GameArrayAdapter(getActivity(), gameList);
         lv.setAdapter(adapter);
+        /*
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast toast = Toast.makeText(getActivity(), "it works!", Toast.LENGTH_SHORT);
+                toast.show();
+
+            }
+        });*/
     }
 
 }
