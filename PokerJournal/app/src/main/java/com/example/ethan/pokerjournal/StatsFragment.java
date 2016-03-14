@@ -41,7 +41,7 @@ public class StatsFragment extends Fragment {
     public void displayStats() {
         Game game;
         gameList = db.getAllGames();
-        int totalHours = 0;
+        double totalHours = 0;
         double avgHours;
         int netProfit;
         int buyIn = 0;
@@ -99,12 +99,14 @@ public class StatsFragment extends Fragment {
             bl.setText("Biggest Loss: ");
         } else {
             avgHours = totalHours / gameList.size();
+            String avgH = String.format("%.2f", avgHours);
             netProfit = cashOut - buyIn;
             hourlyRate = netProfit / totalHours;
+            String hourlyR = String.format("%.2f", hourlyRate);
             x.setText("Total Hours: " + totalHours);
-            ast.setText("Avg Session Time: " + avgHours);
+            ast.setText("Avg Session Time: " + avgH);
             np.setText("Net Profit: $" + netProfit);
-            hr.setText("Hourly Rate: $" + hourlyRate);
+            hr.setText("Hourly Rate: $" + hourlyR);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
             ts.setText("Total Sessions: " + totalSessions);
