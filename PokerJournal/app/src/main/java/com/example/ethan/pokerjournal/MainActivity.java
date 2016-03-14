@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickResetGame(View v) {
         db.clearGames();
         hist.displayGames();
+        stats.displayStats();
     }
 
     public void onClickResetBank(View v) {

@@ -76,29 +76,37 @@ public class StatsFragment extends Fragment {
                 totalSessions++;
             }
         }
+        TextView x = (TextView) getView().findViewById(R.id.statText);
+        TextView ast = (TextView) getView().findViewById(R.id.avgHours);
+        TextView np = (TextView) getView().findViewById(R.id.netProfit);
+        TextView hr = (TextView) getView().findViewById(R.id.hourlyRate);
+        TextView ws = (TextView) getView().findViewById(R.id.winningSession);
+        TextView ls = (TextView) getView().findViewById(R.id.lossingSession);
+        TextView ts = (TextView) getView().findViewById(R.id.totalSession);
+        TextView abi = (TextView) getView().findViewById(R.id.avgBuy);
+        TextView bw = (TextView) getView().findViewById(R.id.biggestWin);
+        TextView bl = (TextView) getView().findViewById(R.id.biggestLoss);
         if (gameList.size() == 0) {
-            TextView x = (TextView) getView().findViewById(R.id.statText);
-            x.setText("Total Hours");
+            x.setText("Total Hours: ");
+            ast.setText("Avg Session Time: ");
+            np.setText("Net Profit: ");
+            hr.setText("Hourly Rate: ");
+            ws.setText("Winning Sessions: ");
+            ls.setText("Losing Sessions: ");
+            ts.setText("Total Sessions: ");
+            abi.setText("Avg Buy In: ");
+            bw.setText("Biggest Win: ");
+            bl.setText("Biggest Loss: ");
         } else {
             avgHours = totalHours / gameList.size();
             netProfit = cashOut - buyIn;
             hourlyRate = netProfit / totalHours;
-            TextView x = (TextView) getView().findViewById(R.id.statText);
-            TextView ast = (TextView) getView().findViewById(R.id.avgHours);
-            TextView np = (TextView) getView().findViewById(R.id.netProfit);
-            TextView hr = (TextView) getView().findViewById(R.id.hourlyRate);
-            TextView ws = (TextView) getView().findViewById(R.id.winningSession);
-            TextView ls = (TextView) getView().findViewById(R.id.lossingSession);
-            TextView ts = (TextView) getView().findViewById(R.id.totalSession);
-            TextView abi = (TextView) getView().findViewById(R.id.avgBuy);
-            TextView bw = (TextView) getView().findViewById(R.id.biggestWin);
-            TextView bl = (TextView) getView().findViewById(R.id.biggestLoss);
             x.setText("Total Hours: " + totalHours);
             ast.setText("Avg Session Time: " + avgHours);
             np.setText("Net Profit: $" + netProfit);
             hr.setText("Hourly Rate: $" + hourlyRate);
             ws.setText("Winning Sessions: " + winningSession);
-            ls.setText("Lossing Sessions: " + losingSession);
+            ls.setText("Losing Sessions: " + losingSession);
             ts.setText("Total Sessions: " + totalSessions);
             abi.setText("Avg Buy In: $" + avgBuy);
             bw.setText("Biggest Win: $" + biggestWin);
