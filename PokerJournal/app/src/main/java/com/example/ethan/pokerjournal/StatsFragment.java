@@ -72,16 +72,38 @@ public class StatsFragment extends Fragment {
                 losingSession++;
             }
             totalSessions = winningSession + losingSession;
+            if(game.getCashOut() - game.getBuyIn() == 0){
+                totalSessions++;
+            }
         }
         if (gameList.size() == 0) {
             TextView x = (TextView) getView().findViewById(R.id.statText);
-            x.setText("No Game");
+            x.setText("Total Hours");
         } else {
             avgHours = totalHours / gameList.size();
             netProfit = cashOut - buyIn;
             hourlyRate = netProfit / totalHours;
             TextView x = (TextView) getView().findViewById(R.id.statText);
-            x.setText("Total Hours: " + totalHours + "\n" +
+            TextView ast = (TextView) getView().findViewById(R.id.avgHours);
+            TextView np = (TextView) getView().findViewById(R.id.netProfit);
+            TextView hr = (TextView) getView().findViewById(R.id.hourlyRate);
+            TextView ws = (TextView) getView().findViewById(R.id.winningSession);
+            TextView ls = (TextView) getView().findViewById(R.id.lossingSession);
+            TextView ts = (TextView) getView().findViewById(R.id.totalSession);
+            TextView abi = (TextView) getView().findViewById(R.id.avgBuy);
+            TextView bw = (TextView) getView().findViewById(R.id.biggestWin);
+            TextView bl = (TextView) getView().findViewById(R.id.biggestLoss);
+            x.setText("Total Hours: " + totalHours);
+            ast.setText("Avg Session Time: " + avgHours);
+            np.setText("Net Profit: $" + netProfit);
+            hr.setText("Hourly Rate: $" + hourlyRate);
+            ws.setText("Winning Sessions: " + winningSession);
+            ls.setText("Lossing Sessions: " + losingSession);
+            ts.setText("Total Sessions: " + totalSessions);
+            abi.setText("Avg Buy In: $" + avgBuy);
+            bw.setText("Biggest Win: $" + biggestWin);
+            bl.setText("Biggest Loss: $" + biggestLoss);
+            /*x.setText("Total Hours: " + totalHours + "\n" +
                     "Average Session Time: " + avgHours + "\n" +
                     "Net Profit: $" + netProfit + "\n" +
                     "Hourly Rate: $" + hourlyRate + "\n" +
@@ -90,7 +112,7 @@ public class StatsFragment extends Fragment {
                     "Total Sessions: " + totalSessions + "\n" +
                     "Average Buy In: $" + avgBuy + "\n" +
                     "Largest Win: $" + biggestWin + "\n" +
-                    "Largest Loss: $" + biggestLoss);
+                    "Largest Loss: $" + biggestLoss);*/
         }
         
     }
