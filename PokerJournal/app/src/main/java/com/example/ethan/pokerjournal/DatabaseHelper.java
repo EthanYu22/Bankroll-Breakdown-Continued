@@ -9,73 +9,97 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Andrew on 3/10/2016.
- */
+// DB for Poker App
 public class DatabaseHelper extends SQLiteOpenHelper {
-    //db info
+
+    // DB Info
     private static final String DATABASE_NAME = "pokerJournalDatabase";
-    private static final int DATABASE_VERSION = 1;
-    //tables
+    private static final int DATABASE_VERSION = 4;
+
+    // Game & Bank Tables
     private static final String TABLE_GAMES = "games";
     private static final String TABLE_BANK = "bank";
-    //games fields (columns)
+
+    // Game Fields
     private static final String GAMES_ID = "id";
-    private static final String GAMES_TYPE = "type";
-    private static final String GAMES_BLINDS = "blinds";//will leave out for now, since would be two fields
+    private static final String GAMES_TYPE = "type"; // Poker Variation Type
+    private static final String GAMES_BLINDS = "blinds";
     private static final String GAMES_LOC = "location";
     private static final String GAMES_DATE = "date";
     private static final String GAMES_TIME = "time";
     private static final String GAMES_BUY_IN = "buyIn";
     private static final String GAMES_CASH_OUT = "cashOut";
-    //bank fields (columns)
-    private static final String BANK_ID = "id";
-    private static final String BANK_DW = "dw"; //deposit or withdrawal
-    private static final String BANK_AMOUNT = "amount";
-    //create table statements
+
+    // Create Game Statements
     private static final String CREATE_TABLE_GAMES = "CREATE TABLE " + TABLE_GAMES +
             "(" +
             GAMES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             GAMES_TYPE + " TEXT NOT NULL," +
+            GAMES_BLINDS + " TEXT NOT NULL," +
             GAMES_LOC + " TEXT NOT NULL," +
             GAMES_DATE + " TEXT NOT NULL," +
             GAMES_TIME + " REAL NOT NULL," +
             GAMES_BUY_IN + " REAL NOT NULL," +
             GAMES_CASH_OUT + " REAL NOT NULL" +
             ")";
+
+    // Update on Games Table for Adding GAMES_BLINDS Field (Ver 2)
+    private static final String DATABASE_ALTER_GAME_1 = "ALTER TABLE "
+            + TABLE_GAMES + " ADD COLUMN " + GAMES_BLINDS + " string;";
+
+    // Bank Transaction Fields
+    private static final String BANK_ID = "id";
+    private static final String BANK_DW = "dw"; // Deposit or Withdraw
+    private static final String BANK_AMOUNT = "amount";
+    private static final String BANK_DATE = "date";
+
+    // Create Bank Statements
     private static final String CREATE_TABLE_BANK = "CREATE TABLE " + TABLE_BANK +
             "(" +
             BANK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             BANK_DW + " TEXT NOT NULL," +
-            BANK_AMOUNT + " REAL NOT NULL" +
+            BANK_AMOUNT + " REAL NOT NULL," +
+            BANK_DATE + " TEXT NOT NULL" +
             ")";
 
+    // Update on Bank Table for Adding BANK_DATE Field (Ver 3)
+    private static final String DATABASE_ALTER_BANK_1 = "ALTER TABLE "
+            + TABLE_BANK + " ADD COLUMN " + BANK_DATE + " string;";
+
+    // DB Helper Run
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Run SQLite DB with Both Games and Bank Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_GAMES);
         db.execSQL(CREATE_TABLE_BANK);
     }
 
+    // Updates Version of SQLite DB Accordingly
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion != newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_GAMES);
-            db.execSQL("DROP TABLE IF EXISTS " + TABLE_BANK);
-            onCreate(db);
+
+        // Update For Adding Blinds Field
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ALTER_GAME_1);
+        }
+
+        // Update For Adding Bank Transaction Date Field
+        if (oldVersion < 3) {
+            db.execSQL(DATABASE_ALTER_BANK_1);
         }
     }
 
-    //game database methods
+    // Game DB Methods
     public void createGame(Game game) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        //values.put(GAMES_ID, game.getId());//not needed, need to set null for autoincrement
+
         values.put(GAMES_TYPE, game.getType());
+        values.put(GAMES_BLINDS, game.getBlinds());
         values.put(GAMES_LOC, game.getLocation());
         values.put(GAMES_DATE, game.getDate());
         values.put(GAMES_TIME, game.getTime());
@@ -85,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long game_return = db.insert(TABLE_GAMES, null, values);
     }
 
+    // Get All Games
     public List<Game> getAllGames() {
         List<Game> games = new ArrayList<Game>();
         String selectQuery = "SELECT * FROM " + TABLE_GAMES;
@@ -97,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Game g = new Game();
                 g.setId(c.getInt(c.getColumnIndex(GAMES_ID)));
                 g.setType(c.getString(c.getColumnIndex(GAMES_TYPE)));
+                g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
                 g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
                 g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
                 g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
@@ -110,11 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return games;
     }
 
-    public void clearGames() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_GAMES, null, null);
-    }
-
+    // Gets a Specific Game
     public Game getGame(int gameId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selectQuery = "SELECT * From " + TABLE_GAMES + " WHERE " + GAMES_ID + " = " + gameId;
@@ -128,6 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Game g = new Game();
         g.setId(c.getInt(c.getColumnIndex(GAMES_ID)));
         g.setType(c.getString(c.getColumnIndex(GAMES_TYPE)));
+        g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
         g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
         g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
         g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
@@ -137,22 +160,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return g;
     }
 
+    // Edit Games in DB
+    public void editGame(Game game) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(GAMES_TYPE, game.getType());
+        values.put(GAMES_BLINDS, game.getBlinds());
+        values.put(GAMES_LOC, game.getLocation());
+        values.put(GAMES_DATE, game.getDate());
+        values.put(GAMES_TIME, game.getTime());
+        values.put(GAMES_BUY_IN, game.getBuyIn());
+        values.put(GAMES_CASH_OUT, game.getCashOut());
+
+        long game_return = db.insert(TABLE_GAMES, null, values);
+    }
+
+    // Delete All Games from DB
+    public void clearGames() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_GAMES, null, null);
+    }
+
+    // Deletes a Specific Game
     public void deleteGame(int gameId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GAMES, GAMES_ID + " = ?", new String[] {String.valueOf(gameId)});
     }
 
-    //bank database methods
+    // Bank DB Methods
     public void createBank(Bank bank) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
+
         values.put(BANK_AMOUNT, bank.getAmount());
         values.put(BANK_DW, bank.getDw());
+        values.put(BANK_DATE, bank.getDate());
 
         long bank_return = db.insert(TABLE_BANK, null, values);
     }
 
+    // Get All Bank Transactions
     public List<Bank> getAllBanks() {
         List<Bank> banks = new ArrayList<Bank>();
         String selectQuery = "SELECT * FROM " + TABLE_BANK;
@@ -166,14 +214,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
                 b.setWd(c.getString(c.getColumnIndex(BANK_DW)));
                 b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
+                b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
                 banks.add(b);
             } while (c.moveToNext());
         }
         return banks;
     }
 
+    // Gets a Specific Bank Transaction
+    public Bank getBank(int bankId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * From " + TABLE_BANK + " WHERE " + BANK_ID + " = " + bankId;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        Bank b = new Bank();
+        b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
+        b.setWd(c.getString(c.getColumnIndex(BANK_DW)));
+        b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
+        b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
+
+        return b;
+    }
+
+    // Deletes All Bank Transactions from DB
     public void clearBank() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BANK, null, null);
+    }
+
+    // Deletes a Specific Bank Transaction
+    public void deleteBank(int bankId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_BANK, BANK_ID + " = ?", new String[] {String.valueOf(bankId)});
     }
 }

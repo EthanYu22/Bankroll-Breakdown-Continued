@@ -9,15 +9,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".GameFormActivity">
 
+    // Display "Game Type:"
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Game Type:"
         android:id="@+id/textGameType"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+    android:layout_alignParentStart="true"
+    android:textSize="20dp" />
 
+    // Display GameType Spinner Under textGameType With Entries Listed in game_types in strings.xml
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,52 +29,100 @@
         android:entries="@array/game_types"
         android:spinnerMode="dropdown" />
 
+    // Display "Game Blinds:" Under spinnerGameType
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Blinds:"
+        android:id="@+id/textGameBlinds"
+        android:layout_below="@+id/spinnerGameType"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp" />
+
+    // Display GameBlinds Spinner Under textGameBlinds With Entries Listed in game_blinds in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerGameBlinds"
+        android:layout_below="@+id/textGameBlinds"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/game_blinds"
+        android:spinnerMode="dropdown" />
+
+    // Display "Date:" Under spinnerGameBlinds
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
+        android:id="@+id/textDate"
+        android:layout_below="@+id/spinnerGameBlinds"
+        android:layout_alignParentStart="true"
+        android:textSize="20dp" />
+
+    // Display Month Spinner Under textDate With Entries Listed in months in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerGameMonth"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/months"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentLeft="true" />
+
+    // Display Day Spinner Under textDate With Entries Listed in days in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerGameDay"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/days"
+        android:spinnerMode="dropdown" />
+
+    // Display Year Spinner Under textDate With Entries Listed in years in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerGameYear"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/years"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentRight="true" />
+
+    // Display "Location:" Under spinnerGameMonth
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location:"
         android:id="@+id/textLocation"
         android:textSize="20dp"
-        android:layout_below="@+id/spinnerGameType"
+        android:layout_below="@+id/spinnerGameMonth"
         android:layout_alignParentStart="true" />
 
+    // Display Form for Location Under textLocation
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editLocaiton"
+        android:id="@+id/editLocation"
         android:layout_below="@+id/textLocation"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:textSize="15dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date:"
-        android:id="@+id/textDate"
-        android:layout_below="@+id/editLocaiton"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editDate"
-        android:layout_below="@+id/textDate"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
-
+    // Display "Time (Hours):" Under editLocation
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time (Hours):"
         android:id="@+id/textTime"
-        android:layout_below="@+id/editDate"
+        android:layout_below="@+id/editLocation"
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
 
+    // Display Form for Duration: Under textTime
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,6 +133,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
+    // Display "Buy In (Dollars):" Under editTime
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,6 +143,7 @@
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
 
+    // Display Form for Buy In Under textBuyIn
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,6 +154,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/editTime" />
 
+    // Display "Cash Out (Dollars):" Under editBuyIn
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,6 +164,7 @@
         android:layout_alignParentStart="true"
         android:textSize="20dp" />
 
+    // Display Form for Cash Out Under textGameCashOut
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -121,6 +175,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/editBuyIn" />
 
+    // Submit Button
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,5 +185,4 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/editCashOut"
         android:onClick="onClickGameButton" />
-
 </RelativeLayout>

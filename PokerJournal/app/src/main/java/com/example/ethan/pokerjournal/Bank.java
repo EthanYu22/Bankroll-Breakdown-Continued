@@ -1,36 +1,42 @@
 package com.example.ethan.pokerjournal;
 
-/**
- * Created by Andrew on 3/11/2016.
- */
+// Represents a Deposit or Withdraw Transaction
 public class Bank {
-    private int id;
-    private String dw;
-    private double amount;
+    protected int id; // Deposit/Withdraw ID
+    protected String dw; // Deposit/Withdraw Label
+    protected String date; // Deposit/Withdraw Date
+    protected double amount; // Deposit/Withdraw Amount
 
-    //set functions
-    public void setId(int id) {
-        this.id = id;
-    }
+    // ~ Set Functions ~
+    // Set ID
+    public void setId(int id) { this.id = id; }
 
-    public void setWd(String dw) {
-        this.dw = dw;
-    }
+    // Set Deposit or Withdraw Label
+    public void setWd(String dw) { this.dw = dw; }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
+    // Set Date
+    public void setDate(String date) { this.date = date; }
 
-    //get functions
-    public int getId() {
-        return id;
-    }
+    // Set Amount
+    public void setAmount(double amount) {this.amount = amount;}
 
-    public String getDw() {
-        return dw;
-    }
 
-    public double getAmount() {
-        return amount;
-    }
+    // ~ Get Functions ~
+    // Get ID
+    public int getId() { return id; }
+
+    // Get Deposit or Withdraw Label
+    public String getDw() { return dw; }
+
+    // Get Date
+    public String getDate() { return date; }
+
+    // Get Amount
+    public double getAmount() { return amount; }
+
+
+    @Override
+    // Turns Date into a String
+    public String toString() { return date; }
+
 }

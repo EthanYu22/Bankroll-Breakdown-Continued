@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">PokerJournal</string>
+    // Poker Application Title
+    <string name="app_name">Bankroll Breakdown</string>
+
+    // Poker Variance Types Menu
     <string-array name="game_types">
         <item>Texas Hold Em</item>
         <item>Omaha</item>
@@ -7,10 +10,25 @@
         <item>5-Card Draw</item>
         <item>Chicago</item>
     </string-array>
+
+    // Game Blinds Menu
+    <string-array name="game_blinds">
+        <item>1-2</item>
+        <item>1-1-2</item>
+        <item>1-1-3</item>
+        <item>2-5</item>
+        <item>3-5</item>
+        <item>5-10</item>
+        <item>10-20</item>
+    </string-array>
+
+    // Deposit or Withdraw Menu
     <string-array name="deposit_withdraw">
         <item>Deposit</item>
         <item>Withdraw</item>
     </string-array>
+
+    // Months Menu
     <string-array name="months">
         <item>January</item>
         <item>February</item>
@@ -25,6 +43,8 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+
+    // Days Menu
     <string-array name="days">
         <item>1</item>
         <item>2</item>
@@ -57,5 +77,30 @@
         <item>29</item>
         <item>30</item>
         <item>31</item>
+    </string-array>
+
+    // Years Menu
+    <string-array name="years">
+        <item>2010</item>
+        <item>2011</item>
+        <item>2012</item>
+        <item>2013</item>
+        <item>2014</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+        <item>2029</item>
+        <item>2030</item>
     </string-array>
 </resources>

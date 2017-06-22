@@ -9,16 +9,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by Andrew on 3/9/2016.
- */
 public class StatsFragment extends Fragment {
 
     DatabaseHelper db;
     List<Game> gameList;
 
-    public StatsFragment() {
-    }
+    public StatsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,16 +24,17 @@ public class StatsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //inflate layout
+        // Inflate Layout
         return inflater.inflate(R.layout.stats, container, false);
     }
 
-    //@Override
+    // Action When On Stats Page
     public void onResume() {
         super.onResume();
         displayStats();
     }
 
+    // Displays Overall Game Statistics
     public void displayStats() {
         Game game;
         gameList = db.getAllGames();
@@ -53,12 +50,15 @@ public class StatsFragment extends Fragment {
         int totalSessions = 0;
         double biggestWin = 0;
         double biggestLoss = 0;
+        // Calculation for Statistics
         for (int i = 0; i < gameList.size(); i++) {
             game = gameList.get(i);
-            totalHours += game.getTime();
-            buyIn += game.getBuyIn();
-            cashOut += game.getCashOut();
-            avgBuy = buyIn / gameList.size();
+            totalHours += game.getTime(); // Net Hours
+            buyIn += game.getBuyIn(); // Net Buy In
+            cashOut += game.getCashOut(); // Net Cash Out
+            avgBuy = buyIn / gameList.size(); // Average Buy In
+
+            // Find Biggest Win and Loss
             double bigwin = game.getCashOut() - game.getBuyIn();
             if(bigwin > biggestWin){
                 biggestWin = bigwin;
@@ -66,27 +66,33 @@ public class StatsFragment extends Fragment {
                 biggestLoss = bigwin;
             }
 
+            // Tally Number of Winning and Losing Sessions
             if(game.getCashOut() - game.getBuyIn() > 0){
                 winningSession++;
             }else if(game.getBuyIn() - game.getCashOut() > 0){
                 losingSession++;
             }
+
+            // Get Total Sessions
             totalSessions = winningSession + losingSession;
             if(game.getCashOut() - game.getBuyIn() == 0){
                 totalSessions++;
             }
         }
-        TextView x = (TextView) getView().findViewById(R.id.statText);
-        TextView ast = (TextView) getView().findViewById(R.id.avgHours);
-        TextView np = (TextView) getView().findViewById(R.id.netProfit);
-        TextView hr = (TextView) getView().findViewById(R.id.hourlyRate);
-        TextView ws = (TextView) getView().findViewById(R.id.winningSession);
-        TextView ls = (TextView) getView().findViewById(R.id.lossingSession);
-        TextView ts = (TextView) getView().findViewById(R.id.totalSession);
-        TextView abi = (TextView) getView().findViewById(R.id.avgBuy);
-        TextView bw = (TextView) getView().findViewById(R.id.biggestWin);
-        TextView bl = (TextView) getView().findViewById(R.id.biggestLoss);
-        if (gameList.size() == 0) {
+
+        // Displays Game Statistics
+        TextView x = (TextView) getView().findViewById(R.id.statText); // Total Hours
+        TextView ast = (TextView) getView().findViewById(R.id.avgHours); // Average Session Time
+        TextView np = (TextView) getView().findViewById(R.id.netProfit); // Net Profit
+        TextView hr = (TextView) getView().findViewById(R.id.hourlyRate); // Hourly Rate
+        TextView ws = (TextView) getView().findViewById(R.id.winningSession); // Winning Sessions
+        TextView ls = (TextView) getView().findViewById(R.id.lossingSession); // Losing Sessions
+        TextView ts = (TextView) getView().findViewById(R.id.totalSession); // Total Sessions
+        TextView abi = (TextView) getView().findViewById(R.id.avgBuy); // Average Buy In
+        TextView bw = (TextView) getView().findViewById(R.id.biggestWin); // Biggest Win
+        TextView bl = (TextView) getView().findViewById(R.id.biggestLoss); // Biggest Loss
+
+        if (gameList.size() == 0) { // If No Games Are Played Display This
             x.setText("Total Hours: ");
             ast.setText("Avg Session Time: ");
             np.setText("Net Profit: ");
@@ -97,7 +103,7 @@ public class StatsFragment extends Fragment {
             abi.setText("Avg Buy In: ");
             bw.setText("Biggest Win: ");
             bl.setText("Biggest Loss: ");
-        } else {
+        } else { // If Games Are Played Display This
             avgHours = totalHours / gameList.size();
             String avgH = String.format("%.2f", avgHours);
             netProfit = cashOut - buyIn;
@@ -113,16 +119,6 @@ public class StatsFragment extends Fragment {
             abi.setText("Avg Buy In: $" + avgBuy);
             bw.setText("Biggest Win: $" + biggestWin);
             bl.setText("Biggest Loss: $" + biggestLoss);
-            /*x.setText("Total Hours: " + totalHours + "\n" +
-                    "Average Session Time: " + avgHours + "\n" +
-                    "Net Profit: $" + netProfit + "\n" +
-                    "Hourly Rate: $" + hourlyRate + "\n" +
-                    "Winning Sessions: " + winningSession + "\n" +
-                    "Losing Sessions: " + losingSession + "\n" +
-                    "Total Sessions: " + totalSessions + "\n" +
-                    "Average Buy In: $" + avgBuy + "\n" +
-                    "Largest Win: $" + biggestWin + "\n" +
-                    "Largest Loss: $" + biggestLoss);*/
         }
         
     }

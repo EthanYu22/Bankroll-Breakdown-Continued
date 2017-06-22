@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <!-- Blue Styling
+    <color name="colorPrimary">#3F51B5</color> // Blue
+    <color name="colorPrimaryDark">#303F9F</color> // Dark Blue
+    <color name="textColorPrimary">#FFFFFF</color> // White
+    <color name="windowBackground">#FFFFFF</color> // White
+    <color name="navigationBarColor">#000000</color> // Black
+    <color name="colorAccent">#FF4081</color> // Pink
+    -->
+
+    // Green Styling
+    <color name="colorPrimary">#228B22</color> // Green
+    <color name="colorPrimaryDark">#008000</color> // Forest Green
+    <color name="textColorPrimary">#FFFFFF</color> // White
+    <color name="windowBackground">#FFFFFF</color> // White
+    <color name="navigationBarColor">#000000</color> // Black
+    <color name="colorAccent">#000000</color> // Black
+
 </resources>

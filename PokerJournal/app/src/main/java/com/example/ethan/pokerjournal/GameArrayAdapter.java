@@ -9,9 +9,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by Andrew on 3/11/2016.
- */
 public class GameArrayAdapter extends ArrayAdapter<Game> {
     public GameArrayAdapter(Context context, List<Game> gameList) {
         super(context, 0, gameList);
@@ -21,21 +18,27 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Game game = getItem(position);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_item, parent, false);
-        }
+        // Display Each Game as a Game in a Listing
+        if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_item, parent, false);}
 
+        // Variables for Each Game Listing
         TextView date = (TextView) convertView.findViewById(R.id.itemDate);
-        TextView description = (TextView) convertView.findViewById(R.id.itemDescription);
+        TextView description_1 = (TextView) convertView.findViewById(R.id.itemLocation);
+        TextView description_2 = (TextView) convertView.findViewById(R.id.itemDescription);
 
-        double total = game.getCashOut() - game.getBuyIn();
-        int time = game.getTime();
-        String msg = "$" + total + " in " + time + " hours.";
+        String location = game.getLocation();
+        double netProfit = game.getCashOut() - game.getBuyIn();
+        int sessionLength = game.getTime();
+        String msg_1 = "Location: " + location;
+        String msg_2 = "$" + netProfit + " in " + sessionLength + " hours.";
 
+        // The Display for Each Game Listing
         date.setText(game.getDate());
-        description.setText(msg);
-        convertView.setId(game.getId());
+        description_1.setText(msg_1);
+        description_2.setText(msg_2);
 
+        // Labels ViewId as GameId
+        convertView.setId(game.getId());
         return convertView;
     }
 }

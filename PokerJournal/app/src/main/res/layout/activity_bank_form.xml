@@ -9,14 +9,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BankFormActivity">
 
+    // Display "Date:"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:"
+        android:id="@+id/textDate"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="20dp" />
+
+    // Display Month Spinner Under textDate With Entries Listed in months in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerBankMonth"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/months"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentLeft="true" />
+
+    // Display Day Spinner Under textDate With Entries Listed in days in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerBankDay"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/days"
+        android:spinnerMode="dropdown" />
+
+    // Display Year Spinner Under textDate With Entries Listed in years in strings.xml
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerBankYear"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/years"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentRight="true" />
+
+    // Display "Amount:" Under spinnerGameMonth
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Amount: "
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textSize="30dp" />
+        android:id="@+id/amountTV"
+        android:textSize="20dp"
+        android:layout_below="@+id/spinnerBankMonth"
+        android:layout_alignParentStart="true" />
 
+    // Display Amount Form Under amountTV
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,9 +70,28 @@
         android:id="@+id/editAmount"
         android:layout_below="@+id/amountTV"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="30dp" />
+        android:layout_alignParentEnd="true" />
 
+    // Display "Deposit / Withdraw:" Under editAmount
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit / Withdraw: "
+        android:id="@+id/textDW"
+        android:layout_below="@+id/editAmount"
+        android:layout_alignParentStart="true"
+        android:textSize="30dp" />
+
+    // Display Deposit/Withdraw Spinner Under textDW
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerDW"
+        android:entries="@array/deposit_withdraw"
+        android:layout_below="@+id/textDW"
+        android:layout_alignParentStart="true" />
+
+    // Submit Button
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,22 +101,5 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:onClick="onClickBankButton" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deposit / Withdraw:"
-        android:id="@+id/textDW"
-        android:layout_below="@+id/editAmount"
-        android:layout_alignParentStart="true"
-        android:textSize="30dp" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerDW"
-        android:entries="@array/deposit_withdraw"
-        android:layout_below="@+id/textDW"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

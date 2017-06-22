@@ -12,18 +12,13 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
-/**
- * Created by Andrew on 3/9/2016.
- */
 public class BankFragment extends Fragment {
 
     DatabaseHelper db;
     List<Game> gameList;
     List<Bank> banksList;
 
-    public BankFragment() {
-
-    }
+    public BankFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,21 +28,25 @@ public class BankFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //inflate layout
+        // Inflate Layout
         return inflater.inflate(R.layout.bank, container, false);
     }
 
+    // Action When On Bank Page
     public void onResume() {
         super.onResume();
         displayBanks();
     }
 
+    // Displays All Bank Transactions + Net Bankroll Amount
     public void displayBanks() {
+        // Displays Bank Transactions
         banksList = db.getAllBanks();
         ListView lv = (ListView) getView().findViewById(R.id.listBank);
         BankArrayAdapter adapter = new BankArrayAdapter(getActivity(), banksList);
         lv.setAdapter(adapter);
 
+        // Calculate Net Profit from Poker Sessions
         Game game;
         gameList = db.getAllGames();
         int netProfit;
@@ -58,9 +57,9 @@ public class BankFragment extends Fragment {
             buyIn += game.getBuyIn();
             cashOut += game.getCashOut();
         }
-
         netProfit = cashOut - buyIn;
 
+        // Calculate Net Bank Transactions
         Bank bank;
         banksList = db.getAllBanks();
         double totalMoney = 0;
@@ -74,15 +73,15 @@ public class BankFragment extends Fragment {
             else{
                 WithdrawDeposit = bank.getAmount();
             }
-
             totalMoney += WithdrawDeposit;
         }
 
+        // Net Bankroll Amount
         Bankroll = totalMoney + netProfit;
 
+        // Displays Net Bankroll Amount
         TextView bankroll = (TextView) getView().findViewById(R.id.textTotalMoney);
         bankroll.setText("$" + Bankroll);
     }
-
 
 }
