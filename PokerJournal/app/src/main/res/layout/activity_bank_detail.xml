@@ -47,4 +47,14 @@
         android:layout_alignParentEnd="true"
         android:onClick="onClickDeleteBank" />
 
+    <Button
+        android:id="@+id/buttonEditbank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonDeleteBank"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onClickEditBank"
+        android:text="Edit" />
+
 </RelativeLayout>

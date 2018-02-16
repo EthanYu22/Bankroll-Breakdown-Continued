@@ -25,11 +25,17 @@
         // Game Details Page
         <activity android:name=".GameDetailActivity"></activity>
 
+        // Game Edit Form Page
+        <activity android:name=".GameEditActivity"></activity>
+
         // Bank Transaction Form Page
         <activity android:name=".BankFormActivity" />
 
         // Bank Details Page
         <activity android:name=".BankDetailActivity"></activity>
+
+        // Bank Edit Form Page
+        <activity android:name=".BankEditActivity"></activity>
 
     </application>
 

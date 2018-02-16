@@ -1,73 +1,100 @@
-/* package com.example.ethan.pokerjournal;
+package com.example.ethan.pokerjournal;
 
+import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-    import android.support.v7.app.AppCompatActivity;
-    import android.os.Bundle;
-    import android.view.View;
-    import android.widget.TextView;
-    import android.widget.Toast;
+import java.util.Random;
 
-    // Shows Game Details for Editing
-    public class GameEditActivity extends AppCompatActivity {
 
-        DatabaseHelper db;
-        Game game;
-        int gameId;
+public class GameEditActivity extends AppCompatActivity {
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_game_detail);
-            gameId = MainActivity.gameId;
-            db = new DatabaseHelper(this);
-            game = db.getGame(gameId);
-        }
-
-        // Action When On Game Detail Page
-        public void onResume() {
-            super.onResume();
-            displayDetails();
-        }
-
-        // Action When Off Game Detail Page
-        public void onPause() {
-            super.onPause();
-            finish();
-        }
-
-        // Displays Game Details
-        public void displayDetails() {
-            TextView id = (TextView) findViewById(R.id.textGameId);
-            TextView type = (TextView) findViewById(R.id.textGameType);
-            TextView blinds = (TextView) findViewById(R.id.textGameBlinds);
-            TextView location = (TextView) findViewById(R.id.textGameLocation);
-            TextView date = (TextView) findViewById(R.id.textGameDate);
-            TextView time = (TextView) findViewById(R.id.textGameTime);
-            TextView buyIn = (TextView) findViewById(R.id.textGameBuyIn);
-            TextView cashOut = (TextView) findViewById(R.id.textGameCashOut);
-
-            type.setText("Game: " + game.getType());
-            blinds.setText("Blinds: " + game.getBlinds());
-            location.setText("Location: " + game.getLocation());
-            date.setText("Date: " + game.getDate());
-            time.setText("Time: " + game.getTime() + " Hours");
-            buyIn.setText("Buy In: $" + game.getBuyIn());
-            cashOut.setText("Cash Out: $" + game.getCashOut());
-        }
-
-        public void onClickEditGame(View v) {
-
-        }
-
-        // Deletes Game
-        public void onClickDeleteGame(View v) {
-            db.deleteGame(gameId);
-            Toast toast = Toast.makeText(getApplication(), "Game Deleted", Toast.LENGTH_SHORT);
-            toast.show();
-            finish();
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_edit);
     }
 
+    // Action When Off Game Form Page
+    public void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    // Submit Game Transaction
+    public void onClickGameButton(View v) {
+        DatabaseHelper db = new DatabaseHelper(this);
+        Game game = new Game();
+        Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
+
+        // ~ Get Entries and Validate ~
+        // Get Input for Poker Variation Type
+        Spinner spinGameType = (Spinner) findViewById(R.id.spinnerGameType);
+        String type = spinGameType.getSelectedItem().toString();
+
+        // Get Input for Blind Amount
+        Spinner spinGameBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
+        String blinds = spinGameBlinds.getSelectedItem().toString();
+
+        // Get Location and Make Sure it's Valid
+        EditText editLocation = (EditText) findViewById(R.id.editLocation);
+        String location = editLocation.getText().toString();
+        if(location.isEmpty()) {
+            toast.show();
+            return;
+        }
+
+        // Get Input of Date
+        Spinner spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
+        String month = spinMonth.getSelectedItem().toString();
+        Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
+        String day = spinDay.getSelectedItem().toString();
+        Spinner spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
+        String year = spinYear.getSelectedItem().toString();
+        String date = month + "/" + day + "/" + year;
+
+        // Get Session Duration and Make Sure it's Valid
+        EditText editTime = (EditText) findViewById(R.id.editTime);
+        if (editTime.getText().toString().isEmpty()) {
+            toast.show();
+            return;
+        }
+        // Input Session Duration Entry
+        int time = Integer.parseInt(editTime.getText().toString());
+
+        // Get Buy In and Make Sure it's Valid
+        EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);
+        if (editBuyIn.getText().toString().isEmpty()) {
+            toast.show();
+            return;
+        }
+        // Input Buy In Entry
+        double buyIn = Double.parseDouble(editBuyIn.getText().toString());
+
+        // Get Cash Out and Make Sure it's Valid
+        EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
+        if (editCashOut.getText().toString().isEmpty()) {
+            toast.show();
+            return;
+        }
+        // Input Cash Out Entry
+        double cashOut = Double.parseDouble(editCashOut.getText().toString());
+
+        // Set Entries into DB
+        game.setType(type);
+        game.setBlinds(blinds);
+        game.setLocation(location);
+        game.setDate(date);
+        game.setTime(time);
+        game.setBuyIn(buyIn);
+        game.setCashOut(cashOut);
+
+        db.createGame(game);
+
+        finish();
+    }
 }
-*/

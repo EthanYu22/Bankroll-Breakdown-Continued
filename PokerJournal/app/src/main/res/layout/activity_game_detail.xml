@@ -84,4 +84,14 @@
         android:layout_alignParentEnd="true"
         android:onClick="onClickDeleteGame" />
 
+    <Button
+        android:id="@+id/buttonEditGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickEditGame"
+        android:text="Edit"
+        android:layout_above="@+id/buttonDeleteGame"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
