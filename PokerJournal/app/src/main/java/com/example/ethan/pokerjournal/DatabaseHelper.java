@@ -125,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
                 g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
                 g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
-                g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
+                g.setTime(c.getDouble(c.getColumnIndex(GAMES_TIME)));
                 g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
                 g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
 
@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
         g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
         g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
-        g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
+        g.setTime(c.getDouble(c.getColumnIndex(GAMES_TIME)));
         g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
         g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
 
@@ -172,8 +172,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(GAMES_TIME, game.getTime());
         values.put(GAMES_BUY_IN, game.getBuyIn());
         values.put(GAMES_CASH_OUT, game.getCashOut());
+        values.put(GAMES_ID, game.getId());
 
-        long game_return = db.insert(TABLE_GAMES, null, values);
+        long game_return = db.replace(TABLE_GAMES, GAMES_ID, values);
     }
 
     // Delete All Games from DB
@@ -239,6 +240,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
 
         return b;
+    }
+
+    // Edit Bank Transaction in DB
+    public void editBank(Bank bank) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(BANK_AMOUNT, bank.getAmount());
+        values.put(BANK_DW, bank.getDw());
+        values.put(BANK_DATE, bank.getDate());
+        values.put(BANK_ID, bank.getId());
+
+        long bank_return = db.replace(TABLE_BANK, BANK_ID, values);
     }
 
     // Deletes All Bank Transactions from DB

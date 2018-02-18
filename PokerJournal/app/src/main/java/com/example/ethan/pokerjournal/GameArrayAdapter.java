@@ -28,7 +28,7 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
 
         String location = game.getLocation();
         double netProfit = game.getCashOut() - game.getBuyIn();
-        int sessionLength = game.getTime();
+        double sessionLength = game.getTime();
         String msg_1 = "Location: " + location;
         String msg_2 = "$" + netProfit + " in " + sessionLength + " hours.";
 

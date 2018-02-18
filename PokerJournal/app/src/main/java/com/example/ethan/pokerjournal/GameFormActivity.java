@@ -64,7 +64,7 @@ public class GameFormActivity extends AppCompatActivity {
             return;
         }
         // Input Session Duration Entry
-        int time = Integer.parseInt(editTime.getText().toString());
+        double time = Double.parseDouble(editTime.getText().toString());
 
         // Get Buy In and Make Sure it's Valid
         EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);

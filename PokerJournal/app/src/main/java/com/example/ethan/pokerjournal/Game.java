@@ -10,7 +10,7 @@ public class Game implements Comparator<Game> {
     protected String blinds; // Blinds
     protected String location; // Casino
     protected String date; // Date
-    protected int time; // Session Duration Time
+    protected double time; // Session Duration Time
     protected double buyIn; // Total Buy In Amount
     protected double cashOut; // Total Cash Out Amount
 
@@ -39,7 +39,7 @@ public class Game implements Comparator<Game> {
     }
 
     // Set Duration
-    public void setTime(int time) {
+    public void setTime(double time) {
         this.time = time;
     }
 
@@ -79,14 +79,12 @@ public class Game implements Comparator<Game> {
     }
 
     // Get Duration
-    public int getTime() {
+    public double getTime() {
         return time;
     }
 
     // Get Buy In
-    public double getBuyIn() {
-        return buyIn;
-    }
+    public double getBuyIn() { return buyIn; }
 
     // Get Cash Out
     public double getCashOut() {

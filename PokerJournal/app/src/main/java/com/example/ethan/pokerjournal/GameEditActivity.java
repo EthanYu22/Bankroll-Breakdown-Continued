@@ -6,17 +6,35 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
 
+import static com.example.ethan.pokerjournal.MainActivity.bankId;
+
 
 public class GameEditActivity extends AppCompatActivity {
+
+    DatabaseHelper db;
+    Game game;
+    int gameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_edit);
+        gameId = MainActivity.gameId; // Refers to Game Listing ID
+        db = new DatabaseHelper(this);
+        game = db.getGame(gameId);
+        final TextView displayLocation = (TextView) findViewById(R.id.editLocation); // Displays Location in TextView
+        displayLocation.setText(game.getLocation());
+        final TextView displayTime = (TextView) findViewById(R.id.editTime); // Displays Time in TextView
+        displayTime.setText(Double.toString(game.getTime()));
+        final TextView displayBuyIn = (TextView) findViewById(R.id.editBuyIn); // Displays Buy In Amount in TextView
+        displayBuyIn.setText(Double.toString(game.getBuyIn()));
+        final TextView displayCashOut = (TextView) findViewById(R.id.editCashOut); // Displays Cash Out Amount in TextView
+        displayCashOut.setText(Double.toString(game.getCashOut()));
     }
 
     // Action When Off Game Form Page
@@ -64,7 +82,7 @@ public class GameEditActivity extends AppCompatActivity {
             return;
         }
         // Input Session Duration Entry
-        int time = Integer.parseInt(editTime.getText().toString());
+        double time = Double.parseDouble(editTime.getText().toString());
 
         // Get Buy In and Make Sure it's Valid
         EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);
@@ -81,6 +99,7 @@ public class GameEditActivity extends AppCompatActivity {
             toast.show();
             return;
         }
+
         // Input Cash Out Entry
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
 
@@ -92,8 +111,9 @@ public class GameEditActivity extends AppCompatActivity {
         game.setTime(time);
         game.setBuyIn(buyIn);
         game.setCashOut(cashOut);
+        game.setId(gameId);
 
-        db.createGame(game);
+        db.editGame(game);
 
         finish();
     }

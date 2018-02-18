@@ -40,10 +40,10 @@ public class StatsFragment extends Fragment {
         gameList = db.getAllGames();
         double totalHours = 0;
         double avgHours;
-        int netProfit;
-        int buyIn = 0;
-        int cashOut = 0;
-        int avgBuy = 0;
+        double netProfit;
+        double buyIn = 0;
+        double cashOut = 0;
+        double avgBuy = 0;
         double hourlyRate;
         int winningSession = 0;
         int losingSession = 0;

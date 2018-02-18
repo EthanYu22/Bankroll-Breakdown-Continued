@@ -21,7 +21,7 @@ public class BankEditActivity extends AppCompatActivity{
         bankId = MainActivity.bankId; // Refers to Bank Listing ID
         db = new DatabaseHelper(this);
         bank = db.getBank(bankId);
-        final TextView displayAmount = (TextView) findViewById(R.id.editAmount);
+        final TextView displayAmount = (TextView) findViewById(R.id.editAmount); // Displays Amount Deposited/Withdrawn in TextView
         displayAmount.setText(Double.toString(bank.getAmount()));
     }
 
@@ -63,11 +63,12 @@ public class BankEditActivity extends AppCompatActivity{
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
         // Set Entries into DB
+        bank.setAmount(amountMoney);
         bank.setWd(type);
         bank.setDate(date);
-        bank.setAmount(amountMoney);
+        bank.setId(bankId);
 
-        db.createBank(bank);
+        db.editBank(bank);
 
         finish();
     }

@@ -1,5 +1,6 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,7 +55,9 @@ public class GameDetailActivity extends AppCompatActivity {
     }
 
     public void onClickEditGame(View v) {
-
+        gameId = v.getId();
+        Intent intent = new Intent(GameDetailActivity.this, GameEditActivity.class);
+        startActivity(intent);
     }
 
     // Deletes Game
