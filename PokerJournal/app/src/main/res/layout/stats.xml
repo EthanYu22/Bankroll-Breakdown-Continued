@@ -20,19 +20,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/statText"
-        android:text="Total hours"
+        android:id="@+id/hourlyRate"
+        android:text="Hourly Rate"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/netProfit"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/netProfit"
+        android:text="Net Profit"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/avgHours"
-        android:layout_below="@+id/netProfit"
+        android:layout_below="@+id/hourlyRate"
         android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Avg Session Time"
-        android:id="@+id/avgHours"
-        android:layout_below="@+id/statText"
+        android:id="@+id/hoursPlayed"
+        android:text="Hours Played"
+        android:layout_below="@+id/netProfit"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="33dp"
         android:layout_marginTop="8dp" />
@@ -40,17 +49,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Net Profit"
-        android:id="@+id/netProfit"
-        android:layout_below="@+id/textView2"
-        android:layout_alignStart="@+id/statText"
-        android:layout_marginTop="15dp" />
+        android:id="@+id/avgHours"
+        android:text="Avg Session Duration"
+        android:layout_below="@+id/hoursPlayed"
+        android:layout_alignStart="@+id/hoursPlayed"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hourly Rate"
-        android:id="@+id/hourlyRate"
+        android:id="@+id/totalSession"
+        android:text="Session Count"
         android:layout_below="@+id/avgHours"
         android:layout_alignStart="@+id/avgHours"
         android:layout_marginTop="8dp" />
@@ -58,55 +67,47 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Winning Sessions"
-        android:id="@+id/winningSession"
-        android:layout_below="@+id/hourlyRate"
-        android:layout_alignStart="@+id/hourlyRate"
-        android:layout_marginTop="8dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lossing Sessions"
-        android:id="@+id/lossingSession"
-        android:layout_below="@+id/winningSession"
+        android:id="@+id/avgBuy"
+        android:text="Avg Buy In"
+        android:layout_below="@+id/totalSession"
         android:layout_alignStart="@+id/winningSession"
         android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Sessions"
-        android:id="@+id/totalSession"
-        android:layout_below="@+id/lossingSession"
-        android:layout_alignStart="@+id/lossingSession"
+        android:id="@+id/winningSession"
+        android:text="Winning Sessions"
+        android:layout_below="@+id/avgBuy"
+        android:layout_alignStart="@+id/losingSession"
         android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Avg Buy In"
-        android:id="@+id/avgBuy"
-        android:layout_below="@+id/totalSession"
+        android:id="@+id/losingSession"
+        android:text="Losing Sessions"
+        android:layout_below="@+id/winningSession"
         android:layout_alignStart="@+id/totalSession"
         android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Biggest Win"
         android:id="@+id/biggestWin"
-        android:layout_below="@+id/avgBuy"
+        android:text="Largest Win"
+        android:layout_below="@+id/losingSession"
         android:layout_alignStart="@+id/avgBuy"
         android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Biggest Loss"
         android:id="@+id/biggestLoss"
+        android:text="Largest Loss"
         android:layout_marginLeft="0dp"
         android:layout_below="@+id/biggestWin"
         android:layout_alignStart="@+id/biggestWin"
         android:layout_marginTop="8dp" />
+
 </RelativeLayout>

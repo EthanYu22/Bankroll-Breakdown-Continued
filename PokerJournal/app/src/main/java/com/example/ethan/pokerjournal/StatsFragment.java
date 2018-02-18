@@ -81,44 +81,44 @@ public class StatsFragment extends Fragment {
         }
 
         // Displays Game Statistics
-        TextView x = (TextView) getView().findViewById(R.id.statText); // Total Hours
+        TextView x = (TextView) getView().findViewById(R.id.hoursPlayed); // Total Hours
         TextView ast = (TextView) getView().findViewById(R.id.avgHours); // Average Session Time
         TextView np = (TextView) getView().findViewById(R.id.netProfit); // Net Profit
         TextView hr = (TextView) getView().findViewById(R.id.hourlyRate); // Hourly Rate
         TextView ws = (TextView) getView().findViewById(R.id.winningSession); // Winning Sessions
-        TextView ls = (TextView) getView().findViewById(R.id.lossingSession); // Losing Sessions
+        TextView ls = (TextView) getView().findViewById(R.id.losingSession); // Losing Sessions
         TextView ts = (TextView) getView().findViewById(R.id.totalSession); // Total Sessions
         TextView abi = (TextView) getView().findViewById(R.id.avgBuy); // Average Buy In
         TextView bw = (TextView) getView().findViewById(R.id.biggestWin); // Biggest Win
         TextView bl = (TextView) getView().findViewById(R.id.biggestLoss); // Biggest Loss
 
         if (gameList.size() == 0) { // If No Games Are Played Display This
-            x.setText("Total Hours: ");
-            ast.setText("Avg Session Time: ");
-            np.setText("Net Profit: ");
             hr.setText("Hourly Rate: ");
+            np.setText("Net Profit: ");
+            x.setText("Hours Played: ");
+            ast.setText("Avg Session Duration: ");
+            ts.setText("Sessions Count: ");
+            abi.setText("Avg Buy In: ");
             ws.setText("Winning Sessions: ");
             ls.setText("Losing Sessions: ");
-            ts.setText("Total Sessions: ");
-            abi.setText("Avg Buy In: ");
-            bw.setText("Biggest Win: ");
-            bl.setText("Biggest Loss: ");
+            bw.setText("Largest Win: ");
+            bl.setText("Largest Loss: ");
         } else { // If Games Are Played Display This
             avgHours = totalHours / gameList.size();
             String avgH = String.format("%.2f", avgHours);
             netProfit = cashOut - buyIn;
             hourlyRate = netProfit / totalHours;
             String hourlyR = String.format("%.2f", hourlyRate);
-            x.setText("Total Hours: " + totalHours);
-            ast.setText("Avg Session Time: " + avgH);
-            np.setText("Net Profit: $" + netProfit);
             hr.setText("Hourly Rate: $" + hourlyR);
+            np.setText("Net Profit: $" + netProfit);
+            x.setText("Hours Played: " + totalHours);
+            ast.setText("Avg Session Duration: " + avgH);
+            ts.setText("Sessions Count: " + totalSessions);
+            abi.setText("Avg Buy In: $" + avgBuy);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
-            ts.setText("Total Sessions: " + totalSessions);
-            abi.setText("Avg Buy In: $" + avgBuy);
-            bw.setText("Biggest Win: $" + biggestWin);
-            bl.setText("Biggest Loss: $" + biggestLoss);
+            bw.setText("Largest Win: $" + biggestWin);
+            bl.setText("Largest Loss: $" + biggestLoss);
         }
         
     }
