@@ -103,13 +103,15 @@
         android:layout_alignParentStart="true" />
 
     // Display Form for Location Under textLocation
+
     <EditText
+        android:id="@+id/editLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editLocation"
-        android:layout_below="@+id/textLocation"
-        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textLocation"
+        android:inputType="text"
         android:textSize="15dp" />
 
     // Display "Time (Hours):" Under editLocation
