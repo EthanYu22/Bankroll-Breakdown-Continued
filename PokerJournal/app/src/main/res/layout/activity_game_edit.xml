@@ -123,15 +123,16 @@
         android:textSize="20dp" />
 
     // Display Form for Duration: Under textTime
+
     <EditText
+        android:id="@+id/editTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editTime"
-        android:layout_below="@+id/textTime"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/textTime"
+        android:ems="10"
+        android:inputType="number|numberDecimal" />
 
     // Display "Buy In (Dollars):" Under editTime
     <TextView
@@ -144,15 +145,16 @@
         android:textSize="20dp" />
 
     // Display Form for Buy In Under textBuyIn
+
     <EditText
+        android:id="@+id/editBuyIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editBuyIn"
-        android:layout_below="@+id/textBuyIn"
+        android:layout_alignEnd="@+id/editTime"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/editTime" />
+        android:layout_below="@+id/textBuyIn"
+        android:ems="10"
+        android:inputType="number|numberDecimal" />
 
     // Display "Cash Out (Dollars):" Under editBuyIn
     <TextView
@@ -165,15 +167,16 @@
         android:textSize="20dp" />
 
     // Display Form for Cash Out Under textGameCashOut
+
     <EditText
+        android:id="@+id/editCashOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/editCashOut"
-        android:layout_below="@+id/textGameCashOut"
+        android:layout_alignEnd="@+id/editBuyIn"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/editBuyIn" />
+        android:layout_below="@+id/textGameCashOut"
+        android:ems="10"
+        android:inputType="number|numberDecimal" />
 
     // Submit Button
     <Button
