@@ -39,7 +39,7 @@ public class StatsFragment extends Fragment {
         Game game;
         gameList = db.getAllGames();
         double totalHours = 0;
-        double avgHours;
+        double avgSessionDuration;
         double netProfit;
         double buyIn = 0;
         double cashOut = 0;
@@ -104,21 +104,27 @@ public class StatsFragment extends Fragment {
             bw.setText("Largest Win: ");
             bl.setText("Largest Loss: ");
         } else { // If Games Are Played Display This
-            avgHours = totalHours / gameList.size();
-            String avgH = String.format("%.2f", avgHours);
             netProfit = cashOut - buyIn;
+            String nProfit = String.format("%.2f", netProfit);
             hourlyRate = netProfit / totalHours;
             String hourlyR = String.format("%.2f", hourlyRate);
+            String tHours = String.format("%.2f", totalHours);
+            avgSessionDuration = totalHours / gameList.size();
+            String avgSD = String.format("%.2f", avgSessionDuration);
+            String avgB = String.format("%.2f", avgBuy);
+            String bWin = String.format("%.2f", biggestWin);
+            String bLoss = String.format("%.2f", biggestLoss);
+            
             hr.setText("Hourly Rate: $" + hourlyR);
-            np.setText("Net Profit: $" + netProfit);
-            x.setText("Hours Played: " + totalHours);
-            ast.setText("Avg Session Duration: " + avgH);
+            np.setText("Net Profit: $" + nProfit);
+            x.setText("Hours Played: " + tHours);
+            ast.setText("Avg Session Duration: " + avgSD);
             ts.setText("Sessions Count: " + totalSessions);
-            abi.setText("Avg Buy In: $" + avgBuy);
+            abi.setText("Avg Buy In: $" + avgB);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
-            bw.setText("Largest Win: $" + biggestWin);
-            bl.setText("Largest Loss: $" + biggestLoss);
+            bw.setText("Largest Win: $" + bWin);
+            bl.setText("Largest Loss: $" + bLoss);
         }
         
     }

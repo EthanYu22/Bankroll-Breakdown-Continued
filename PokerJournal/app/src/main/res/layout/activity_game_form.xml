@@ -20,14 +20,15 @@
     android:textSize="20dp" />
 
     // Display GameType Spinner Under textGameType With Entries Listed in game_types in strings.xml
+
     <Spinner
+        android:id="@+id/spinnerGameType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerGameType"
         android:layout_below="@+id/textGameType"
         android:layout_centerHorizontal="true"
         android:entries="@array/game_types"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dialog" />
 
     // Display "Game Blinds:" Under spinnerGameType
     <TextView
