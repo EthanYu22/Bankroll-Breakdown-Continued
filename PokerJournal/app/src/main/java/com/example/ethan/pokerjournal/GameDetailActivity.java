@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 // Shows Game Details
 public class GameDetailActivity extends AppCompatActivity {
 
@@ -37,6 +39,8 @@ public class GameDetailActivity extends AppCompatActivity {
 
     // Displays Game Details
     public void displayDetails() {
+        TextView hourlyRate = (TextView) findViewById(R.id.textGameHourlyRate);
+        TextView netProfit = (TextView) findViewById(R.id.textGameNetProfit);
         TextView type = (TextView) findViewById(R.id.textGameType);
         TextView blinds = (TextView) findViewById(R.id.textGameBlinds);
         TextView location = (TextView) findViewById(R.id.textGameLocation);
@@ -45,15 +49,29 @@ public class GameDetailActivity extends AppCompatActivity {
         TextView buyIn = (TextView) findViewById(R.id.textGameBuyIn);
         TextView cashOut = (TextView) findViewById(R.id.textGameCashOut);
 
+        // Calculate Net Profit and Hourly Rate
+        Double nProfit = game.getCashOut() - game.getBuyIn();
+        Double hRate = nProfit/game.getTime();
+
+        // Set Significant Figures to 2 for Net Profit, Hourly Rate, Buy In, and Cash Out
+        String nP = String.format("%.2f", nProfit);
+        String hR = String.format("%.2f", hRate);
+        String bIn = String.format("%.2f", game.getBuyIn());
+        String cOut = String.format("%.2f", game.getCashOut());
+
+        // Set Text for Each TextView
+        hourlyRate.setText("Game Hourly Rate: $" + hR);
+        netProfit.setText("Game Net Profit: $" + nP);
         type.setText("Game: " + game.getType());
         blinds.setText("Blinds: " + game.getBlinds());
         location.setText("Location: " + game.getLocation());
         date.setText("Date: " + game.getDate());
         time.setText("Time: " + game.getTime() + " Hours");
-        buyIn.setText("Buy In: $" + game.getBuyIn());
-        cashOut.setText("Cash Out: $" + game.getCashOut());
+        buyIn.setText("Buy In: $" + bIn);
+        cashOut.setText("Cash Out: $" + cOut);
     }
 
+    // Edit Game
     public void onClickEditGame(View v) {
         gameId = v.getId();
         Intent intent = new Intent(GameDetailActivity.this, GameEditActivity.class);

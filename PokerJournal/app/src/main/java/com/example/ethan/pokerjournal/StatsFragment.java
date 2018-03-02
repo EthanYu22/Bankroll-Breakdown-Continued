@@ -50,6 +50,7 @@ public class StatsFragment extends Fragment {
         int totalSessions = 0;
         double biggestWin = 0;
         double biggestLoss = 0;
+
         // Calculation for Statistics
         for (int i = 0; i < gameList.size(); i++) {
             game = gameList.get(i);
@@ -93,6 +94,7 @@ public class StatsFragment extends Fragment {
         TextView bl = (TextView) getView().findViewById(R.id.biggestLoss); // Biggest Loss
 
         if (gameList.size() == 0) { // If No Games Are Played Display This
+            // Set Text As Blank for Each TextView
             hr.setText("Hourly Rate: ");
             np.setText("Net Profit: ");
             x.setText("Hours Played: ");
@@ -103,18 +105,23 @@ public class StatsFragment extends Fragment {
             ls.setText("Losing Sessions: ");
             bw.setText("Largest Win: ");
             bl.setText("Largest Loss: ");
+
         } else { // If Games Are Played Display This
+            // Calculate Net Profit, Hourly Rate, and Average Session Duration
             netProfit = cashOut - buyIn;
-            String nProfit = String.format("%.2f", netProfit);
             hourlyRate = netProfit / totalHours;
+            avgSessionDuration = totalHours / gameList.size();
+
+            // Set Significant Figures to 2 for Net Profit, Hourly Rate, Total Hours, Avg Session Duration, Avg Buy In, Biggest Win, and Biggest Loss
+            String nProfit = String.format("%.2f", netProfit);
             String hourlyR = String.format("%.2f", hourlyRate);
             String tHours = String.format("%.2f", totalHours);
-            avgSessionDuration = totalHours / gameList.size();
             String avgSD = String.format("%.2f", avgSessionDuration);
             String avgB = String.format("%.2f", avgBuy);
             String bWin = String.format("%.2f", biggestWin);
             String bLoss = String.format("%.2f", biggestLoss);
-            
+
+            // Set Text for Each TextView
             hr.setText("Hourly Rate: $" + hourlyR);
             np.setText("Net Profit: $" + nProfit);
             x.setText("Hours Played: " + tHours);
@@ -126,6 +133,5 @@ public class StatsFragment extends Fragment {
             bw.setText("Largest Win: $" + bWin);
             bl.setText("Largest Loss: $" + bLoss);
         }
-        
     }
 }
