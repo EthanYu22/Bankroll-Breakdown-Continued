@@ -41,9 +41,11 @@ public class BankDetailActivity extends AppCompatActivity {
         TextView dw = (TextView) findViewById(R.id.textBankDw);
         TextView amount = (TextView) findViewById(R.id.textBankAmount);
 
+        String amt = String.format("%.2f", bank.getAmount());
+
         date.setText("Date: " + bank.getDate());
         dw.setText("Deposit/Withdraw: " + bank.getDw());
-        amount.setText("Amount: $" + bank.getAmount());
+        amount.setText("Amount: $" + amt);
     }
 
     public void onClickEditBank(View v) {

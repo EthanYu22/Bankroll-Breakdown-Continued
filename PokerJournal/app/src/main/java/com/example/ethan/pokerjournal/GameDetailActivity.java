@@ -60,8 +60,8 @@ public class GameDetailActivity extends AppCompatActivity {
         String cOut = String.format("%.2f", game.getCashOut());
 
         // Set Text for Each TextView
-        hourlyRate.setText("Game Hourly Rate: $" + hR);
-        netProfit.setText("Game Net Profit: $" + nP);
+        hourlyRate.setText("Session Hourly Rate: $" + hR);
+        netProfit.setText("Session Net Profit: $" + nP);
         type.setText("Game: " + game.getType());
         blinds.setText("Blinds: " + game.getBlinds());
         location.setText("Location: " + game.getLocation());
