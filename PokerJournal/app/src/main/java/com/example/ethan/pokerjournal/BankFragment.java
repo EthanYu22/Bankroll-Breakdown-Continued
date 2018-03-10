@@ -67,7 +67,7 @@ public class BankFragment extends Fragment {
         double WithdrawDeposit = 0;
         for (int i = 0; i < banksList.size(); i++) {
             bank = banksList.get(i);
-            if(bank.getDw().equals("Withdraw")){
+            if(bank.getType().equals("Withdraw")){
                 WithdrawDeposit = (bank.getAmount() * -1);
             }
             else{

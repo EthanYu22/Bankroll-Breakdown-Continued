@@ -38,13 +38,13 @@ public class BankDetailActivity extends AppCompatActivity {
     // Displays Bank Details
     public void displayDetails() {
         TextView date = (TextView) findViewById(R.id.textBankDate);
-        TextView dw = (TextView) findViewById(R.id.textBankDw);
+        TextView type = (TextView) findViewById(R.id.textBankType);
         TextView amount = (TextView) findViewById(R.id.textBankAmount);
 
         String amt = String.format("%.2f", bank.getAmount());
 
         date.setText("Date: " + bank.getDate());
-        dw.setText("Deposit/Withdraw: " + bank.getDw());
+        type.setText("Deposit/Withdraw: " + bank.getType());
         amount.setText("Amount: $" + amt);
     }
 

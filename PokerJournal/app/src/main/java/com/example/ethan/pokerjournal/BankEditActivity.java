@@ -18,8 +18,8 @@ public class BankEditActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_form);
-        bankId = MainActivity.bankId; // Refers to Bank Listing ID
         db = new DatabaseHelper(this);
+        bankId = MainActivity.bankId;
         bank = db.getBank(bankId);
         final TextView displayAmount = (TextView) findViewById(R.id.editAmount); // Displays Amount Deposited/Withdrawn in TextView
         displayAmount.setText(Double.toString(bank.getAmount()));
@@ -39,8 +39,8 @@ public class BankEditActivity extends AppCompatActivity{
 
         // ~ Get Entries and Validate ~
         // Get Input of Deposit or Withdraw
-        Spinner spinDW = (Spinner) findViewById(R.id.spinnerDW);
-        String type = spinDW.getSelectedItem().toString();
+        Spinner spinType = (Spinner) findViewById(R.id.spinnerType);
+        String type = spinType.getSelectedItem().toString();
 
         // Get Input of Date
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
@@ -63,10 +63,7 @@ public class BankEditActivity extends AppCompatActivity{
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
         // Set Entries into DB
-        bank.setAmount(amountMoney);
-        bank.setWd(type);
-        bank.setDate(date);
-        bank.setId(bankId);
+        bank.setAll(bankId, type, date, amountMoney);
 
         db.editBank(bank);
 

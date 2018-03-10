@@ -29,8 +29,8 @@ public class BankFormActivity extends AppCompatActivity {
 
         // ~ Get Entries and Validate ~
         // Get Input of Deposit or Withdraw
-        Spinner spinDW = (Spinner) findViewById(R.id.spinnerDW);
-        String type = spinDW.getSelectedItem().toString();
+        Spinner spinType = (Spinner) findViewById(R.id.spinnerType);
+        String type = spinType.getSelectedItem().toString();
 
         // Get Input of Date
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
@@ -53,9 +53,7 @@ public class BankFormActivity extends AppCompatActivity {
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
         // Set Entries into DB
-        bank.setWd(type);
-        bank.setDate(date);
-        bank.setAmount(amountMoney);
+        bank.setEntries(type, date, amountMoney);
 
         db.createBank(bank);
 

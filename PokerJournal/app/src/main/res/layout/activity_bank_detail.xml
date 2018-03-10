@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Deposit/Withdraw:"
-        android:id="@+id/textBankDw"
+        android:id="@+id/textBankType"
         android:layout_below="@+id/textBankDate"
         android:layout_alignParentStart="true" />
 
@@ -34,7 +34,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Amount:"
         android:id="@+id/textBankAmount"
-        android:layout_below="@+id/textBankDw"
+        android:layout_below="@+id/textBankType"
         android:layout_alignParentStart="true" />
 
     <Button

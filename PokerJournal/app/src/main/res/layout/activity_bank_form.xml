@@ -78,18 +78,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Deposit / Withdraw: "
-        android:id="@+id/textDW"
+        android:id="@+id/textType"
         android:layout_below="@+id/editAmount"
         android:layout_alignParentStart="true"
         android:textSize="30dp" />
 
-    // Display Deposit/Withdraw Spinner Under textDW
+    // Display Deposit/Withdraw Spinner Under textType
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinnerDW"
+        android:id="@+id/spinnerType"
         android:entries="@array/deposit_withdraw"
-        android:layout_below="@+id/textDW"
+        android:layout_below="@+id/textType"
         android:layout_alignParentStart="true" />
 
     // Submit Button

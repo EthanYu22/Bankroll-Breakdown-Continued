@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class BankArrayAdapter extends ArrayAdapter<Bank> {
+
     public BankArrayAdapter(Context context, List<Bank> banksList) {super(context, 0, banksList);}
 
     @Override
@@ -21,11 +22,11 @@ public class BankArrayAdapter extends ArrayAdapter<Bank> {
 
         // Variables for Each Transaction Listing
         TextView date = (TextView) convertView.findViewById(R.id.itemDate);
-        TextView description_1 = (TextView) convertView.findViewById(R.id.itemDw);
+        TextView description_1 = (TextView) convertView.findViewById(R.id.itemType);
         TextView description_2 = (TextView) convertView.findViewById(R.id.itemDescription);
 
-        String dw = bank.getDw();
-        String msg_1 = dw;
+        String type = bank.getType();
+        String msg_1 = type;
         double amount = bank.getAmount();
         String msg_2 = "$" + amount;
 

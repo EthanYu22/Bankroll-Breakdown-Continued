@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Bank Transaction Fields
     private static final String BANK_ID = "id";
-    private static final String BANK_DW = "dw"; // Deposit or Withdraw
+    private static final String BANK_TYPE = "type"; // Deposit or Withdraw
     private static final String BANK_AMOUNT = "amount";
     private static final String BANK_DATE = "date";
 
@@ -57,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_BANK = "CREATE TABLE " + TABLE_BANK +
             "(" +
             BANK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            BANK_DW + " TEXT NOT NULL," +
+            BANK_TYPE + " TEXT NOT NULL," +
             BANK_AMOUNT + " REAL NOT NULL," +
             BANK_DATE + " TEXT NOT NULL" +
             ")";
@@ -195,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(BANK_AMOUNT, bank.getAmount());
-        values.put(BANK_DW, bank.getDw());
+        values.put(BANK_TYPE, bank.getType());
         values.put(BANK_DATE, bank.getDate());
 
         long bank_return = db.insert(TABLE_BANK, null, values);
@@ -213,7 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 Bank b = new Bank();
                 b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
-                b.setWd(c.getString(c.getColumnIndex(BANK_DW)));
+                b.setType(c.getString(c.getColumnIndex(BANK_TYPE)));
                 b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
                 b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
                 banks.add(b);
@@ -235,7 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Bank b = new Bank();
         b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
-        b.setWd(c.getString(c.getColumnIndex(BANK_DW)));
+        b.setType(c.getString(c.getColumnIndex(BANK_TYPE)));
         b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
         b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
 
@@ -248,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(BANK_AMOUNT, bank.getAmount());
-        values.put(BANK_DW, bank.getDw());
+        values.put(BANK_TYPE, bank.getType());
         values.put(BANK_DATE, bank.getDate());
         values.put(BANK_ID, bank.getId());
 

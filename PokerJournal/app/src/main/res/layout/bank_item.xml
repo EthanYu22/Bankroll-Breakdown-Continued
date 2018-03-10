@@ -13,8 +13,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dw"
-        android:id="@+id/itemDw"
+        android:text="Type"
+        android:id="@+id/itemType"
         android:layout_below="@id/itemDate"/>
 
     <TextView
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:text="Description"
         android:id="@+id/itemDescription"
-        android:layout_below="@id/itemDw"/>
+        android:layout_below="@id/itemType"/>
 
 </LinearLayout>
