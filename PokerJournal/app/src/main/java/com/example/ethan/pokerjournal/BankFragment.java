@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
+// Displays Each Bank Transaction as a List Under Bankroll Tab & Displays Current Bankroll Amount
 public class BankFragment extends Fragment {
 
     DatabaseHelper db;
@@ -28,8 +27,7 @@ public class BankFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate Layout
-        return inflater.inflate(R.layout.bank, container, false);
+        return inflater.inflate(R.layout.bank, container, false); // Inflate Layout
     }
 
     // Action When On Bank Page

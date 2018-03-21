@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 
+// Game Entry Form
 public class GameFormActivity extends AppCompatActivity {
 
     @Override
@@ -85,13 +86,7 @@ public class GameFormActivity extends AppCompatActivity {
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setType(type);
-        game.setBlinds(blinds);
-        game.setLocation(location);
-        game.setDate(date);
-        game.setTime(time);
-        game.setBuyIn(buyIn);
-        game.setCashOut(cashOut);
+        game.setEntries(type, blinds, location, date, time, buyIn, cashOut);
 
         db.createGame(game);
 

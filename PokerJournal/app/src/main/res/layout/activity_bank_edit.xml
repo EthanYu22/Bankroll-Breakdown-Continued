@@ -71,26 +71,27 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/amountTV"
         android:ems="10"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:inputType="number|numberDecimal" />
 
     // Display "Deposit / Withdraw:" Under editAmount
+
     <TextView
+        android:id="@+id/textType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Deposit / Withdraw: "
-        android:id="@+id/textType"
-        android:layout_below="@+id/editAmount"
         android:layout_alignParentStart="true"
-        android:textSize="30dp" />
+        android:layout_below="@+id/editAmount"
+        android:text="Deposit / Withdraw: " />
 
     // Display Deposit/Withdraw Spinner Under textType
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:id="@+id/spinnerType"
         android:entries="@array/deposit_withdraw"
-        android:layout_below="@+id/textType"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/textType" />
 
     // Submit Button
     <Button

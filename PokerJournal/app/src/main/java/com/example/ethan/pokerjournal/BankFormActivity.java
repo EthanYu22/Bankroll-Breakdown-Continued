@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+// Bank Transaction Entry Form
 public class BankFormActivity extends AppCompatActivity {
 
     @Override
@@ -32,7 +33,7 @@ public class BankFormActivity extends AppCompatActivity {
         Spinner spinType = (Spinner) findViewById(R.id.spinnerType);
         String type = spinType.getSelectedItem().toString();
 
-        // Get Input of Date
+        // Get Input of Date and Format into String
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
         String month = spinMonth.getSelectedItem().toString();
         Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);

@@ -8,7 +8,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BankEditActivity extends AppCompatActivity{
+// Edits Bank Transaction Entries
+public class BankEditActivity extends AppCompatActivity {
 
     DatabaseHelper db;
     Bank bank;
@@ -21,7 +22,8 @@ public class BankEditActivity extends AppCompatActivity{
         db = new DatabaseHelper(this);
         bankId = MainActivity.bankId;
         bank = db.getBank(bankId);
-        final TextView displayAmount = (TextView) findViewById(R.id.editAmount); // Displays Amount Deposited/Withdrawn in TextView
+
+        final TextView displayAmount = (TextView) findViewById(R.id.editAmount);
         displayAmount.setText(Double.toString(bank.getAmount()));
     }
 
@@ -31,7 +33,7 @@ public class BankEditActivity extends AppCompatActivity{
         finish();
     }
 
-    // Submit Bank Transaction
+    // Submit Edited Bank Transaction
     public void onClickBankButton(View v) {
         DatabaseHelper db = new DatabaseHelper(this);
         Bank bank = new Bank();
@@ -42,7 +44,7 @@ public class BankEditActivity extends AppCompatActivity{
         Spinner spinType = (Spinner) findViewById(R.id.spinnerType);
         String type = spinType.getSelectedItem().toString();
 
-        // Get Input of Date
+        // Get Input of Date and Format into String
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
         String month = spinMonth.getSelectedItem().toString();
         Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
@@ -59,7 +61,7 @@ public class BankEditActivity extends AppCompatActivity{
             return;
         }
 
-        // Amount Transaction
+        // Amount Transaction as a Double
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
         // Set Entries into DB

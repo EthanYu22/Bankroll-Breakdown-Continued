@@ -1,10 +1,10 @@
 package com.example.ethan.pokerjournal;
 
-// Represents a Deposit or Withdraw Transaction
+// Represents a Deposit or Withdraw Bank Transaction
 public class Bank {
 
     protected int id; // Deposit/Withdraw ID
-    protected String type; // Deposit/Withdraw Label
+    protected String type; // Deposit/Withdraw Type
     protected String date; // Deposit/Withdraw Date
     protected double amount; // Deposit/Withdraw Amount
 

@@ -1,6 +1,5 @@
 package com.example.ethan.pokerjournal;
 
-import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,11 +8,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
-
-import static com.example.ethan.pokerjournal.MainActivity.bankId;
-
-
+// Edits Game Entries
 public class GameEditActivity extends AppCompatActivity {
 
     DatabaseHelper db;
@@ -24,16 +19,17 @@ public class GameEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_edit);
-        gameId = MainActivity.gameId; // Refers to Game Listing ID
         db = new DatabaseHelper(this);
+        gameId = MainActivity.gameId;
         game = db.getGame(gameId);
-        final TextView displayLocation = (TextView) findViewById(R.id.editLocation); // Displays Location in TextView
+
+        final TextView displayLocation = (TextView) findViewById(R.id.editLocation);
         displayLocation.setText(game.getLocation());
-        final TextView displayTime = (TextView) findViewById(R.id.editTime); // Displays Time in TextView
+        final TextView displayTime = (TextView) findViewById(R.id.editTime);
         displayTime.setText(Double.toString(game.getTime()));
-        final TextView displayBuyIn = (TextView) findViewById(R.id.editBuyIn); // Displays Buy In Amount in TextView
+        final TextView displayBuyIn = (TextView) findViewById(R.id.editBuyIn);
         displayBuyIn.setText(Double.toString(game.getBuyIn()));
-        final TextView displayCashOut = (TextView) findViewById(R.id.editCashOut); // Displays Cash Out Amount in TextView
+        final TextView displayCashOut = (TextView) findViewById(R.id.editCashOut);
         displayCashOut.setText(Double.toString(game.getCashOut()));
     }
 
@@ -43,7 +39,7 @@ public class GameEditActivity extends AppCompatActivity {
         finish();
     }
 
-    // Submit Game Transaction
+    // Submit Edited Game Session
     public void onClickGameButton(View v) {
         DatabaseHelper db = new DatabaseHelper(this);
         Game game = new Game();
@@ -66,7 +62,7 @@ public class GameEditActivity extends AppCompatActivity {
             return;
         }
 
-        // Get Input of Date
+        // Get Input of Date and Format into String
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
         String month = spinMonth.getSelectedItem().toString();
         Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
@@ -100,18 +96,11 @@ public class GameEditActivity extends AppCompatActivity {
             return;
         }
 
-        // Input Cash Out Entry
+        // Cash Out as Double
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setType(type);
-        game.setBlinds(blinds);
-        game.setLocation(location);
-        game.setDate(date);
-        game.setTime(time);
-        game.setBuyIn(buyIn);
-        game.setCashOut(cashOut);
-        game.setId(gameId);
+        game.setAll(gameId, type, blinds, location, date, time, buyIn, cashOut);
 
         db.editGame(game);
 

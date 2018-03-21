@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// Shows Bank Transaction Details
+// Displays Bank Transaction Details on a Separate Page
 public class BankDetailActivity extends AppCompatActivity {
 
     DatabaseHelper db;
@@ -17,9 +17,9 @@ public class BankDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_detail); // Runs layout.activity_bank_detail
-        bankId = MainActivity.bankId; // Refers to Bank Listing ID
+        setContentView(R.layout.activity_bank_detail);
         db = new DatabaseHelper(this);
+        bankId = MainActivity.bankId;
         bank = db.getBank(bankId);
     }
 
@@ -41,6 +41,7 @@ public class BankDetailActivity extends AppCompatActivity {
         TextView type = (TextView) findViewById(R.id.textBankType);
         TextView amount = (TextView) findViewById(R.id.textBankAmount);
 
+        // Set Significant Figures to 2 for Amount Deposited or Withdrawn
         String amt = String.format("%.2f", bank.getAmount());
 
         date.setText("Date: " + bank.getDate());
@@ -48,6 +49,7 @@ public class BankDetailActivity extends AppCompatActivity {
         amount.setText("Amount: $" + amt);
     }
 
+    // Edit Bank Entries
     public void onClickEditBank(View v) {
         bankId = v.getId();
         Intent intent = new Intent(BankDetailActivity.this, BankEditActivity.class);

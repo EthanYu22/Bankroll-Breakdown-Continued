@@ -24,6 +24,26 @@ public class Game implements Comparator<Game> {
     public void setTime(double time) {this.time = time;}
     public void setBuyIn(double buyIn) {this.buyIn = buyIn;}
     public void setCashOut(double cashOut) {this.cashOut = cashOut;}
+    public void setEntries(String type, String blinds, String location, String date, double time, double buyIn, double cashOut) {
+        this.id = id;
+        this.type = type;
+        this.blinds = blinds;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+        this.buyIn = buyIn;
+        this.cashOut = cashOut;
+    }
+    public void setAll(int id, String type, String blinds, String location, String date, double time, double buyIn, double cashOut) {
+        this.id = id;
+        this.type = type;
+        this.blinds = blinds;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+        this.buyIn = buyIn;
+        this.cashOut = cashOut;
+    }
 
     // ~ Get Functions ~
     public int getId() {return id;}

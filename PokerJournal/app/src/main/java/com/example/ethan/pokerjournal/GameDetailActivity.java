@@ -7,9 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-// Shows Game Details
+// Displays Game Details on a Separate Page
 public class GameDetailActivity extends AppCompatActivity {
 
     DatabaseHelper db;
@@ -19,8 +17,8 @@ public class GameDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_detail); // Runs layout.activity_game_detail
-        gameId = MainActivity.gameId; // Refers to Game Listing ID
+        setContentView(R.layout.activity_game_detail);
+        gameId = MainActivity.gameId;
         db = new DatabaseHelper(this);
         game = db.getGame(gameId);
     }
@@ -59,7 +57,6 @@ public class GameDetailActivity extends AppCompatActivity {
         String bIn = String.format("%.2f", game.getBuyIn());
         String cOut = String.format("%.2f", game.getCashOut());
 
-        // Set Text for Each TextView
         hourlyRate.setText("Session Hourly Rate: $" + hR);
         netProfit.setText("Session Net Profit: $" + nP);
         type.setText("Game: " + game.getType());
@@ -71,7 +68,7 @@ public class GameDetailActivity extends AppCompatActivity {
         cashOut.setText("Cash Out: $" + cOut);
     }
 
-    // Edit Game
+    // Edit Game Entries
     public void onClickEditGame(View v) {
         gameId = v.getId();
         Intent intent = new Intent(GameDetailActivity.this, GameEditActivity.class);

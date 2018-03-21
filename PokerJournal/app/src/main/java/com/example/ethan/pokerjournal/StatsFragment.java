@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+// Displays a List of Statistical Analysis Under Statistics Tab
 public class StatsFragment extends Fragment {
 
     DatabaseHelper db;
