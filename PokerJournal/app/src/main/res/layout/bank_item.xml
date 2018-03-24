@@ -4,24 +4,27 @@
     android:layout_height="match_parent"
     android:onClick="onClickBank">
 
+    // Display Bank Transaction Date
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/itemDate"
         android:text="Date"
-        android:id="@+id/itemDate" />
-
-    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Type"
+        android:layout_height="wrap_content"/>
+
+    // Display Deposit/Withdraw Type
+    <TextView
         android:id="@+id/itemType"
-        android:layout_below="@id/itemDate"/>
-
-    <TextView
+        android:text="Type"
+        android:layout_below="@id/itemDate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
+        android:layout_height="wrap_content"/>
+
+    // Display Bank Description
+    <TextView
         android:id="@+id/itemDescription"
-        android:layout_below="@id/itemType"/>
+        android:text="Description"
+        android:layout_below="@id/itemType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

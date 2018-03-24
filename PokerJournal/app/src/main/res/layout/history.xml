@@ -5,32 +5,35 @@
     android:layout_height="match_parent"
     tools:context="com.example.ethan.pokerjournal.HistoryFragment">
 
+    // New Game Button
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Game"
         android:id="@+id/buttonNewGame"
+        android:text="New Game"
+        android:onClick="onClickNewGame"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onClickNewGame" />
-
-    <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content" />
+
+    // List View for Game Session History
+    <ListView
         android:id="@+id/listGames"
-        android:layout_below="@+id/buttonNewGame"
-        android:layout_alignEnd="@+id/buttonNewGame"
+        android:scrollbars="vertical"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
-        android:scrollbars="vertical" />
-
-    <Button
+        android:layout_below="@+id/buttonNewGame"
+        android:layout_alignEnd="@+id/buttonNewGame"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reset"
+        android:layout_height="wrap_content" />
+
+    // Reset Button
+    <Button
         android:id="@+id/buttonResetGames"
-        android:layout_alignParentTop="true"
+        android:text="Reset"
+        android:onClick="onClickResetGame"
         android:layout_alignParentStart="true"
-        android:onClick="onClickResetGame" />
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

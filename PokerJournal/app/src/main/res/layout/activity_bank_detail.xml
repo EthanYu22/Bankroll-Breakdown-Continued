@@ -9,52 +9,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.ethan.pokerjournal.BankDetailActivity">
 
+    // Display "Date:"
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date:"
         android:id="@+id/textBankDate"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:text="Date:"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Deposit/Withdraw:"
-        android:id="@+id/textBankType"
-        android:layout_below="@+id/textBankDate"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Amount:"
-        android:id="@+id/textBankAmount"
-        android:layout_below="@+id/textBankType"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/buttonDeleteBank"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onClickDeleteBank" />
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
+    // Display "Deposit/Withdraw:" Under textBankDate
+    <TextView
+        android:id="@+id/textBankType"
+        android:text="Deposit/Withdraw:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textBankDate"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display "Amount:" Under textBankType
+    <TextView
+        android:id="@+id/textBankAmount"
+        android:text="Amount:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textBankType"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Edit Button Above buttonDeleteBank
     <Button
         android:id="@+id/buttonEditbank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonDeleteBank"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
+        android:text="Edit"
         android:onClick="onClickEditBank"
-        android:text="Edit" />
+        android:layout_above="@+id/buttonDeleteBank"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Delete Button at Bottom of Page
+    <Button
+        android:id="@+id/buttonDeleteBank"
+        android:text="Delete"
+        android:onClick="onClickDeleteBank"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>

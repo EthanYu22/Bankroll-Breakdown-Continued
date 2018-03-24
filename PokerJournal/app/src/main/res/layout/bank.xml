@@ -5,51 +5,56 @@
     android:layout_height="match_parent"
     tools:context="com.example.ethan.pokerjournal.HistoryFragment">
 
+    // Display "Bankroll:"
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bankroll: "
         android:id="@+id/textBank"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:text="Bankroll: "
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textTotalMoney"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/textBank" />
-
-    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deposit / Withdraw"
+        android:layout_height="wrap_content"/>
+
+    // Display Amount of Money in Bankroll
+    <TextView
+        android:id="@+id/textTotalMoney"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_toEndOf="@+id/textBank"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Deposit/Withdraw Button
+    <Button
         android:id="@+id/buttonType"
+        android:text="Deposit / Withdraw"
+        android:onClick="onClickDepositWithdraw"
         android:layout_below="@+id/textBank"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onClickDepositWithdraw"
-        android:layout_marginTop="20dp" />
-
-    <Button
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reset"
+        android:layout_height="wrap_content"/>
+
+    // Reset Buton
+    <Button
         android:id="@+id/buttonResetBank"
+        android:text="reset"
         android:onClick="onClickResetBank"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
-    <ListView
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // List View for Bank Transactions
+    <ListView
         android:id="@+id/listBank"
-        android:layout_below="@+id/buttonType"
-        android:layout_alignParentStart="true"
+        android:scrollbars="vertical"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
-        android:scrollbars="vertical" />
+        android:layout_below="@+id/buttonType"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
