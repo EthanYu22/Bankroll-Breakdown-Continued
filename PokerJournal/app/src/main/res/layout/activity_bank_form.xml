@@ -9,99 +9,98 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BankFormActivity">
 
-    // Display "Date:"
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date:"
-        android:id="@+id/textDate"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textSize="20dp" />
-
-    // Display Month Spinner Under textDate With Entries Listed in months in strings.xml
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerBankMonth"
-        android:layout_below="@+id/textDate"
-        android:layout_centerHorizontal="true"
-        android:entries="@array/months"
-        android:spinnerMode="dropdown"
-        android:layout_alignParentLeft="true" />
-
-    // Display Day Spinner Under textDate With Entries Listed in days in strings.xml
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerBankDay"
-        android:layout_below="@+id/textDate"
-        android:layout_centerHorizontal="true"
-        android:entries="@array/days"
-        android:spinnerMode="dropdown" />
-
-    // Display Year Spinner Under textDate With Entries Listed in years in strings.xml
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerBankYear"
-        android:layout_below="@+id/textDate"
-        android:layout_centerHorizontal="true"
-        android:entries="@array/years"
-        android:spinnerMode="dropdown"
-        android:layout_alignParentRight="true" />
-
-    // Display "Amount:" Under spinnerGameMonth
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Amount: "
-        android:id="@+id/amountTV"
-        android:textSize="20dp"
-        android:layout_below="@+id/spinnerBankMonth"
-        android:layout_alignParentStart="true" />
-
-    // Display Amount Form Under amountTV
-
-    <EditText
-        android:id="@+id/editAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/amountTV"
-        android:ems="10"
-        android:inputType="number|numberDecimal" />
-
-    // Display "Deposit / Withdraw:" Under editAmount
-
+    // Display "Deposit / Withdraw:"
     <TextView
         android:id="@+id/textType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editAmount"
         android:text="Deposit / Withdraw: "
-        android:textSize="30dp" />
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     // Display Deposit/Withdraw Spinner Under textType
     <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/spinnerType"
         android:entries="@array/deposit_withdraw"
         android:layout_below="@+id/textType"
-        android:layout_alignParentStart="true" />
-
-    // Submit Button
-    <Button
+        android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
+        android:layout_height="wrap_content"/>
+
+    // Display "Date:" Under spinnerType
+    <TextView
+        android:id="@+id/textDate"
+        android:text="Date:"
+        android:textSize="20dp"
+        android:layout_below="@+id/spinnerType"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display Month Spinner Under textDate With Entries Listed in months in strings.xml
+    <Spinner
+        android:id="@+id/spinnerBankMonth"
+        android:spinnerMode="dropdown"
+        android:entries="@array/months"
+        android:layout_below="@+id/textDate"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display Day Spinner Under textDate With Entries Listed in days in strings.xml
+    <Spinner
+        android:id="@+id/spinnerBankDay"
+        android:spinnerMode="dropdown"
+        android:entries="@array/days"
+        android:layout_below="@+id/textDate"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display Year Spinner Under textDate With Entries Listed in years in strings.xml
+    <Spinner
+        android:id="@+id/spinnerBankYear"
+        android:spinnerMode="dropdown"
+        android:entries="@array/years"
+        android:layout_below="@+id/textDate"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display "Amount:" Under spinnerGameMonth
+    <TextView
+        android:id="@+id/amountTV"
+        android:text="Amount: "
+        android:textSize="20dp"
+        android:layout_below="@+id/spinnerBankMonth"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display Amount Form Under amountTV
+    <EditText
+        android:id="@+id/editAmount"
+        android:inputType="number|numberDecimal"
+        android:ems="10"
+        android:layout_below="@+id/spinnerBankMonth"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/spinnerBankYear"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Submit Button at Bottom of Page
+    <Button
         android:id="@+id/buttonSubmitGame"
-        android:layout_alignParentBottom="true"
+        android:text="Submit"
+        android:onClick="onClickBankButton"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:onClick="onClickBankButton" />
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
