@@ -23,4 +23,4 @@ Below is a list of those qualities:
 - Largest Loss
 
 The application is delivered in a sleek and simple GUI (Screenshots are attached in the Directory).
-I look forward to making adjustments and furthur improving this project until it meets my criteria of a "sucessfully sellable program". 
+I look forward to making adjustments and furthur improving this project until it meets my criteria of a useful and successful product. 
