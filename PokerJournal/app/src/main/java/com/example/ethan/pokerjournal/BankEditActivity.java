@@ -51,6 +51,27 @@ public class BankEditActivity extends AppCompatActivity {
         String day = spinDay.getSelectedItem().toString();
         Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
         String year = spinYear.getSelectedItem().toString();
+        if(month.equals("January")){month = "01";}
+        else if(month.equals("February")){month = "02";}
+        else if(month.equals("March")){month = "03";}
+        else if(month.equals("April")){month = "04";}
+        else if(month.equals("May")){month = "05";}
+        else if(month.equals("June")){month = "06";}
+        else if(month.equals("July")){month = "07";}
+        else if(month.equals("August")){month = "08";}
+        else if(month.equals("September")){month = "09";}
+        else if(month.equals("October")){month = "10";}
+        else if(month.equals("November")){month = "11";}
+        else{month = "12";}
+        if(day.equals("1")){day = "01";}
+        else if(day.equals("2")){day = "02";}
+        else if(day.equals("3")){day = "03";}
+        else if(day.equals("4")){day = "04";}
+        else if(day.equals("5")){day = "05";}
+        else if(day.equals("6")){day = "06";}
+        else if(day.equals("7")){day = "07";}
+        else if(day.equals("8")){day = "08";}
+        else if(day.equals("9")){day = "09";}
         String date = month + "/" + day + "/" + year;
 
         // Get Amount and Make Sure it's Valid

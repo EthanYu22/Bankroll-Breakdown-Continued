@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Comparator;
 import java.util.List;
 
 // Displays Each Bank Transaction as a List Under Bankroll Tab & Displays Current Bankroll Amount
@@ -43,6 +44,17 @@ public class BankFragment extends Fragment {
         ListView lv = (ListView) getView().findViewById(R.id.listBank);
         BankArrayAdapter adapter = new BankArrayAdapter(getActivity(), banksList);
         lv.setAdapter(adapter);
+
+        // Sorts Bank Transactions by Date
+        adapter.sort(new Comparator<Bank>() {
+            public int compare(Bank arg0, Bank arg1) {
+                return arg0.date.compareTo(arg1.date);
+            }
+        });
+
+        // Arbitrary Code for Sorting + Displaying Adapter
+        lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         // Calculate Net Profit from Poker Sessions
         Game game;
