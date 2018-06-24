@@ -3,13 +3,16 @@ package com.example.ethan.pokerjournal;
 Uses a Guide From www.androidhive.info for Tabs and SQLite
  */
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -75,9 +78,34 @@ public class MainActivity extends AppCompatActivity {
 
     // Reset Button Resets Games
     public void onClickResetGame(View v) {
-        db.clearGames();
-        hist.displayGames();
-        stats.displayStats();
+
+        Button btn = (Button) findViewById(R.id.buttonResetGames);
+
+        // Alert Asking for Confirmation to Clear Game History or Cancel Process
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder altdial = new AlertDialog.Builder(MainActivity.this);
+                altdial.setMessage("Do you want to reset your Game History?").setCancelable(false)
+                        .setPositiveButton("Clear Games", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which){
+                                db.clearGames();
+                                hist.displayGames();
+                                stats.displayStats();
+                            }
+                        })
+                        .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.cancel();
+                         }
+                        });
+                AlertDialog alert = altdial.create();
+                alert.setTitle("Reset Game History");
+                alert.show();
+            }
+        });
     }
 
     // Reset Button Resets Bank Transactions
