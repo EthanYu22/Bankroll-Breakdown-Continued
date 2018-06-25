@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -54,15 +55,27 @@ public class HistoryFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
 
-        /*
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast toast = Toast.makeText(getActivity(), "it works!", Toast.LENGTH_SHORT);
-                toast.show();
+       /* private static List<Opportunity> sortOpportunitiesByDate(List<Opportunity> opportunities) {
+            Collections.sort(opportunities, new Comparator<Opportunity>() {
+                public int compare(Opportunity o1, Opportunity o2) {
+                    DateFormat format = new SimpleDateFormat("MM/DD/YYYY",Locale.US);
 
-            }
-        });*/
+                    Date date1 = null;
+                    Date date2 = null;
+                    try {
+                        date1=format.parse(o1.getExpires());
+                        date2=format.parse(o2.getExpires());
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    return date1.compareTo(date2);
+                }
+            });
+
+            return opportunities;
+        }*/
     }
 
 }

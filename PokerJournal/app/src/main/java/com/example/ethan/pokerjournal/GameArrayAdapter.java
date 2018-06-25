@@ -21,7 +21,7 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
     // Fills Out Information to Be Displayed For Each Poker Session
     public View getView(int position, View convertView, ViewGroup parent) {
         Game game = getItem(position);
-
+        String line_2 = new String();
         // Display Each Game as a Game in a Listing
         if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_item, parent, false);}
 
@@ -34,7 +34,11 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
         double netProfit = game.getCashOut() - game.getBuyIn();
         double sessionLength = game.getTime();
         String line_1 = "Location: " + location;
-        String line_2 = "$" + netProfit + " in " + sessionLength + " hours.";
+        if(netProfit < 0) {
+            line_2 = "-$" + -netProfit + " in " + sessionLength + " hours.";
+        }else{
+            line_2 = "$" + netProfit + " in " + sessionLength + " hours.";
+        }
 
         // Initialize The Display for Each Game Listing
         date.setText(game.getDate());
