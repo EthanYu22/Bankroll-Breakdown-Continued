@@ -91,7 +91,11 @@ public class BankFragment extends Fragment {
 
         // Displays Net Bankroll Amount
         TextView bankroll = (TextView) getView().findViewById(R.id.textTotalMoney);
-        bankroll.setText("$" + Bankroll);
+        if(Bankroll < 0){
+            bankroll.setText("-$" + -Bankroll);
+        }else {
+            bankroll.setText("$" + Bankroll);
+        }
     }
 
 }
