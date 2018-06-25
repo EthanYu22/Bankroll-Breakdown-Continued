@@ -78,6 +78,7 @@ public class GameFormActivity extends AppCompatActivity {
         else if(day.equals("8")){day = "08";}
         else if(day.equals("9")){day = "09";}
         String date = month + "/" + day + "/" + year;
+        String date2 = year + "/" + month + "/" + day;
 
         // Get Session Duration and Make Sure it's Valid
         EditText editTime = (EditText) findViewById(R.id.editTime);
@@ -107,7 +108,7 @@ public class GameFormActivity extends AppCompatActivity {
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setEntries(type, blinds, location, date, time, buyIn, cashOut);
+        game.setEntries(type, blinds, location, date, date2, time, buyIn, cashOut);
 
         db.createGame(game);
 

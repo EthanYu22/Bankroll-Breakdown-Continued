@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // DB Info
     private static final String DATABASE_NAME = "pokerJournalDatabase";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     // Game & Bank Tables
     private static final String TABLE_GAMES = "games";
@@ -26,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String GAMES_BLINDS = "blinds";
     private static final String GAMES_LOC = "location";
     private static final String GAMES_DATE = "date";
+    private static final String GAMES_DATE2 = "date2";
     private static final String GAMES_TIME = "time";
     private static final String GAMES_BUY_IN = "buyIn";
     private static final String GAMES_CASH_OUT = "cashOut";
@@ -38,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             GAMES_BLINDS + " TEXT NOT NULL," +
             GAMES_LOC + " TEXT NOT NULL," +
             GAMES_DATE + " TEXT NOT NULL," +
+            GAMES_DATE2 + " TEXT NOT NULL," +
             GAMES_TIME + " REAL NOT NULL," +
             GAMES_BUY_IN + " REAL NOT NULL," +
             GAMES_CASH_OUT + " REAL NOT NULL" +
@@ -47,11 +49,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_ALTER_GAME_1 = "ALTER TABLE "
             + TABLE_GAMES + " ADD COLUMN " + GAMES_BLINDS + " string;";
 
+    // Update on Games Table for Adding GAMES_DATE2 Field (Ver 3)
+    private static final String DATABASE_ALTER_GAME_2 = "ALTER TABLE "
+            + TABLE_GAMES + " ADD COLUMN " + GAMES_DATE2 + " string;";
+
     // Bank Transaction Fields
     private static final String BANK_ID = "id";
     private static final String BANK_TYPE = "type"; // Deposit or Withdraw
     private static final String BANK_AMOUNT = "amount";
     private static final String BANK_DATE = "date";
+    private static final String BANK_DATE2 = "date2";
 
     // Create Bank Statements
     private static final String CREATE_TABLE_BANK = "CREATE TABLE " + TABLE_BANK +
@@ -59,12 +66,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             BANK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             BANK_TYPE + " TEXT NOT NULL," +
             BANK_AMOUNT + " REAL NOT NULL," +
-            BANK_DATE + " TEXT NOT NULL" +
+            BANK_DATE + " TEXT NOT NULL," +
+            BANK_DATE2 + " TEXT NOT NULL" +
             ")";
 
     // Update on Bank Table for Adding BANK_DATE Field (Ver 3)
     private static final String DATABASE_ALTER_BANK_1 = "ALTER TABLE "
             + TABLE_BANK + " ADD COLUMN " + BANK_DATE + " string;";
+
+    // Update on Bank Table for Adding BANK_DATE Field (Ver 4)
+    private static final String DATABASE_ALTER_BANK_2 = "ALTER TABLE "
+            + TABLE_BANK + " ADD COLUMN " + BANK_DATE2 + " string;";
 
     // DB Helper Run
     public DatabaseHelper(Context context) {
@@ -83,13 +95,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         // Update For Adding Blinds Field
-        if (oldVersion < 2) {
-            db.execSQL(DATABASE_ALTER_GAME_1);
+        if (oldVersion > 0) {
+            db.execSQL(DATABASE_ALTER_GAME_2);
         }
 
         // Update For Adding Bank Transaction Date Field
-        if (oldVersion < 3) {
-            db.execSQL(DATABASE_ALTER_BANK_1);
+        if (oldVersion > 0 ) {
+            db.execSQL(DATABASE_ALTER_BANK_2);
         }
     }
 
@@ -102,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(GAMES_BLINDS, game.getBlinds());
         values.put(GAMES_LOC, game.getLocation());
         values.put(GAMES_DATE, game.getDate());
+        values.put(GAMES_DATE2, game.getDate2());
         values.put(GAMES_TIME, game.getTime());
         values.put(GAMES_BUY_IN, game.getBuyIn());
         values.put(GAMES_CASH_OUT, game.getCashOut());
@@ -125,6 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
                 g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
                 g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
+                g.setDate2(c.getString(c.getColumnIndex(GAMES_DATE2)));
                 g.setTime(c.getDouble(c.getColumnIndex(GAMES_TIME)));
                 g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
                 g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
@@ -153,6 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
         g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
         g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
+        g.setDate2(c.getString(c.getColumnIndex(GAMES_DATE2)));
         g.setTime(c.getDouble(c.getColumnIndex(GAMES_TIME)));
         g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
         g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
@@ -169,6 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(GAMES_BLINDS, game.getBlinds());
         values.put(GAMES_LOC, game.getLocation());
         values.put(GAMES_DATE, game.getDate());
+        values.put(GAMES_DATE2, game.getDate2());
         values.put(GAMES_TIME, game.getTime());
         values.put(GAMES_BUY_IN, game.getBuyIn());
         values.put(GAMES_CASH_OUT, game.getCashOut());
@@ -197,6 +213,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(BANK_AMOUNT, bank.getAmount());
         values.put(BANK_TYPE, bank.getType());
         values.put(BANK_DATE, bank.getDate());
+        values.put(BANK_DATE2, bank.getDate2());
 
         long bank_return = db.insert(TABLE_BANK, null, values);
     }
@@ -216,6 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 b.setType(c.getString(c.getColumnIndex(BANK_TYPE)));
                 b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
                 b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
+                b.setDate2(c.getString(c.getColumnIndex(BANK_DATE2)));
                 banks.add(b);
             } while (c.moveToNext());
         }
@@ -238,6 +256,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         b.setType(c.getString(c.getColumnIndex(BANK_TYPE)));
         b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
         b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
+        b.setDate2(c.getString(c.getColumnIndex(BANK_DATE2)));
 
         return b;
     }
@@ -250,6 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(BANK_AMOUNT, bank.getAmount());
         values.put(BANK_TYPE, bank.getType());
         values.put(BANK_DATE, bank.getDate());
+        values.put(BANK_DATE2, bank.getDate2());
         values.put(BANK_ID, bank.getId());
 
         long bank_return = db.replace(TABLE_BANK, BANK_ID, values);

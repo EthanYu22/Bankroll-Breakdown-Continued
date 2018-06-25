@@ -17,7 +17,8 @@ public class HistoryFragment extends Fragment {
     DatabaseHelper db;
     List<Game> gameList;
 
-    public HistoryFragment() {}
+    public HistoryFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,10 @@ public class HistoryFragment extends Fragment {
         ListView lv = (ListView) getView().findViewById(R.id.listGames);
         GameArrayAdapter adapter = new GameArrayAdapter(getActivity(), gameList);
 
-        // Sorts Games by Date
+        // Sorts Games by Date2
         adapter.sort(new Comparator<Game>() {
             public int compare(Game arg0, Game arg1) {
-                return arg0.date.compareTo(arg1.date);
+                return arg0.date2.compareTo(arg1.date2);
             }
         });
 
@@ -54,28 +55,5 @@ public class HistoryFragment extends Fragment {
         lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-
-       /* private static List<Opportunity> sortOpportunitiesByDate(List<Opportunity> opportunities) {
-            Collections.sort(opportunities, new Comparator<Opportunity>() {
-                public int compare(Opportunity o1, Opportunity o2) {
-                    DateFormat format = new SimpleDateFormat("MM/DD/YYYY",Locale.US);
-
-                    Date date1 = null;
-                    Date date2 = null;
-                    try {
-                        date1=format.parse(o1.getExpires());
-                        date2=format.parse(o2.getExpires());
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    return date1.compareTo(date2);
-                }
-            });
-
-            return opportunities;
-        }*/
     }
-
 }

@@ -76,6 +76,7 @@ public class BankEditActivity extends AppCompatActivity {
         else if(day.equals("8")){day = "08";}
         else if(day.equals("9")){day = "09";}
         String date = month + "/" + day + "/" + year;
+        String date2 = year + "/" + month + "/" + day;
 
         // Get Amount and Make Sure it's Valid
         EditText editAmount = (EditText) findViewById(R.id.editAmount);
@@ -89,7 +90,7 @@ public class BankEditActivity extends AppCompatActivity {
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
         // Set Entries into DB
-        bank.setAll(bankId, type, date, amountMoney);
+        bank.setAll(bankId, type, date, date2, amountMoney);
 
         db.editBank(bank);
 

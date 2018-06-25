@@ -10,7 +10,8 @@ public class Game implements Comparator<Game> {
     protected String type; // Poker Variation Type
     protected String blinds; // Blinds
     protected String location; // Casino
-    protected String date; // Date
+    protected String date; // Displayed Date
+    protected String date2; // Computed Date
     protected double time; // Session Duration Time
     protected double buyIn; // Total Buy In Amount
     protected double cashOut; // Total Cash Out Amount
@@ -21,15 +22,17 @@ public class Game implements Comparator<Game> {
     public void setBlinds(String blinds) { this.blinds = blinds;}
     public void setLocation(String location) {this.location = location;}
     public void setDate(String date) {this.date = date;}
+    public void setDate2(String date2) {this.date2 = date2;}
     public void setTime(double time) {this.time = time;}
     public void setBuyIn(double buyIn) {this.buyIn = buyIn;}
     public void setCashOut(double cashOut) {this.cashOut = cashOut;}
-    public void setEntries(String type, String blinds, String location, String date, double time, double buyIn, double cashOut) {
+    public void setEntries(String type, String blinds, String location, String date, String date2, double time, double buyIn, double cashOut) {
         this.id = id;
         this.type = type;
         this.blinds = blinds;
         this.location = location;
         this.date = date;
+        this.date2 = date2;
         this.time = time;
         this.buyIn = buyIn;
         this.cashOut = cashOut;
@@ -40,6 +43,7 @@ public class Game implements Comparator<Game> {
         this.blinds = blinds;
         this.location = location;
         this.date = date;
+        this.date2 = date2;
         this.time = time;
         this.buyIn = buyIn;
         this.cashOut = cashOut;
@@ -51,6 +55,7 @@ public class Game implements Comparator<Game> {
     public String getBlinds() {return blinds;}
     public String getLocation() {return location;}
     public String getDate() {return date;}
+    public String getDate2() {return date2;}
     public double getTime() {return time;}
     public double getBuyIn() {return buyIn;}
     public double getCashOut() {return cashOut;}

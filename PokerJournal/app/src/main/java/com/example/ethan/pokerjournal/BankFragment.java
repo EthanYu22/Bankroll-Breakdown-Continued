@@ -48,7 +48,7 @@ public class BankFragment extends Fragment {
         // Sorts Bank Transactions by Date
         adapter.sort(new Comparator<Bank>() {
             public int compare(Bank arg0, Bank arg1) {
-                return arg0.date.compareTo(arg1.date);
+                return arg0.date2.compareTo(arg1.date2);
             }
         });
 
