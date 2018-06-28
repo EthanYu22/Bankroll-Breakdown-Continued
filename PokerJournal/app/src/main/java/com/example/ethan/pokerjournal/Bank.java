@@ -43,14 +43,6 @@ public class Bank {
     // Turns Date into a String
     public String toString() {return date;}
 
-    // Helps Compare Dates to Sort Bank Log
-    public int compareTo(Bank other) {return date.compareTo(other.date);}
-
-    // Sorts the Bank Transactions
-    public static Comparator<Bank> COMPARE_BY_DATE = new Comparator<Bank>() {
-        public int compare(Bank one, Bank other) {return one.date.compareTo(other.date);}
-    };
-
     // Arbitrary For No Error Alerts
     public int compare(Bank bank, Bank t1) {return 0;}
 

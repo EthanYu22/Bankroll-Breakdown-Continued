@@ -75,13 +75,17 @@ public class BankFragment extends Fragment {
         double totalMoney = 0;
         double Bankroll = 0;
         double WithdrawDeposit = 0;
+        double totalWithdraw = 0;
+        double totalDeposit = 0;
         for (int i = 0; i < banksList.size(); i++) {
             bank = banksList.get(i);
             if(bank.getType().equals("Withdraw")){
                 WithdrawDeposit = (bank.getAmount() * -1);
+                totalWithdraw += bank.getAmount();
             }
             else{
                 WithdrawDeposit = bank.getAmount();
+                totalDeposit += bank.getAmount();
             }
             totalMoney += WithdrawDeposit;
         }
@@ -96,6 +100,12 @@ public class BankFragment extends Fragment {
         }else {
             bankroll.setText("$" + Bankroll);
         }
+
+        TextView deposit = (TextView) getView().findViewById(R.id.textTotalDeposit);
+        deposit.setText("$" + totalDeposit);
+
+        TextView withdraw = (TextView) getView().findViewById(R.id.textTotalWithdraw);
+        withdraw.setText("$" + totalWithdraw);
     }
 
 }

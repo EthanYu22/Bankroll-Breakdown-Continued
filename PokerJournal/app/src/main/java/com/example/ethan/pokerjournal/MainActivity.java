@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = (Button) findViewById(R.id.buttonResetGames);
 
-        // Alert Asking for Confirmation to Clear Game History or Cancel Process
+        //
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

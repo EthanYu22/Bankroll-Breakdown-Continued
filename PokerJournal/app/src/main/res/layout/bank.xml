@@ -6,35 +6,78 @@
     tools:context="com.example.ethan.pokerjournal.HistoryFragment">
 
     // Display "Bankroll:"
+
     <TextView
         android:id="@+id/textBank"
-        android:text="Bankroll: "
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="Bankroll: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     // Display Amount of Money in Bankroll
     <TextView
         android:id="@+id/textTotalMoney"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_toEndOf="@+id/textBank"
-        android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    // Display "Total Deposit:"
+    <TextView
+        android:id="@+id/textDeposit"
+        android:textColor="#008000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textBank"
+        android:text="Total Deposit: "
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    // Display Amount of Money Deposited
+    <TextView
+        android:id="@+id/textTotalDeposit"
+        android:textColor="#008000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textWithdraw"
+        android:layout_toEndOf="@+id/textDeposit"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    // Display "Total Withdraw:"
+    <TextView
+        android:id="@+id/textWithdraw"
+        android:textColor="#686262"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textDeposit"
+        android:text="Total Withdraw:"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    // Display Amount of Money in Withdrawn
+    <TextView
+        android:id="@+id/textTotalWithdraw"
+        android:textColor="#686262"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textDeposit"
+        android:layout_marginStart="128dp"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
     // Deposit/Withdraw Button
+
     <Button
         android:id="@+id/buttonType"
-        android:text="Deposit / Withdraw"
-        android:onClick="onClickDepositWithdraw"
-        android:layout_below="@+id/textBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="72dp"
+        android:onClick="onClickDepositWithdraw"
+        android:text="Deposit / Withdraw" />
 
     // Reset Buton
     <Button

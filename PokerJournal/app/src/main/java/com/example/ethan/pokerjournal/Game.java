@@ -62,16 +62,8 @@ public class Game implements Comparator<Game> {
 
     // Used for Array Adapter to Understand
     @Override
-    // Turns Date into a String
+    // Turns Date into a Stringf
     public String toString() {return date;}
-
-    // Helps Compare Dates to Sort Game Log
-    public int compareTo(Game other) {return date.compareTo(other.date);}
-
-    // Sorts the Games
-    public static Comparator<Game> COMPARE_BY_DATE = new Comparator<Game>() {
-        public int compare(Game one, Game other) {return one.date.compareTo(other.date);}
-    };
 
     // Arbitrary For No Error Alerts
     @Override
