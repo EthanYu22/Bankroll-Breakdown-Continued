@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // DB Info
     private static final String DATABASE_NAME = "pokerJournalDatabase";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 9;
 
     // Game & Bank Tables
     private static final String TABLE_GAMES = "games";
@@ -94,15 +94,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        // Update For Adding Blinds Field
-        if (oldVersion > 0) {
+        /*// Update For Adding Blinds Field
+        if (oldVersion > 1) {
             db.execSQL(DATABASE_ALTER_GAME_2);
         }
 
         // Update For Adding Bank Transaction Date Field
-        if (oldVersion > 0 ) {
+        if (oldVersion > 1) {
             db.execSQL(DATABASE_ALTER_BANK_2);
-        }
+        }*/
     }
 
     // Game DB Methods

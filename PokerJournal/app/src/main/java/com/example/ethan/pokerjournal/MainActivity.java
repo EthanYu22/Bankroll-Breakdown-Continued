@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn = (Button) findViewById(R.id.buttonResetGames);
 
-        //
+        // Confirmation Reset Game History Alert
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,8 +110,33 @@ public class MainActivity extends AppCompatActivity {
 
     // Reset Button Resets Bank Transactions
     public void onClickResetBank(View v) {
-        db.clearBank();
-        bank.displayBanks();
+
+        Button btn = (Button) findViewById(R.id.buttonResetBank);
+
+        // Confirmation Reset Bank Transaction History Alert
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder altdial = new AlertDialog.Builder(MainActivity.this);
+                altdial.setMessage("Do you want to reset your Bankroll Transactions?").setCancelable(false)
+                        .setPositiveButton("Clear Transactions", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which){
+                                db.clearBank();
+                                bank.displayBanks();
+                            }
+                        })
+                        .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                AlertDialog alert = altdial.create();
+                alert.setTitle("Reset Bankroll Transactions");
+                alert.show();
+            }
+        });
     }
 
     // Clicking on Game Listing Leads to Game Details Page
