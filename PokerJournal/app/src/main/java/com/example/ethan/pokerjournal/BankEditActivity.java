@@ -66,15 +66,26 @@ public class BankEditActivity extends AppCompatActivity {
         else if(month.equals("October")){month = "10";}
         else if(month.equals("November")){month = "11";}
         else{month = "12";}
-        if(day.equals("1")){day = "01";}
-        else if(day.equals("2")){day = "02";}
-        else if(day.equals("3")){day = "03";}
-        else if(day.equals("4")){day = "04";}
-        else if(day.equals("5")){day = "05";}
-        else if(day.equals("6")){day = "06";}
-        else if(day.equals("7")){day = "07";}
-        else if(day.equals("8")){day = "08";}
-        else if(day.equals("9")){day = "09";}
+        int intDay = Integer.parseInt(day);
+        switch(intDay){
+            case 1: day = "01";
+                break;
+            case 2: day = "02";
+                break;
+            case 3: day = "03";
+                break;
+            case 4: day = "04";
+                break;
+            case 5: day = "05";
+                break;
+            case 6: day = "06";
+                break;
+            case 7: day = "07";
+                break;
+            case 8: day = "08";
+                break;
+            case 9: day = "09";
+        }
         String date = month + "/" + day + "/" + year;
         String date2 = year + "/" + month + "/" + day;
 
