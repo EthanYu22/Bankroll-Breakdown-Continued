@@ -37,7 +37,7 @@ public class Game implements Comparator<Game> {
         this.buyIn = buyIn;
         this.cashOut = cashOut;
     }
-    public void setAll(int id, String type, String blinds, String location, String date, double time, double buyIn, double cashOut) {
+    public void setAll(int id, String type, String blinds, String location, String date, String date2, double time, double buyIn, double cashOut) {
         this.id = id;
         this.type = type;
         this.blinds = blinds;
