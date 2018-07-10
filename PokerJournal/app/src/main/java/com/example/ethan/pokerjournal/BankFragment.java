@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -51,6 +52,9 @@ public class BankFragment extends Fragment {
                 return arg0.date2.compareTo(arg1.date2);
             }
         });
+
+        // Descending Order (Most Recent on Top)
+        Collections.reverse(banksList);
 
         // Arbitrary Code for Sorting + Displaying Adapter
         lv.setAdapter(adapter);

@@ -51,6 +51,9 @@ public class HistoryFragment extends Fragment {
             }
         });
 
+        // Descending Order (Most Recent on Top)
+        Collections.reverse(gameList);
+
         // Arbitrary Code for Sorting + Displaying Adapter
         lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
