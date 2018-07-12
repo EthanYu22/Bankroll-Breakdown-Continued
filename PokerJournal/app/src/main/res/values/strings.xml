@@ -5,18 +5,15 @@
     // Poker Variance Types Menu
     <string-array name="game_types">
         <item>Texas Hold Em</item>
-        <item>Omaha</item>
-        <item>7-Card Stud</item>
-        <item>5-Card Draw</item>
-        <item>Chicago</item>
+        <item>Pot-Limit Omaha</item>
     </string-array>
 
     // Game Blinds Menu
     <string-array name="game_blinds">
-        <item>1-2</item>
         <item>1-1-2</item>
-        <item>1-1-3</item>
+        <item>1-3</item>
         <item>2-5</item>
+        <item>2-3-5</item>
         <item>3-5</item>
         <item>5-10</item>
         <item>10-20</item>
