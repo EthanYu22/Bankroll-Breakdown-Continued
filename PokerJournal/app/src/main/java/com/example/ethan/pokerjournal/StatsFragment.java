@@ -45,6 +45,7 @@ public class StatsFragment extends Fragment {
         double buyIn = 0;
         double cashOut = 0;
         double avgBuy = 0;
+        double avgCashOut = 0;
         double hourlyRate;
         int winningSession = 0;
         int losingSession = 0;
@@ -59,6 +60,7 @@ public class StatsFragment extends Fragment {
             buyIn += game.getBuyIn(); // Net Buy In
             cashOut += game.getCashOut(); // Net Cash Out
             avgBuy = buyIn / gameList.size(); // Average Buy In
+            avgCashOut = cashOut / gameList.size(); // Average Cash Out
 
             // Find Biggest Win and Loss
             double bigwin = game.getCashOut() - game.getBuyIn();
@@ -114,17 +116,25 @@ public class StatsFragment extends Fragment {
             avgSessionDuration = totalHours / gameList.size();
 
             // Set Significant Figures to 2 for Net Profit, Hourly Rate, Total Hours, Avg Session Duration, Avg Buy In, Biggest Win, and Biggest Loss
-            String nProfit = String.format("%.2f", netProfit);
-            String hourlyR = String.format("%.2f", hourlyRate);
+            String nProfit = String.format("%.2f", Math.abs(netProfit));
+            String hourlyR = String.format("%.2f", Math.abs(hourlyRate));
             String tHours = String.format("%.2f", totalHours);
             String avgSD = String.format("%.2f", avgSessionDuration);
             String avgB = String.format("%.2f", avgBuy);
             String bWin = String.format("%.2f", biggestWin);
-            String bLoss = String.format("%.2f", biggestLoss);
+            String bLoss = String.format("%.2f", Math.abs(biggestLoss));
 
             // Set Text for Each TextView
-            hr.setText("Hourly Rate: $" + hourlyR);
-            np.setText("Net Profit: $" + nProfit);
+            if(hourlyRate < 0){
+                hr.setText("Hourly Rate: -$" + hourlyR);
+            }else{
+                hr.setText("Hourly Rate: $" + hourlyR);
+            }
+            if(netProfit < 0){
+                np.setText("Net Profit: -$" + nProfit);
+            }else{
+                np.setText("Net Profit: $" + nProfit);
+            }
             x.setText("Hours Played: " + tHours);
             ast.setText("Avg Session Duration: " + avgSD);
             ts.setText("Sessions Count: " + totalSessions);
