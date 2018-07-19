@@ -81,11 +81,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Winning Sessions" Under avgBuy
+    // Display "Avg Cash Out" Under avgBuy
+    <TextView
+        android:id="@+id/avgCashOut"
+        android:text="Avg Cash Out"
+        android:layout_below="@+id/avgBuy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    // Display "Winning Sessions" Under avgCashOut
     <TextView
         android:id="@+id/winningSession"
         android:text="Winning Sessions"
-        android:layout_below="@+id/avgBuy"
+        android:layout_below="@+id/avgCashOut"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"

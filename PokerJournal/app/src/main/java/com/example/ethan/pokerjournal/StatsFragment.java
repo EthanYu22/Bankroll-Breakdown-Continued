@@ -93,6 +93,7 @@ public class StatsFragment extends Fragment {
         TextView ls = (TextView) getView().findViewById(R.id.losingSession); // Losing Sessions
         TextView ts = (TextView) getView().findViewById(R.id.totalSession); // Total Sessions
         TextView abi = (TextView) getView().findViewById(R.id.avgBuy); // Average Buy In
+        TextView aco = (TextView) getView().findViewById(R.id.avgCashOut); // Average Cash Out
         TextView bw = (TextView) getView().findViewById(R.id.biggestWin); // Biggest Win
         TextView bl = (TextView) getView().findViewById(R.id.biggestLoss); // Biggest Loss
 
@@ -104,6 +105,7 @@ public class StatsFragment extends Fragment {
             ast.setText("Avg Session Duration: ");
             ts.setText("Sessions Count: ");
             abi.setText("Avg Buy In: ");
+            aco.setText("Avg Cash Out: ");
             ws.setText("Winning Sessions: ");
             ls.setText("Losing Sessions: ");
             bw.setText("Largest Win: ");
@@ -121,6 +123,7 @@ public class StatsFragment extends Fragment {
             String tHours = String.format("%.2f", totalHours);
             String avgSD = String.format("%.2f", avgSessionDuration);
             String avgB = String.format("%.2f", avgBuy);
+            String avgCO = String.format("%.2f", avgCashOut);
             String bWin = String.format("%.2f", biggestWin);
             String bLoss = String.format("%.2f", Math.abs(biggestLoss));
 
@@ -139,6 +142,7 @@ public class StatsFragment extends Fragment {
             ast.setText("Avg Session Duration: " + avgSD);
             ts.setText("Sessions Count: " + totalSessions);
             abi.setText("Avg Buy In: $" + avgB);
+            aco.setText("Avg Cash Out: $" + avgCO);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
             bw.setText("Largest Win: $" + bWin);
