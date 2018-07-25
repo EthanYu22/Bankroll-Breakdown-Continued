@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.ethan.pokerjournal.GameDetailActivity">
 
-    // Set Up Toolbar with Tab Layouts for the Various Fragment Pages
+    // Toolbar Detailing
     <android.support.design.widget.AppBarLayout
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"

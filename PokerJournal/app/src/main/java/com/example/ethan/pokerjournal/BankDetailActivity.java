@@ -41,6 +41,7 @@ public class BankDetailActivity extends AppCompatActivity {
         finish();
     }
 
+    // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem){
         int id = menuItem.getItemId();
 
