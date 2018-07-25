@@ -2,6 +2,8 @@ package com.example.ethan.pokerjournal;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -10,16 +12,31 @@ import android.widget.Toast;
 // Bank Transaction Entry Form
 public class BankFormActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_form);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     // Action When Off Bank Form Page
     public void onPause() {
         super.onPause();
         finish();
+    }
+
+    // Functionality of Toolbar Back Arrow
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int id = menuItem.getItemId();
+
+        if(id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     // Submit Bank Transaction
