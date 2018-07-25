@@ -3,6 +3,8 @@ package com.example.ethan.pokerjournal;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 public class BankDetailActivity extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Toolbar toolbar;
     Bank bank;
     int bankId;
 
@@ -18,6 +21,9 @@ public class BankDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_detail);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = new DatabaseHelper(this);
         bankId = MainActivity.bankId;
         bank = db.getBank(bankId);
@@ -33,6 +39,15 @@ public class BankDetailActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         finish();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int id = menuItem.getItemId();
+
+        if(id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     // Displays Bank Details
