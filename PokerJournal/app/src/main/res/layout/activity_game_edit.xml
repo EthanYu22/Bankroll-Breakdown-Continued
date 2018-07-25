@@ -3,11 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".GameEditActivity">
+
+    // Toolbar Detailing
+    <android.support.design.widget.AppBarLayout
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        // Set Up Toolbar
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:background="?attr/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"/>
+    </android.support.design.widget.AppBarLayout>
 
     // Display "Game Type:"
     <TextView
@@ -17,7 +31,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display GameType Spinner Under textGameType With Entries Listed in game_types in strings.xml
     <Spinner
@@ -27,7 +44,9 @@
         android:layout_below="@+id/textGameType"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display "Game Blinds:" Under spinnerGameType
     <TextView
@@ -38,7 +57,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display GameBlinds Spinner Under textGameBlinds With Entries Listed in game_blinds in strings.xml
     <Spinner
@@ -48,7 +69,9 @@
         android:layout_below="@+id/textGameBlinds"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display "Date:" Under spinnerGameBlinds
     <TextView
@@ -58,7 +81,9 @@
         android:id="@+id/textDate"
         android:layout_below="@+id/spinnerGameBlinds"
         android:layout_alignParentStart="true"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Month Spinner Under textDate With Entries Listed in months in strings.xml
     <Spinner
@@ -69,7 +94,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Day Spinner Under textDate With Entries Listed in days in strings.xml
     <Spinner
@@ -79,7 +106,9 @@
         android:layout_below="@+id/textDate"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Year Spinner Under textDate With Entries Listed in years in strings.xml
     <Spinner
@@ -90,7 +119,9 @@
         android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display "Location:" Under spinnerGameMonth
     <TextView
@@ -100,7 +131,9 @@
         android:layout_below="@+id/spinnerGameMonth"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Form for Location Under textLocation
 
@@ -112,7 +145,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display "Time (Hours):" Under editLocation
     <TextView
@@ -122,7 +157,9 @@
         android:layout_below="@+id/editLocation"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Form for Duration: Under textTime
     <EditText
@@ -133,7 +170,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display "Buy In (Dollars):" Under editTime
     <TextView
@@ -143,7 +182,9 @@
         android:layout_below="@+id/editTime"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Form for Buy In Under textBuyIn
 
@@ -155,7 +196,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/editTime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display "Cash Out (Dollars):" Under editBuyIn
     <TextView
@@ -165,7 +208,9 @@
         android:layout_below="@+id/editBuyIn"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Display Form for Cash Out Under textGameCashOut
     <EditText
@@ -176,7 +221,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/editBuyIn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
     // Submit Button at Bottom of Page
     <Button
@@ -185,8 +232,10 @@
         android:onClick="onClickGameButton"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/editCashOut"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
 </RelativeLayout>

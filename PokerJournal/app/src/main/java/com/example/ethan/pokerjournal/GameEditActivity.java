@@ -2,16 +2,19 @@ package com.example.ethan.pokerjournal;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 // Edits Game Entries
 public class GameEditActivity extends AppCompatActivity {
 
     DatabaseHelper db;
+    private android.support.v7.widget.Toolbar toolbar;
     Game game;
     int gameId;
 
@@ -19,6 +22,9 @@ public class GameEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_edit);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = new DatabaseHelper(this);
         gameId = MainActivity.gameId;
         game = db.getGame(gameId);
@@ -37,6 +43,16 @@ public class GameEditActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         finish();
+    }
+
+    // Functionality of Toolbar Back Arrow
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int id = menuItem.getItemId();
+
+        if(id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     // Submit Edited Game Session
