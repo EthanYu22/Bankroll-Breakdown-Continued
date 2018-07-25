@@ -4,7 +4,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.MonthDisplayHelper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 public class BankEditActivity extends AppCompatActivity {
 
     DatabaseHelper db;
+    private Toolbar toolbar;
     Bank bank;
     int bankId;
 
@@ -22,6 +25,9 @@ public class BankEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_form);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = new DatabaseHelper(this);
         bankId = MainActivity.bankId;
         bank = db.getBank(bankId);
@@ -34,6 +40,16 @@ public class BankEditActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         finish();
+    }
+
+    // Functionality of Toolbar Back Arrow
+    public boolean onOptionsItemSelected(MenuItem menuItem){
+        int id = menuItem.getItemId();
+
+        if(id == android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     // Submit Edited Bank Transaction
