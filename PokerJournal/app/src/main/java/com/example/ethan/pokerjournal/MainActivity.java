@@ -153,7 +153,46 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*public void appendDates(String day, String month, String year, String date, String date2){
+    public static String[] appendDates(String[] dayMonthYearDateDate2){
+        if(dayMonthYearDateDate2[1].equals("January")){dayMonthYearDateDate2[1] = "01";}
+        else if(dayMonthYearDateDate2[1].equals("February")){dayMonthYearDateDate2[1] = "02";}
+        else if(dayMonthYearDateDate2[1].equals("March")){dayMonthYearDateDate2[1] = "03";}
+        else if(dayMonthYearDateDate2[1].equals("April")){dayMonthYearDateDate2[1] = "04";}
+        else if(dayMonthYearDateDate2[1].equals("May")){dayMonthYearDateDate2[1] = "05";}
+        else if(dayMonthYearDateDate2[1].equals("June")){dayMonthYearDateDate2[1] = "06";}
+        else if(dayMonthYearDateDate2[1].equals("July")){dayMonthYearDateDate2[1] = "07";}
+        else if(dayMonthYearDateDate2[1].equals("August")){dayMonthYearDateDate2[1] = "08";}
+        else if(dayMonthYearDateDate2[1].equals("September")){dayMonthYearDateDate2[1] = "09";}
+        else if(dayMonthYearDateDate2[1].equals("October")){dayMonthYearDateDate2[1] = "10";}
+        else if(dayMonthYearDateDate2[1].equals("November")){dayMonthYearDateDate2[1] = "11";}
+        else{dayMonthYearDateDate2[1] = "12";}
+        int intDay = Integer.parseInt(dayMonthYearDateDate2[0]);
+        switch(intDay){
+            case 1: dayMonthYearDateDate2[0] = "01";
+                break;
+            case 2: dayMonthYearDateDate2[0] = "02";
+                break;
+            case 3: dayMonthYearDateDate2[0] = "03";
+                break;
+            case 4: dayMonthYearDateDate2[0] = "04";
+                break;
+            case 5: dayMonthYearDateDate2[0] = "05";
+                break;
+            case 6: dayMonthYearDateDate2[0] = "06";
+                break;
+            case 7: dayMonthYearDateDate2[0] = "07";
+                break;
+            case 8: dayMonthYearDateDate2[0] = "08";
+                break;
+            case 9: dayMonthYearDateDate2[0] = "09";
+        }
+        dayMonthYearDateDate2[3] = dayMonthYearDateDate2[1] + "/" + dayMonthYearDateDate2[0] + "/" + dayMonthYearDateDate2[2];
+        dayMonthYearDateDate2[4] = dayMonthYearDateDate2[2] + "/" + dayMonthYearDateDate2[1] + "/" + dayMonthYearDateDate2[0];
+
+        return dayMonthYearDateDate2;
+    }
+
+    /*public static void appendDates(String day, String month, String year, String date, String date2){
         if(month.equals("January")){month = "01";}
         else if(month.equals("February")){month = "02";}
         else if(month.equals("March")){month = "03";}

@@ -62,7 +62,6 @@ public class BankEditActivity extends AppCompatActivity {
         // Get Input of Deposit or Withdraw
         Spinner spinType = (Spinner) findViewById(R.id.spinnerType);
         String type = spinType.getSelectedItem().toString();
-
         // Get Input of Date and Format into String
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
         String month = spinMonth.getSelectedItem().toString();
@@ -70,40 +69,18 @@ public class BankEditActivity extends AppCompatActivity {
         String day = spinDay.getSelectedItem().toString();
         Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
         String year = spinYear.getSelectedItem().toString();
-        if(month.equals("January")){month = "01";}
-        else if(month.equals("February")){month = "02";}
-        else if(month.equals("March")){month = "03";}
-        else if(month.equals("April")){month = "04";}
-        else if(month.equals("May")){month = "05";}
-        else if(month.equals("June")){month = "06";}
-        else if(month.equals("July")){month = "07";}
-        else if(month.equals("August")){month = "08";}
-        else if(month.equals("September")){month = "09";}
-        else if(month.equals("October")){month = "10";}
-        else if(month.equals("November")){month = "11";}
-        else{month = "12";}
-        int intDay = Integer.parseInt(day);
-        switch(intDay){
-            case 1: day = "01";
-                break;
-            case 2: day = "02";
-                break;
-            case 3: day = "03";
-                break;
-            case 4: day = "04";
-                break;
-            case 5: day = "05";
-                break;
-            case 6: day = "06";
-                break;
-            case 7: day = "07";
-                break;
-            case 8: day = "08";
-                break;
-            case 9: day = "09";
-        }
-        String date = month + "/" + day + "/" + year;
-        String date2 = year + "/" + month + "/" + day;
+
+        String date = "";
+        String date2 = "";
+
+        String[] dayMonthYearDateDate2 = {day, month, year, date, date2};
+
+        // Appends Day, Month, Year Into Required Formats
+        // date: MM/DD/YYYY
+        // date2: YYYY/MM/DD
+        MainActivity.appendDates(dayMonthYearDateDate2);
+        date = dayMonthYearDateDate2[3];
+        date2 = dayMonthYearDateDate2[4];
 
         // Get Amount and Make Sure it's Valid
         EditText editAmount = (EditText) findViewById(R.id.editAmount);
