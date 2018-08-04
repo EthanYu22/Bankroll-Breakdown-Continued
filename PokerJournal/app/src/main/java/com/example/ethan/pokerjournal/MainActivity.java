@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Append Day, Month, Year to Format Date: MM/DD/YYYY Date2: YYYY/MM/DD
     public static String[] appendDates(String[] dayMonthYearDateDate2){
         if(dayMonthYearDateDate2[1].equals("January")){dayMonthYearDateDate2[1] = "01";}
         else if(dayMonthYearDateDate2[1].equals("February")){dayMonthYearDateDate2[1] = "02";}
@@ -191,41 +192,4 @@ public class MainActivity extends AppCompatActivity {
 
         return dayMonthYearDateDate2;
     }
-
-    /*public static void appendDates(String day, String month, String year, String date, String date2){
-        if(month.equals("January")){month = "01";}
-        else if(month.equals("February")){month = "02";}
-        else if(month.equals("March")){month = "03";}
-        else if(month.equals("April")){month = "04";}
-        else if(month.equals("May")){month = "05";}
-        else if(month.equals("June")){month = "06";}
-        else if(month.equals("July")){month = "07";}
-        else if(month.equals("August")){month = "08";}
-        else if(month.equals("September")){month = "09";}
-        else if(month.equals("October")){month = "10";}
-        else if(month.equals("November")){month = "11";}
-        else{month = "12";}
-        int intDay = Integer.parseInt(day);
-        switch(intDay){
-            case 1: day = "01";
-                    break;
-            case 2: day = "02";
-                    break;
-            case 3: day = "03";
-                    break;
-            case 4: day = "04";
-                    break;
-            case 5: day = "05";
-                    break;
-            case 6: day = "06";
-                    break;
-            case 7: day = "07";
-                    break;
-            case 8: day = "08";
-                    break;
-            case 9: day = "09";
-        }
-        date = month + "/" + day + "/" + year;
-        date2 = year + "/" + month + "/" + day;
-    }*/
 }

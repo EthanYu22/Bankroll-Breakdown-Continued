@@ -1,6 +1,8 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -29,13 +31,13 @@ public class BankDetailActivity extends AppCompatActivity {
         bank = db.getBank(bankId);
     }
 
-    // Action When On Game Detail Page
+    // Action When On Bank Detail Page
     public void onResume() {
         super.onResume();
         displayDetails();
     }
 
-    // Action When Off Game Detail Page
+    // Action When Off Bank Detail Page
     public void onPause() {
         super.onPause();
         finish();
@@ -74,9 +76,27 @@ public class BankDetailActivity extends AppCompatActivity {
 
     // Deletes Bank Transaction
     public void onClickDeleteBank(View v) {
-        db.deleteBank(bankId);
-        Toast toast = Toast.makeText(getApplication(), "Bank Transaction Deleted", Toast.LENGTH_SHORT);
-        toast.show();
-        finish();
+
+        // Confirmation Delete Transaction Alert
+        AlertDialog.Builder altdial = new AlertDialog.Builder(BankDetailActivity.this);
+        altdial.setMessage("Do you want to delete this bank log?").setCancelable(false)
+                .setPositiveButton("Delete Transaction", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which){
+                        db.deleteBank(bankId);
+                        Toast toast = Toast.makeText(getApplication(), "Transaction Deleted", Toast.LENGTH_SHORT);
+                        toast.show();
+                        finish();
+                    }
+                })
+                .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog alert = altdial.create();
+        alert.setTitle("Delete Bank Transaction");
+        alert.show();
     }
 }

@@ -107,33 +107,27 @@ public class GameDetailActivity extends AppCompatActivity {
     // Reset Button Resets Games
     public void onClickDeleteGame(View v) {
 
-        Button btn = (Button) findViewById(R.id.buttonResetGames);
+        // Confirmation Delete Game Alert
+        AlertDialog.Builder altdial = new AlertDialog.Builder(GameDetailActivity.this);
+        altdial.setMessage("Do you want to delete this game log?").setCancelable(false)
+                .setPositiveButton("Delete Game", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which){
+                        db.deleteGame(gameId);
+                        Toast toast = Toast.makeText(getApplication(), "Game Deleted", Toast.LENGTH_SHORT);
+                        toast.show();
+                        finish();
+                    }
+                })
+                .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog alert = altdial.create();
+        alert.setTitle("Delete Game");
+        alert.show();
 
-        // Confirmation Reset Game History Alert
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder altdial = new AlertDialog.Builder(GameDetailActivity.this);
-                altdial.setMessage("Do you want to delete this game log?").setCancelable(false)
-                        .setPositiveButton("Delete Game", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which){
-                                db.deleteGame(gameId);
-                                Toast toast = Toast.makeText(getApplication(), "Game Deleted", Toast.LENGTH_SHORT);
-                                toast.show();
-                                //finish();
-                            }
-                        })
-                        .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                AlertDialog alert = altdial.create();
-                alert.setTitle("Delete Game");
-                alert.show();
-            }
-        });
     }
 }

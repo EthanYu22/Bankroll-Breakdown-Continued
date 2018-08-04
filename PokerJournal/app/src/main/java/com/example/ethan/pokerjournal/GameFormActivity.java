@@ -76,12 +76,9 @@ public class GameFormActivity extends AppCompatActivity {
 
         String date = "";
         String date2 = "";
-
         String[] dayMonthYearDateDate2 = {day, month, year, date, date2};
 
-        // Appends Day, Month, Year Into Required Formats
-        // date: MM/DD/YYYY
-        // date2: YYYY/MM/DD
+        // Append Day, Month, Year to Format - Date: MM/DD/YYYY Date2: YYYY/MM/DD
         MainActivity.appendDates(dayMonthYearDateDate2);
         date = dayMonthYearDateDate2[3];
         date2 = dayMonthYearDateDate2[4];
