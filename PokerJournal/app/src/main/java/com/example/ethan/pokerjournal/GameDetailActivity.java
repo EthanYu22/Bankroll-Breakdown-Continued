@@ -71,13 +71,23 @@ public class GameDetailActivity extends AppCompatActivity {
         Double hRate = nProfit/game.getTime();
 
         // Set Significant Figures to 2 for Net Profit, Hourly Rate, Buy In, and Cash Out
-        String nP = String.format("%.2f", nProfit);
-        String hR = String.format("%.2f", hRate);
+        String nP = String.format("%.2f", Math.abs(nProfit));
+        String hR = String.format("%.2f", Math.abs(hRate));
         String bIn = String.format("%.2f", game.getBuyIn());
         String cOut = String.format("%.2f", game.getCashOut());
 
-        hourlyRate.setText("Session Hourly Rate: $" + hR);
-        netProfit.setText("Session Net Profit: $" + nP);
+
+        // Set Text for Each TextView
+        if(hRate < 0){
+            hourlyRate.setText("Session Hourly Rate: -$" + hR);
+        }else{
+            hourlyRate.setText("Session Hourly Rate: $" + hR);
+        }
+        if(nProfit < 0){
+            netProfit.setText("Session Net Profit: -$" + nP);
+        }else{
+            netProfit.setText("Session Net Profit: $" + nP);
+        }
         type.setText("Game: " + game.getType());
         blinds.setText("Blinds: " + game.getBlinds());
         location.setText("Location: " + game.getLocation());
