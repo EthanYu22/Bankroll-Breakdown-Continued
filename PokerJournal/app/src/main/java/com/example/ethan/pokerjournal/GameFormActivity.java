@@ -49,20 +49,42 @@ public class GameFormActivity extends AppCompatActivity {
         spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals("February")) {
-                    spinDay.setAdapter(days29Array);
-                }
-                if (parent.getItemAtPosition(position).equals("April")) {
-                    spinDay.setAdapter(days30Array);
-                }
-                if (parent.getItemAtPosition(position).equals("June")) {
-                    spinDay.setAdapter(days30Array);
-                }
-                if (parent.getItemAtPosition(position).equals("September")) {
-                    spinDay.setAdapter(days30Array);
-                }
-                if (parent.getItemAtPosition(position).equals("November")) {
-                    spinDay.setAdapter(days30Array);
+                switch(position) {
+                    case 0:
+                        spinDay.setAdapter(daysArray);
+                        break;
+                    case 1:
+                        spinDay.setAdapter(days29Array);
+                        break;
+                    case 2:
+                        spinDay.setAdapter(daysArray);
+                        break;
+                    case 3:
+                        spinDay.setAdapter(days30Array);
+                        break;
+                    case 4:
+                        spinDay.setAdapter(daysArray);
+                        break;
+                    case 5:
+                        spinDay.setAdapter(days30Array);
+                        break;
+                    case 6:
+                        spinDay.setAdapter(daysArray);
+                        break;
+                    case 7:
+                        spinDay.setAdapter(daysArray);
+                        break;
+                    case 8:
+                        spinDay.setAdapter(days30Array);
+                        break;
+                    case 9:
+                        spinDay.setAdapter(daysArray);
+                        break;
+                    case 10:
+                        spinDay.setAdapter(days30Array);
+                        break;
+                    case 11:
+                        spinDay.setAdapter(daysArray);
                 }
             }
             @Override
