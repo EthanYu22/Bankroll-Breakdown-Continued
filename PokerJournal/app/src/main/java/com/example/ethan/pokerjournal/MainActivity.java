@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder altdial = new AlertDialog.Builder(MainActivity.this);
-                altdial.setMessage("Do you want to reset your Game History?").setCancelable(false)
-                        .setPositiveButton("Clear Games", new DialogInterface.OnClickListener() {
+                altdial.setMessage("Do you want to clear your session history?").setCancelable(false)
+                        .setPositiveButton("Clear Sessions", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which){
                                 db.clearGames();
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                          }
                         });
                 AlertDialog alert = altdial.create();
-                alert.setTitle("Reset Game History");
+                alert.setTitle("Clear Session History");
                 alert.show();
             }
         });
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder altdial = new AlertDialog.Builder(MainActivity.this);
-                altdial.setMessage("Do you want to reset your Bankroll Transactions?").setCancelable(false)
+                altdial.setMessage("Do you want to clear your bankroll transactions?").setCancelable(false)
                         .setPositiveButton("Clear Transactions", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which){
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                 AlertDialog alert = altdial.create();
-                alert.setTitle("Reset Bankroll Transactions");
+                alert.setTitle("Clear Bankroll Transactions");
                 alert.show();
             }
         });

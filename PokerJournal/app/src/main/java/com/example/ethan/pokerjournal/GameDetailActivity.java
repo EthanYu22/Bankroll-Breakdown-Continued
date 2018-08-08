@@ -2,13 +2,12 @@ package com.example.ethan.pokerjournal;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -109,12 +108,12 @@ public class GameDetailActivity extends AppCompatActivity {
 
         // Confirmation Delete Game Alert
         AlertDialog.Builder altdial = new AlertDialog.Builder(GameDetailActivity.this);
-        altdial.setMessage("Do you want to delete this game log?").setCancelable(false)
-                .setPositiveButton("Delete Game", new DialogInterface.OnClickListener() {
+        altdial.setMessage("Do you want to delete this session?").setCancelable(false)
+                .setPositiveButton("Delete Session", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which){
                         db.deleteGame(gameId);
-                        Toast toast = Toast.makeText(getApplication(), "Game Deleted", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplication(), "Session Deleted", Toast.LENGTH_SHORT);
                         toast.show();
                         finish();
                     }
@@ -126,7 +125,7 @@ public class GameDetailActivity extends AppCompatActivity {
                     }
                 });
         AlertDialog alert = altdial.create();
-        alert.setTitle("Delete Game");
+        alert.setTitle("Delete Session");
         alert.show();
 
     }

@@ -82,7 +82,7 @@
     // Reset Buton
     <Button
         android:id="@+id/buttonResetBank"
-        android:text="reset"
+        android:text="Clear"
         android:onClick="onClickResetBank"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"

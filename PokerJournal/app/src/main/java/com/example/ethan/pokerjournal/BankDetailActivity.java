@@ -79,7 +79,7 @@ public class BankDetailActivity extends AppCompatActivity {
 
         // Confirmation Delete Transaction Alert
         AlertDialog.Builder altdial = new AlertDialog.Builder(BankDetailActivity.this);
-        altdial.setMessage("Do you want to delete this bank log?").setCancelable(false)
+        altdial.setMessage("Do you want to delete this transaction?").setCancelable(false)
                 .setPositiveButton("Delete Transaction", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which){
@@ -96,7 +96,7 @@ public class BankDetailActivity extends AppCompatActivity {
                     }
                 });
         AlertDialog alert = altdial.create();
-        alert.setTitle("Delete Bank Transaction");
+        alert.setTitle("Delete Transaction");
         alert.show();
     }
 }

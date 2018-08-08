@@ -7,9 +7,9 @@
 
     // New Game Button
     <Button
-        android:id="@+id/buttonNewGame"
-        android:text="New Game"
-        android:onClick="onClickNewGame"
+        android:id="@+id/buttonResetGames"
+        android:text="Clear"
+        android:onClick="onClickResetGame"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -21,16 +21,16 @@
         android:scrollbars="vertical"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
-        android:layout_below="@+id/buttonNewGame"
-        android:layout_alignEnd="@+id/buttonNewGame"
+        android:layout_below="@+id/buttonResetGames"
+        android:layout_alignEnd="@+id/buttonResetGames"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     // Reset Button
     <Button
-        android:id="@+id/buttonResetGames"
-        android:text="Reset"
-        android:onClick="onClickResetGame"
+        android:id="@+id/buttonNewGame"
+        android:text="New Game"
+        android:onClick="onClickNewGame"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
