@@ -1,13 +1,12 @@
 package com.example.ethan.pokerjournal;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.MonthDisplayHelper;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +33,50 @@ public class BankEditActivity extends AppCompatActivity {
 
         final TextView displayAmount = (TextView) findViewById(R.id.editAmount);
         displayAmount.setText(Double.toString(bank.getAmount()));
+
+        // Set Up Date Spinners
+        final Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
+        final Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
+        final Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
+
+        final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this,R.array.months, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> days30Array = ArrayAdapter.createFromResource(this, R.array.days30, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> daysArray = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> yearsArray = ArrayAdapter.createFromResource(this, R.array.years, android.R.layout.simple_spinner_dropdown_item);
+
+        monthsArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daysArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        days29Array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        days30Array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinMonth.setAdapter(monthsArray);
+        spinDay.setAdapter(daysArray);
+        spinYear.setAdapter(yearsArray);
+
+        // Change Days Displayed in Spinners According to Month
+        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals("February")) {
+                    spinDay.setAdapter(days29Array);
+                }
+                if (parent.getItemAtPosition(position).equals("April")) {
+                    spinDay.setAdapter(days30Array);
+                }
+                if (parent.getItemAtPosition(position).equals("June")) {
+                    spinDay.setAdapter(days30Array);
+                }
+                if (parent.getItemAtPosition(position).equals("September")) {
+                    spinDay.setAdapter(days30Array);
+                }
+                if (parent.getItemAtPosition(position).equals("November")) {
+                    spinDay.setAdapter(days30Array);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
     }
 
     // Action When Off Bank Form Page
