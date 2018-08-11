@@ -155,18 +155,33 @@ public class MainActivity extends AppCompatActivity {
 
     // Append Day, Month, Year to Format Date: MM/DD/YYYY Date2: YYYY/MM/DD
     public static String[] appendDates(String[] dayMonthYearDateDate2){
-        if(dayMonthYearDateDate2[1].equals("January")){dayMonthYearDateDate2[1] = "01";}
-        else if(dayMonthYearDateDate2[1].equals("February")){dayMonthYearDateDate2[1] = "02";}
-        else if(dayMonthYearDateDate2[1].equals("March")){dayMonthYearDateDate2[1] = "03";}
-        else if(dayMonthYearDateDate2[1].equals("April")){dayMonthYearDateDate2[1] = "04";}
-        else if(dayMonthYearDateDate2[1].equals("May")){dayMonthYearDateDate2[1] = "05";}
-        else if(dayMonthYearDateDate2[1].equals("June")){dayMonthYearDateDate2[1] = "06";}
-        else if(dayMonthYearDateDate2[1].equals("July")){dayMonthYearDateDate2[1] = "07";}
-        else if(dayMonthYearDateDate2[1].equals("August")){dayMonthYearDateDate2[1] = "08";}
-        else if(dayMonthYearDateDate2[1].equals("September")){dayMonthYearDateDate2[1] = "09";}
-        else if(dayMonthYearDateDate2[1].equals("October")){dayMonthYearDateDate2[1] = "10";}
-        else if(dayMonthYearDateDate2[1].equals("November")){dayMonthYearDateDate2[1] = "11";}
-        else{dayMonthYearDateDate2[1] = "12";}
+
+        switch(dayMonthYearDateDate2[1]){
+            case "January": dayMonthYearDateDate2[1] = "01";
+                break;
+            case "February": dayMonthYearDateDate2[1] = "02";
+                break;
+            case "March": dayMonthYearDateDate2[1] = "03";
+                break;
+            case "April": dayMonthYearDateDate2[1] = "04";
+                break;
+            case "May": dayMonthYearDateDate2[1] = "05";
+                break;
+            case "June": dayMonthYearDateDate2[1] = "06";
+                break;
+            case "July": dayMonthYearDateDate2[1] = "07";
+                break;
+            case "August": dayMonthYearDateDate2[1] = "08";
+                break;
+            case "September": dayMonthYearDateDate2[1] = "09";
+                break;
+            case "October": dayMonthYearDateDate2[1] = "10";
+                break;
+            case "November": dayMonthYearDateDate2[1] = "11";
+                break;
+            case "December": dayMonthYearDateDate2[1] = "12";
+        }
+
         int intDay = Integer.parseInt(dayMonthYearDateDate2[0]);
         switch(intDay){
             case 1: dayMonthYearDateDate2[0] = "01";
