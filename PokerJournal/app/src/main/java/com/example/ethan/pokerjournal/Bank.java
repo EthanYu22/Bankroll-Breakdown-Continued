@@ -5,11 +5,11 @@ import java.util.Comparator;
 // Represents a Deposit or Withdraw Bank Transaction
 public class Bank {
 
-    protected int id; // Deposit/Withdraw ID
-    protected String type; // Deposit/Withdraw Type
-    protected String date; // Deposit/Withdraw Displayed Date
-    protected String date2; // Deposit/Withdraw Computed Date
-    protected double amount; // Deposit/Withdraw Amount
+    protected int id; // Transaction ID
+    protected String type; // Transaction Type
+    protected String date; // Transaction Displayed Date MM/DD/YYYY
+    protected String date2; // Transaction Computed Date YYYY/MM/DD
+    protected double amount; // Transaction Amount
 
     // ~ Set Functions ~
     public void setId(int id) {this.id = id;}

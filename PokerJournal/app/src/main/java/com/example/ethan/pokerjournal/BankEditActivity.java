@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 // Edits Bank Transaction Entries
 public class BankEditActivity extends AppCompatActivity {
 
@@ -19,6 +21,10 @@ public class BankEditActivity extends AppCompatActivity {
     private Toolbar toolbar;
     Bank bank;
     int bankId;
+
+    Spinner spinMonth;
+    Spinner spinDay;
+    Spinner spinYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +41,9 @@ public class BankEditActivity extends AppCompatActivity {
         displayAmount.setText(Double.toString(bank.getAmount()));
 
         // Set Up Date Spinners
-        final Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
-        final Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
-        final Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
+        spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
+        spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
+        spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
 
         final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this,R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
@@ -95,10 +101,14 @@ public class BankEditActivity extends AppCompatActivity {
                     case 11:
                         spinDay.setAdapter(daysArray);
                 }
+                setDaySpinner(bank.getDate());
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
+
+        setMonthSpinner(bank.getDate());
+        setYearSpinner(bank.getDate());
     }
 
     // Action When Off Bank Form Page
@@ -115,6 +125,28 @@ public class BankEditActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    // Displays Current Day Entry
+    public void setDaySpinner(String date){
+        String month = (String) date.subSequence(3,5);
+        int position = Integer.parseInt(month) - 1;
+        spinDay.setSelection(position);
+    }
+
+    // Displays Current Month Entry
+    public void setMonthSpinner(String date){
+        String month = (String) date.subSequence(0,2);
+        int position = Integer.parseInt(month) - 1;
+        spinMonth.setSelection(position);
+    }
+
+    // Displays Current Year Entry
+    public void setYearSpinner(String date){
+        String month = (String) date.subSequence(6,10);
+        String[] monthArray = getResources().getStringArray(R.array.years);
+        int position = Arrays.asList(monthArray).indexOf(month);
+        spinYear.setSelection(position);
     }
 
     // Submit Edited Bank Transaction

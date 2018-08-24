@@ -11,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
 // Edits Game Entries
 public class GameEditActivity extends AppCompatActivity {
 
@@ -18,6 +20,10 @@ public class GameEditActivity extends AppCompatActivity {
     private android.support.v7.widget.Toolbar toolbar;
     Game game;
     int gameId;
+
+    Spinner spinMonth;
+    Spinner spinDay;
+    Spinner spinYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +46,9 @@ public class GameEditActivity extends AppCompatActivity {
         displayCashOut.setText(Double.toString(game.getCashOut()));
 
         // Set Up Date Spinners
-        final Spinner spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
-        final Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
-        final Spinner spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
+        spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
+        spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
+        spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
 
         final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this,R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
@@ -100,10 +106,14 @@ public class GameEditActivity extends AppCompatActivity {
                     case 11:
                         spinDay.setAdapter(daysArray);
                 }
+                setDaySpinner(game.getDate());
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
+
+        setMonthSpinner(game.getDate());
+        setYearSpinner(game.getDate());
     }
 
     // Action When Off Game Form Page
@@ -120,6 +130,28 @@ public class GameEditActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    // Displays Current Day Entry
+    public void setDaySpinner(String date){
+        String month = (String) date.subSequence(3,5);
+        int position = Integer.parseInt(month) - 1;
+        spinDay.setSelection(position);
+    }
+
+    // Displays Current Month Entry
+    public void setMonthSpinner(String date){
+        String month = (String) date.subSequence(0,2);
+        int position = Integer.parseInt(month) - 1;
+        spinMonth.setSelection(position);
+    }
+
+    // Displays Current Year Entry
+    public void setYearSpinner(String date){
+        String month = (String) date.subSequence(6,10);
+        String[] monthArray = getResources().getStringArray(R.array.years);
+        int position = Arrays.asList(monthArray).indexOf(month);
+        spinYear.setSelection(position);
     }
 
     // Submit Edited Game Session
