@@ -22,6 +22,7 @@ public class BankEditActivity extends AppCompatActivity {
     Bank bank;
     int bankId;
 
+    Spinner spinType;
     Spinner spinMonth;
     Spinner spinDay;
     Spinner spinYear;
@@ -39,6 +40,9 @@ public class BankEditActivity extends AppCompatActivity {
 
         final TextView displayAmount = (TextView) findViewById(R.id.editAmount);
         displayAmount.setText(Double.toString(bank.getAmount()));
+
+        // Set Up Type Spinner
+        spinType = (Spinner) findViewById(R.id.spinnerType);
 
         // Set Up Date Spinners
         spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
@@ -107,6 +111,7 @@ public class BankEditActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
+        setTypeSpinner(bank.getType());
         setMonthSpinner(bank.getDate());
         setYearSpinner(bank.getDate());
     }
@@ -125,6 +130,13 @@ public class BankEditActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    // Displays Deposit/Withdraw Entry
+    public void setTypeSpinner(String type){
+        String[] depositWithdrawArray = getResources().getStringArray(R.array.deposit_withdraw);
+        int position = Arrays.asList(depositWithdrawArray).indexOf(type);
+        spinType.setSelection(position);
     }
 
     // Displays Current Day Entry
