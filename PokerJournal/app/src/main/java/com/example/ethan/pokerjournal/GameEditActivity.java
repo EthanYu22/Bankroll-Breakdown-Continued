@@ -21,6 +21,8 @@ public class GameEditActivity extends AppCompatActivity {
     Game game;
     int gameId;
 
+    Spinner spinType;
+    Spinner spinBlinds;
     Spinner spinMonth;
     Spinner spinDay;
     Spinner spinYear;
@@ -44,6 +46,10 @@ public class GameEditActivity extends AppCompatActivity {
         displayBuyIn.setText(Double.toString(game.getBuyIn()));
         final TextView displayCashOut = (TextView) findViewById(R.id.editCashOut);
         displayCashOut.setText(Double.toString(game.getCashOut()));
+
+        // Set Up Type & Blinds Spinner
+        spinType = (Spinner) findViewById(R.id.spinnerGameType);
+        spinBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
 
         // Set Up Date Spinners
         spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
@@ -112,6 +118,8 @@ public class GameEditActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
+        setTypeSpinner(game.getType());
+        setBlindsSpinner(game.getBlinds());
         setMonthSpinner(game.getDate());
         setYearSpinner(game.getDate());
     }
@@ -130,6 +138,20 @@ public class GameEditActivity extends AppCompatActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    // Displays Current Game Type Entry
+    public void setTypeSpinner(String type){
+        String[] typeArray = getResources().getStringArray(R.array.game_types);
+        int position = Arrays.asList(typeArray).indexOf(type);
+        spinType.setSelection(position);
+    }
+
+    //Displays Current Blinds Entry
+    public void setBlindsSpinner(String blinds){
+        String[] blindsArray = getResources().getStringArray(R.array.game_blinds);
+        int position = Arrays.asList(blindsArray).indexOf(blinds);
+        spinBlinds.setSelection(position);
     }
 
     // Displays Current Day Entry
