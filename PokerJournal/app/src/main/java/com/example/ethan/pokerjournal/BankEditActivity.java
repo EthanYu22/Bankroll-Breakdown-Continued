@@ -116,11 +116,12 @@ public class BankEditActivity extends AppCompatActivity {
         setYearSpinner(bank.getDate());
     }
 
+    /*
     // Action When Off Bank Form Page
     public void onPause() {
         super.onPause();
         finish();
-    }
+    }*/
 
     // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem){
