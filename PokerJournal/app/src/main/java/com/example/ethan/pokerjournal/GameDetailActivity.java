@@ -31,19 +31,22 @@ public class GameDetailActivity extends AppCompatActivity {
         game = db.getGame(gameId);
     }
 
+
     // Action When On Game Detail Page
     public void onResume() {
         super.onResume();
         displayDetails();
     }
 
+    /*
     // Action When Off Game Detail Page
     public void onPause() {
         super.onPause();
         finish();
-    }
+    }*/
 
     // Functionality of Toolbar Back Arrow
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         int id = menuItem.getItemId();
 

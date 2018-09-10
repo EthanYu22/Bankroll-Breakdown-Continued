@@ -37,13 +37,15 @@ public class BankDetailActivity extends AppCompatActivity {
         displayDetails();
     }
 
+    /*
     // Action When Off Bank Detail Page
     public void onPause() {
         super.onPause();
         finish();
-    }
+    }*/
 
     // Functionality of Toolbar Back Arrow
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         int id = menuItem.getItemId();
 
