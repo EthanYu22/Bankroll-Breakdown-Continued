@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="com.example.ethan.pokerjournal.GameDetailActivity">
+
+        // Toolbar Detailing
+        <android.support.design.widget.AppBarLayout
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            // Set Up Toolbar
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:background="?attr/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
+        </android.support.design.widget.AppBarLayout>
+
+        // Display "Game Hourly Rate:"
+        <TextView
+            android:id="@+id/textGameHourlyRate"
+            android:text="Game Hourly Rate:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Game Net Profit:" Under textGameHourly Rate
+        <TextView
+            android:id="@+id/textGameNetProfit"
+            android:text="Game Net Profit:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textGameHourlyRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Date:" 90dp Under textGameNetProfit
+        <TextView
+            android:id="@+id/textGameDate"
+            android:text="Date:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="160dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Type:" Under textGameDate
+        <TextView
+            android:id="@+id/textGameType"
+            android:text="Type:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/textGameDate"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Blinds:" Under textGameType
+        <TextView
+            android:id="@+id/textGameBlinds"
+            android:text="Blinds:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/textGameType"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Location" Under textGameBlinds
+        <TextView
+            android:id="@+id/textGameLocation"
+            android:text="Location:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/textGameBlinds"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Time:" Under textGameLocation
+        <TextView
+            android:id="@+id/textGameTime"
+            android:text="Time:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/textGameLocation"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Buy In:" Under textGameTime
+        <TextView
+            android:id="@+id/textGameBuyIn"
+            android:text="Buy In:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/textGameTime"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Display "Cash Out:" Under textGameBuyIn
+        <TextView
+            android:id="@+id/textGameCashOut"
+            android:text="Cash Out:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/textGameBuyIn"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Edit Button Above buttonDeleteGame
+        <Button
+            android:id="@+id/buttonEditGame"
+            android:text="Edit"
+            android:onClick="onClickEditGame"
+            android:layout_below="@+id/textGameCashOut"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+        // Delete Button at Bottom of Page
+        <Button
+            android:id="@+id/buttonDeleteGame"
+            android:text="Delete"
+            android:onClick="onClickDeleteGame"
+            android:layout_below="@+id/buttonEditGame"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
+
+    </RelativeLayout>
+</ScrollView>
