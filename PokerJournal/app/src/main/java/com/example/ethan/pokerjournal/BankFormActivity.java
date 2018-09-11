@@ -91,11 +91,13 @@ public class BankFormActivity extends AppCompatActivity {
         });
     }
 
+    /*
     // Action When Off Bank Form Page
     public void onPause() {
         super.onPause();
         finish();
     }
+    */
 
     // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem){

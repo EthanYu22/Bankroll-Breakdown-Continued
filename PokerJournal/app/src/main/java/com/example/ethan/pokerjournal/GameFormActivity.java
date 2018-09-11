@@ -92,11 +92,13 @@ public class GameFormActivity extends AppCompatActivity {
         });
     }
 
+    /*
     // Action When Off Game Form Page
     public void onPause() {
         super.onPause();
         finish();
     }
+    */
 
     // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem){
