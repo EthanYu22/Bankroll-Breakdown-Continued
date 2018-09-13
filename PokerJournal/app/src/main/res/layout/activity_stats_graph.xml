@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    // Set Up Toolbar with Tab Layouts for the Various Fragment Pages
+    // Toolbar Detailing
     <android.support.design.widget.AppBarLayout
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
@@ -18,23 +19,14 @@
             android:background="?attr/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
-
-        // Set Up Tabs
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
     </android.support.design.widget.AppBarLayout>
 
-    // Set Up Viewpager
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/statsGraph"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:keepScreenOn="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_height="400dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="140dp" />
+</RelativeLayout>

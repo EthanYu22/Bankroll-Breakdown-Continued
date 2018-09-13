@@ -153,6 +153,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onClickStatsGraph(View v){
+        Intent intent = new Intent(MainActivity.this, StatsGraphActivity.class);
+        startActivity(intent);
+    }
+
     // Append Day, Month, Year to Format Date: MM/DD/YYYY Date2: YYYY/MM/DD
     public static String[] appendDates(String[] dayMonthYearDateDate2){
 

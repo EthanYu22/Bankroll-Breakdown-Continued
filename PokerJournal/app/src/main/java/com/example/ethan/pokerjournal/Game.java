@@ -10,7 +10,7 @@ public class Game implements Comparator<Game> {
     protected String type; // Poker Variation Type
     protected String blinds; // Blinds
     protected String location; // Casino
-    protected String date; // Displayed Date M/DD/YYYY
+    protected String date; // Displayed Date MM/DD/YYYY
     protected String date2; // Computed Date YYYY/MM/DD
     protected double time; // Session Duration Time
     protected double buyIn; // Total Buy In Amount

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="63dp"
         tools:context="com.example.ethan.pokerjournal.StatsFragment">
 
         // Display "Stats"
@@ -35,15 +36,15 @@
             android:layout_height="wrap_content"/>
 
         // Display "Net Profit" Under hourlyRate
+
         <TextView
             android:id="@+id/netProfit"
-            android:text="Net Profit"
-            android:layout_below="@+id/hourlyRate"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="110dp"
+            android:text="Net Profit" />
 
         // Display "Hours Played" Under netProfit
         <TextView
@@ -133,9 +134,23 @@
             android:layout_below="@+id/biggestWin"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="250dp"
+            android:layout_marginBottom="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        // Stats Graph Button at Bottom of Page
+
+        <Button
+            android:text="Statistical Graph"
+            android:id="@+id/buttonStatsGraph"
+            android:onClick="onClickStatsGraph"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"/>
 
     </RelativeLayout>
 </ScrollView>

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="16dp"
     tools:context="com.example.ethan.pokerjournal.StatsFragment">
 
     // Display "Stats"
@@ -130,5 +131,21 @@
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    // Stats Graph Button at Bottom of Page
+
+    <Button
+        android:id="@+id/buttonStatsGraph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="55dp"
+        android:onClick="onClickStatsGraph"
+        android:text="Statistical Graph"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
 </RelativeLayout>
