@@ -16,7 +16,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class StatsGraphActivity extends AppCompatActivity {
+public class StatsGraphActivity extends AppCompatActivity
+{
 
     DatabaseHelper db;
     private Toolbar toolbar;
@@ -24,7 +25,8 @@ public class StatsGraphActivity extends AppCompatActivity {
     LineGraphSeries<DataPoint> series;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate((savedInstanceState));
         setContentView(R.layout.activity_stats_graph);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -38,15 +40,18 @@ public class StatsGraphActivity extends AppCompatActivity {
         GameArrayAdapter adapter = new GameArrayAdapter(getApplicationContext(), gameList);
 
         // Sorts Games by Date2
-        adapter.sort(new Comparator<Game>() {
-            public int compare(Game arg0, Game arg1) {
+        adapter.sort(new Comparator<Game>()
+        {
+            public int compare(Game arg0, Game arg1)
+            {
                 return arg0.date2.compareTo(arg1.date2);
             }
         });
 
         // generate Dates
         Date[] dates = new Date[gameList.size()];
-        for(int i = 0; i < gameList.size() - 1; i++){
+        for (int i = 0; i < gameList.size() - 1; i++)
+        {
             dates[i] = new Date(gameList.get(i).getDate());
         }
 
@@ -59,12 +64,12 @@ public class StatsGraphActivity extends AppCompatActivity {
         Double netBankroll = 0.0;
 
 
-        for(int i = 0; i <  gameList.size() - 1; i++){
+        for (int i = 0; i < gameList.size() - 1; i++)
+        {
             netBankroll += (gameList.get(i).getCashOut() - gameList.get(i).getBuyIn());
             dataPoints[i] = new DataPoint(dates[i], netBankroll);
             series.appendData(dataPoints[i], true, 100);
         }
-
 
 
         graph.addSeries(series);
@@ -113,7 +118,6 @@ public class StatsGraphActivity extends AppCompatActivity {
         */
 
 
-
 // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
@@ -127,7 +131,7 @@ public class StatsGraphActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
         Date dMin = new Date(gameList.get(0).getDate());
-        Date dMax = new Date(gameList.get(gameList.size()/2-1).getDate());
+        Date dMax = new Date(gameList.get(gameList.size() / 2 - 1).getDate());
 // set manual x bounds to have nice steps
         graph.getViewport().setMinX(dMin.getTime());
         graph.getViewport().setMaxX(d1.getTime());
@@ -153,10 +157,12 @@ public class StatsGraphActivity extends AppCompatActivity {
 
     // Functionality of Toolbar Back Arrow
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
         int id = menuItem.getItemId();
 
-        if(id == android.R.id.home){
+        if (id == android.R.id.home)
+        {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);

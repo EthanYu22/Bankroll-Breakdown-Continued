@@ -2,6 +2,9 @@
     // Poker Application Title
     <string name="app_name">Bankroll Breakdown</string>
 
+    // Login Password
+    <string name="password">2588</string>
+
     // Poker Variance Types Menu
     <string-array name="game_types">
         <item>Texas Hold Em</item>
