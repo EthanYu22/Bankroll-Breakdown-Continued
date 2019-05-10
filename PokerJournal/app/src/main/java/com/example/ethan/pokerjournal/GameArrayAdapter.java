@@ -33,15 +33,15 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
         String location = game.getLocation();
         double netProfit = game.getCashOut() - game.getBuyIn();
         double sessionLength = game.getTime();
-        String line_1 = "Location: " + location;
+        String line_1 = "  Location: " + location;
         if(netProfit < 0) {
-            line_2 = "-$" + -netProfit + " in " + sessionLength + " hours.";
+            line_2 = "  -$" + -netProfit + " in " + sessionLength + " hours.";
         }else{
-            line_2 = "$" + netProfit + " in " + sessionLength + " hours.";
+            line_2 = "  $" + netProfit + " in " + sessionLength + " hours.";
         }
 
         // Initialize The Display for Each Game Listing
-        date.setText(game.getDate());
+        date.setText("  " + game.getDate());
         description_1.setText(line_1);
         description_2.setText(line_2);
 

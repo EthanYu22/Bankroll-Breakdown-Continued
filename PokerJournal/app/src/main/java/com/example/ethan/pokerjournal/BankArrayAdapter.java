@@ -28,11 +28,11 @@ public class BankArrayAdapter extends ArrayAdapter<Bank> {
         TextView description_1 = (TextView) convertView.findViewById(R.id.itemType);
         TextView description_2 = (TextView) convertView.findViewById(R.id.itemDescription);
 
-        String line_1 = bank.getType(); // Displays Transaction Type
-        String line_2 = "$" + bank.getAmount(); // Displays Amount Deposited or Withdrawn
+        String line_1 = "  " + bank.getType(); // Displays Transaction Type
+        String line_2 = "  $" + bank.getAmount(); // Displays Amount Deposited or Withdrawn
 
         // Initialize The Display for Each Transaction Listing
-        date.setText(bank.getDate());
+        date.setText("  " + bank.getDate());
         description_1.setText(line_1);
         description_2.setText(line_2);
 

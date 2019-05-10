@@ -139,7 +139,7 @@
 
     <EditText
         android:id="@+id/editLocation"
-        android:inputType="text"
+        android:inputType="text|textAutoComplete"
         android:textSize="15dp"
         android:layout_below="@+id/textLocation"
         android:layout_alignParentStart="true"
