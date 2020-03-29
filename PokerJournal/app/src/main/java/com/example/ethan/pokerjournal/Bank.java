@@ -41,7 +41,10 @@ public class Bank {
     // Used for Array Adapter to Understand
     @Override
     // Turns Date into a String
-    public String toString() {return date;}
+    public String toString()
+    {
+        return " " + date + "\n " + type + "\n $" + amount;
+    }
 
     // Arbitrary For No Error Alerts
     public int compare(Bank bank, Bank t1) {return 0;}

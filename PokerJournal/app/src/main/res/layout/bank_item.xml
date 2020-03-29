@@ -6,24 +6,8 @@
 
     // Display Bank Transaction Date
     <TextView
-        android:id="@+id/itemDate"
-        android:text="Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    // Display Deposit/Withdraw Type
-    <TextView
-        android:id="@+id/itemType"
-        android:text="Type"
-        android:layout_below="@id/itemDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    // Display Bank Description
-    <TextView
-        android:id="@+id/itemDescription"
-        android:text="Description"
-        android:layout_below="@id/itemType"
+        android:id="@+id/bankDescription"
+        android:text="Bank Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

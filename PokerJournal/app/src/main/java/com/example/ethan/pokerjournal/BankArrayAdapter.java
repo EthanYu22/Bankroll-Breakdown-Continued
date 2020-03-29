@@ -24,17 +24,10 @@ public class BankArrayAdapter extends ArrayAdapter<Bank> {
         if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.bank_item, parent, false);}
 
         // Line Displays for Each Transaction Listing
-        TextView date = (TextView) convertView.findViewById(R.id.itemDate);
-        TextView description_1 = (TextView) convertView.findViewById(R.id.itemType);
-        TextView description_2 = (TextView) convertView.findViewById(R.id.itemDescription);
-
-        String line_1 = "  " + bank.getType(); // Displays Transaction Type
-        String line_2 = "  $" + bank.getAmount(); // Displays Amount Deposited or Withdrawn
+        TextView bankDescription = (TextView) convertView.findViewById(R.id.bankDescription);
 
         // Initialize The Display for Each Transaction Listing
-        date.setText("  " + bank.getDate());
-        description_1.setText(line_1);
-        description_2.setText(line_2);
+        bankDescription.setText(bank.toString());
 
         // Labels ViewId as BankId
         convertView.setId(bank.getId());

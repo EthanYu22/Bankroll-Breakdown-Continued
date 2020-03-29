@@ -4,26 +4,10 @@
     android:layout_height="match_parent"
     android:onClick="onClickGame">
 
-    // Display Game Session Date
-    <TextView
-        android:id="@+id/itemDate"
-        android:text="Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    // Display Session Location
-    <TextView
-        android:id="@+id/itemLocation"
-        android:text="Location"
-        android:layout_below="@id/itemDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
     // Display Game Description
     <TextView
-        android:id="@+id/itemDescription"
-        android:text="Description"
-        android:layout_below="@id/itemLocation"
+        android:id="@+id/gameDescription"
+        android:text="Game Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

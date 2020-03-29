@@ -26,24 +26,10 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
         if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_item, parent, false);}
 
         // Line Displays for Each Game Listing
-        TextView date = (TextView) convertView.findViewById(R.id.itemDate);
-        TextView description_1 = (TextView) convertView.findViewById(R.id.itemLocation);
-        TextView description_2 = (TextView) convertView.findViewById(R.id.itemDescription);
-
-        String location = game.getLocation();
-        double netProfit = game.getCashOut() - game.getBuyIn();
-        double sessionLength = game.getTime();
-        String line_1 = "  Location: " + location;
-        if(netProfit < 0) {
-            line_2 = "  -$" + -netProfit + " in " + sessionLength + " hours.";
-        }else{
-            line_2 = "  $" + netProfit + " in " + sessionLength + " hours.";
-        }
+        TextView gameDescription = (TextView) convertView.findViewById(R.id.gameDescription);
 
         // Initialize The Display for Each Game Listing
-        date.setText("  " + game.getDate());
-        description_1.setText(line_1);
-        description_2.setText(line_2);
+        gameDescription.setText(game.toString());
 
         // Labels ViewId as GameId
         convertView.setId(game.getId());

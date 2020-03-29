@@ -26,6 +26,12 @@ public class Game implements Comparator<Game> {
     public void setTime(double time) {this.time = time;}
     public void setBuyIn(double buyIn) {this.buyIn = buyIn;}
     public void setCashOut(double cashOut) {this.cashOut = cashOut;}
+
+    public Game()
+    {
+
+    }
+
     public void setEntries(String type, String blinds, String location, String date, String date2, double time, double buyIn, double cashOut) {
         this.id = id;
         this.type = type;
@@ -63,7 +69,15 @@ public class Game implements Comparator<Game> {
     // Used for Array Adapter to Understand
     @Override
     // Turns Date into a Stringf
-    public String toString() {return date;}
+    public String toString()
+    {
+        double netProfit = cashOut - buyIn;
+        if(netProfit < 0)
+        {
+            return " " + date + "\n Location: " + location + "\n -$" + -netProfit + " in " + time + " hours";
+        }
+        return " " + date + "\n Location: " + location + "\n $" + netProfit + " in " + time + " hours";
+    }
 
     // Arbitrary For No Error Alerts
     @Override
