@@ -1,7 +1,7 @@
 package com.example.ethan.pokerjournal;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,8 @@ import java.util.Comparator;
 import java.util.List;
 
 // Displays Each Bank Transaction as a List Under Bankroll Tab & Displays Current Bankroll Amount
-public class BankFragment extends Fragment {
+public class BankFragment extends Fragment
+{
 
     DatabaseHelper db;
     List<Game> gameList;
@@ -22,24 +23,28 @@ public class BankFragment extends Fragment {
     public BankFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate((savedInstanceState));
         db = new DatabaseHelper(getActivity());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         return inflater.inflate(R.layout.bank, container, false); // Inflate Layout
     }
 
     // Action When On Bank Page
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         displayBanks();
     }
 
     // Displays All Bank Transactions + Net Bankroll Amount
-    public void displayBanks() {
+    public void displayBanks()
+    {
         // Displays Bank Transactions
         banksList = db.getAllBanks();
         ListView lv = (ListView) getView().findViewById(R.id.listBank);
@@ -47,9 +52,11 @@ public class BankFragment extends Fragment {
         lv.setAdapter(adapter);
 
         // Sorts Bank Transactions by Date
-        adapter.sort(new Comparator<Bank>() {
-            public int compare(Bank arg0, Bank arg1) {
-                return arg0.date2.compareTo(arg1.date2);
+        adapter.sort(new Comparator<Bank>()
+        {
+            public int compare(Bank arg0, Bank arg1)
+            {
+                return arg0.date.compareTo(arg1.date);
             }
         });
 
@@ -66,7 +73,8 @@ public class BankFragment extends Fragment {
         int netProfit;
         int buyIn = 0;
         int cashOut = 0;
-        for (int i = 0; i < gameList.size(); i++) {
+        for (int i = 0; i < gameList.size(); i++)
+        {
             game = gameList.get(i);
             buyIn += game.getBuyIn();
             cashOut += game.getCashOut();
@@ -81,13 +89,16 @@ public class BankFragment extends Fragment {
         double WithdrawDeposit = 0;
         double totalWithdraw = 0;
         double totalDeposit = 0;
-        for (int i = 0; i < banksList.size(); i++) {
+        for (int i = 0; i < banksList.size(); i++)
+        {
             bank = banksList.get(i);
-            if(bank.getType().equals("Withdraw")){
+            if (bank.getType().equals("Withdraw"))
+            {
                 WithdrawDeposit = (bank.getAmount() * -1);
                 totalWithdraw += bank.getAmount();
             }
-            else{
+            else
+            {
                 WithdrawDeposit = bank.getAmount();
                 totalDeposit += bank.getAmount();
             }
@@ -99,9 +110,12 @@ public class BankFragment extends Fragment {
 
         // Displays Net Bankroll Amount
         TextView bankroll = (TextView) getView().findViewById(R.id.textTotalMoney);
-        if(Bankroll < 0){
+        if (Bankroll < 0)
+        {
             bankroll.setText("-$" + -Bankroll);
-        }else {
+        }
+        else
+        {
             bankroll.setText("$" + Bankroll);
         }
 

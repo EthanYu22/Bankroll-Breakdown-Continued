@@ -10,20 +10,26 @@ import android.widget.TextView;
 import java.util.List;
 
 // Creates Each Poker Session as a List with Specific Content
-public class GameArrayAdapter extends ArrayAdapter<Game> {
+public class GameArrayAdapter extends ArrayAdapter<Game>
+{
 
     // Initialize GameArrayAdapter
-    public GameArrayAdapter(Context context, List<Game> gameList) {
+    public GameArrayAdapter(Context context, List<Game> gameList)
+    {
         super(context, 0, gameList);
     }
 
     @Override
     // Fills Out Information to Be Displayed For Each Poker Session
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         Game game = getItem(position);
-        String line_2 = new String();
+        String line_2 = "";
         // Display Each Game as a Game in a Listing
-        if (convertView == null) {convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_item, parent, false);}
+        if (convertView == null)
+        {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_item, parent, false);
+        }
 
         // Line Displays for Each Game Listing
         TextView gameDescription = (TextView) convertView.findViewById(R.id.gameDescription);

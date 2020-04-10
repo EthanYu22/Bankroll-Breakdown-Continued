@@ -13,12 +13,14 @@ import android.widget.Toast;
 
 
 // Game Entry Form
-public class GameFormActivity extends AppCompatActivity {
+public class GameFormActivity extends AppCompatActivity
+{
 
     private Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_form);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -30,7 +32,7 @@ public class GameFormActivity extends AppCompatActivity {
         final Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
         final Spinner spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
 
-        final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this,R.array.months, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days30Array = ArrayAdapter.createFromResource(this, R.array.days30, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> daysArray = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_dropdown_item);
@@ -46,10 +48,13 @@ public class GameFormActivity extends AppCompatActivity {
         spinYear.setAdapter(yearsArray);
 
         // Change Days Displayed in Spinners According to Month
-        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                switch (position)
+                {
                     case 0:
                         spinDay.setAdapter(daysArray);
                         break;
@@ -87,6 +92,7 @@ public class GameFormActivity extends AppCompatActivity {
                         spinDay.setAdapter(daysArray);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
@@ -101,17 +107,20 @@ public class GameFormActivity extends AppCompatActivity {
     */
 
     // Functionality of Toolbar Back Arrow
-    public boolean onOptionsItemSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
         int id = menuItem.getItemId();
 
-        if(id == android.R.id.home){
+        if (id == android.R.id.home)
+        {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
     // Submit Game Transaction
-    public void onClickGameButton(View v) {
+    public void onClickGameButton(View v)
+    {
         DatabaseHelper db = new DatabaseHelper(this);
         Game game = new Game();
         Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
@@ -128,7 +137,8 @@ public class GameFormActivity extends AppCompatActivity {
         // Get Location and Make Sure it's Valid
         EditText editLocation = (EditText) findViewById(R.id.editLocation);
         String location = editLocation.getText().toString();
-        if(location.isEmpty()) {
+        if (location.isEmpty())
+        {
             toast.show();
             return;
         }
@@ -142,17 +152,16 @@ public class GameFormActivity extends AppCompatActivity {
         String year = spinYear.getSelectedItem().toString();
 
         String date = "";
-        String date2 = "";
-        String[] dayMonthYearDateDate2 = {day, month, year, date, date2};
+        String[] dayMonthYearDate = {day, month, year, date};
 
-        // Append Day, Month, Year to Format - Date: MM/DD/YYYY Date2: YYYY/MM/DD
-        MainActivity.appendDates(dayMonthYearDateDate2);
-        date = dayMonthYearDateDate2[3];
-        date2 = dayMonthYearDateDate2[4];
+        // Append Day, Month, Year to Format - Date: YYYY/MM/DD
+        MainActivity.appendDates(dayMonthYearDate);
+        date = dayMonthYearDate[3];
 
         // Get Session Duration and Make Sure it's Valid
         EditText editTime = (EditText) findViewById(R.id.editTime);
-        if (editTime.getText().toString().isEmpty()) {
+        if (editTime.getText().toString().isEmpty())
+        {
             toast.show();
             return;
         }
@@ -161,7 +170,8 @@ public class GameFormActivity extends AppCompatActivity {
 
         // Get Buy In and Make Sure it's Valid
         EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);
-        if (editBuyIn.getText().toString().isEmpty()) {
+        if (editBuyIn.getText().toString().isEmpty())
+        {
             toast.show();
             return;
         }
@@ -170,7 +180,8 @@ public class GameFormActivity extends AppCompatActivity {
 
         // Get Cash Out and Make Sure it's Valid
         EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
-        if (editCashOut.getText().toString().isEmpty()) {
+        if (editCashOut.getText().toString().isEmpty())
+        {
             toast.show();
             return;
         }
@@ -178,7 +189,7 @@ public class GameFormActivity extends AppCompatActivity {
         double cashOut = Double.parseDouble(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setEntries(type, blinds, location, date, date2, time, buyIn, cashOut);
+        game.setEntries(type, blinds, location, date, time, buyIn, cashOut);
 
         db.createGame(game);
 

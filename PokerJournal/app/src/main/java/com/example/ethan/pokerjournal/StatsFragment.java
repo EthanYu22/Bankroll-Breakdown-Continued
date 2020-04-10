@@ -10,7 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 // Displays a List of Statistical Analysis Under Statistics Tab
-public class StatsFragment extends Fragment {
+public class StatsFragment extends Fragment
+{
 
     DatabaseHelper db;
     List<Game> gameList;
@@ -18,25 +19,29 @@ public class StatsFragment extends Fragment {
     public StatsFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate((savedInstanceState));
         db = new DatabaseHelper(getActivity());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate Layout
         return inflater.inflate(R.layout.stats, container, false);
     }
 
     // Action When On Stats Page
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         displayStats();
     }
 
     // Displays Overall Game Statistics
-    public void displayStats() {
+    public void displayStats()
+    {
         Game game;
         gameList = db.getAllGames();
         double totalHours = 0;
@@ -54,7 +59,8 @@ public class StatsFragment extends Fragment {
         double biggestLoss = 0;
 
         // Calculation for Statistics
-        for (int i = 0; i < gameList.size(); i++) {
+        for (int i = 0; i < gameList.size(); i++)
+        {
             game = gameList.get(i);
             totalHours += game.getTime(); // Net Hours
             buyIn += game.getBuyIn(); // Net Buy In
@@ -64,22 +70,29 @@ public class StatsFragment extends Fragment {
 
             // Find Biggest Win and Loss
             double bigwin = game.getCashOut() - game.getBuyIn();
-            if(bigwin > biggestWin){
+            if (bigwin > biggestWin)
+            {
                 biggestWin = bigwin;
-            } else if(bigwin < biggestLoss){
+            }
+            else if (bigwin < biggestLoss)
+            {
                 biggestLoss = bigwin;
             }
 
             // Tally Number of Winning and Losing Sessions
-            if(game.getCashOut() - game.getBuyIn() > 0){
+            if (game.getCashOut() - game.getBuyIn() > 0)
+            {
                 winningSession++;
-            }else if(game.getBuyIn() - game.getCashOut() > 0){
+            }
+            else if (game.getBuyIn() - game.getCashOut() > 0)
+            {
                 losingSession++;
             }
 
             // Get Total Sessions
             totalSessions = winningSession + losingSession;
-            if(game.getCashOut() - game.getBuyIn() == 0){
+            if (game.getCashOut() - game.getBuyIn() == 0)
+            {
                 totalSessions++;
             }
         }
@@ -97,7 +110,8 @@ public class StatsFragment extends Fragment {
         TextView bw = (TextView) getView().findViewById(R.id.biggestWin); // Biggest Win
         TextView bl = (TextView) getView().findViewById(R.id.biggestLoss); // Biggest Loss
 
-        if (gameList.size() == 0) { // If No Games Are Played Display This
+        if (gameList.size() == 0)
+        { // If No Games Are Played Display This
             // Set Text As Blank for Each TextView
             hr.setText("Hourly Rate: ");
             np.setText("Net Profit: ");
@@ -111,7 +125,9 @@ public class StatsFragment extends Fragment {
             bw.setText("Largest Win: ");
             bl.setText("Largest Loss: ");
 
-        } else { // If Games Are Played Display This
+        }
+        else
+        { // If Games Are Played Display This
             // Calculate Net Profit, Hourly Rate, and Average Session Duration
             netProfit = cashOut - buyIn;
             hourlyRate = netProfit / totalHours;
@@ -128,14 +144,20 @@ public class StatsFragment extends Fragment {
             String bLoss = String.format("%.2f", Math.abs(biggestLoss));
 
             // Set Text for Each TextView
-            if(hourlyRate < 0){
+            if (hourlyRate < 0)
+            {
                 hr.setText("Hourly Rate: -$" + hourlyR);
-            }else{
+            }
+            else
+            {
                 hr.setText("Hourly Rate: $" + hourlyR);
             }
-            if(netProfit < 0){
+            if (netProfit < 0)
+            {
                 np.setText("Net Profit: -$" + nProfit);
-            }else{
+            }
+            else
+            {
                 np.setText("Net Profit: $" + nProfit);
             }
             x.setText("Hours Played: " + tHours);

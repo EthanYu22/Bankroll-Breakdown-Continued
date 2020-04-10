@@ -1,7 +1,7 @@
 package com.example.ethan.pokerjournal;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
@@ -10,7 +10,6 @@ import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
@@ -20,9 +19,9 @@ public class StatsGraphActivity extends AppCompatActivity
 {
 
     DatabaseHelper db;
-    private Toolbar toolbar;
     List<Game> gameList;
     LineGraphSeries<DataPoint> series;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,12 +38,12 @@ public class StatsGraphActivity extends AppCompatActivity
 
         GameArrayAdapter adapter = new GameArrayAdapter(getApplicationContext(), gameList);
 
-        // Sorts Games by Date2
+        // Sorts Games by Date
         adapter.sort(new Comparator<Game>()
         {
             public int compare(Game arg0, Game arg1)
             {
-                return arg0.date2.compareTo(arg1.date2);
+                return arg0.date.compareTo(arg1.date);
             }
         });
 
@@ -52,7 +51,7 @@ public class StatsGraphActivity extends AppCompatActivity
         Date[] dates = new Date[gameList.size()];
         for (int i = 0; i < gameList.size() - 1; i++)
         {
-            dates[i] = new Date(gameList.get(i).getDate());
+            dates[i] = new Date(gameList.get(i).getConvertedDateMMddyyyy());
         }
 
         GraphView graph = (GraphView) findViewById(R.id.statsGraph);
@@ -75,10 +74,10 @@ public class StatsGraphActivity extends AppCompatActivity
         graph.addSeries(series);
 
 
-// you can directly pass Date objects to DataPoint-Constructor
+        // you can directly pass Date objects to DataPoint-Constructor
 
 
-// this will convert the Date to double via Date#getTime()
+        // this will convert the Date to double via Date#getTime()
 
 
 
@@ -100,7 +99,7 @@ public class StatsGraphActivity extends AppCompatActivity
         // generate Dates
         Date[] dates = new Date[gameList.size()];
         for(int i = 0; i < gameList.size() - 1; i++){
-            dates[i] = new Date(gameList.get(i).getDate());
+            dates[i] = new Date(gameList.get(i).getConvertedDateMMddyyyy());
         }
 
         GraphView graph = (GraphView) findViewById(R.id.statsGraph);
@@ -118,27 +117,27 @@ public class StatsGraphActivity extends AppCompatActivity
         */
 
 
-// set date label formatter
+        // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getApplicationContext()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Date");
 
-// set manual Y bounds
+        // set manual Y bounds
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(-15000);
         graph.getViewport().setMaxY(15000);
 
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
-        Date dMin = new Date(gameList.get(0).getDate());
-        Date dMax = new Date(gameList.get(gameList.size() / 2 - 1).getDate());
-// set manual x bounds to have nice steps
+        Date dMin = new Date(gameList.get(0).getConvertedDateMMddyyyy());
+        Date dMax = new Date(gameList.get(gameList.size() / 2 - 1).getConvertedDateMMddyyyy());
+        // set manual x bounds to have nice steps
         graph.getViewport().setMinX(dMin.getTime());
         graph.getViewport().setMaxX(d1.getTime());
         graph.getViewport().setXAxisBoundsManual(true);
 
-// as we use dates as labels, the human rounding to nice readable numbers
-// is not necessary
+        // as we use dates as labels, the human rounding to nice readable numbers
+        // is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
 
         graph.getViewport().setScalable(true);

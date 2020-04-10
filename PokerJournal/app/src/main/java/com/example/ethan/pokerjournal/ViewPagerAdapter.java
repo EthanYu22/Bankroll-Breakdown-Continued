@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Instantiates Fragment Pages
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentPagerAdapter
+{
 
     // Instantiate Fragment Lists (titleList holds Titles of Each Fragment)
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -26,7 +27,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() { return fragmentList.size(); }
 
     // Add a Fragment & Title for the Fragment
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String title)
+    {
         fragmentList.add(fragment);
         titleList.add(title);
     }

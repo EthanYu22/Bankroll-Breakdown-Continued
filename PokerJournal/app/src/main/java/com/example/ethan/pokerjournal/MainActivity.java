@@ -16,26 +16,104 @@ import android.widget.Button;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
+    public static int gameId; // Used to Hold Game View ID
+    public static int bankId; // Used to Hold Bank View ID
     DatabaseHelper db;
     List<Game> gameList;
     List<Bank> bankList;
-    public static int gameId; // Used to Hold Game View ID
-    public static int bankId; // Used to Hold Bank View ID
-
+    // Tabs-Fragments
+    HistoryFragment hist;
+    StatsFragment stats;
+    BankFragment bank;
     // Formatting of App
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    // Tabs-Fragments
-    HistoryFragment hist;
-    StatsFragment stats;
-    BankFragment bank;
+    // Append Day, Month, Year to Format Date: YYYY/MM/DD
+    public static String[] appendDates(String[] dayMonthYearDate)
+    {
+
+        switch (dayMonthYearDate[1])
+        {
+            case "January":
+                dayMonthYearDate[1] = "01";
+                break;
+            case "February":
+                dayMonthYearDate[1] = "02";
+                break;
+            case "March":
+                dayMonthYearDate[1] = "03";
+                break;
+            case "April":
+                dayMonthYearDate[1] = "04";
+                break;
+            case "May":
+                dayMonthYearDate[1] = "05";
+                break;
+            case "June":
+                dayMonthYearDate[1] = "06";
+                break;
+            case "July":
+                dayMonthYearDate[1] = "07";
+                break;
+            case "August":
+                dayMonthYearDate[1] = "08";
+                break;
+            case "September":
+                dayMonthYearDate[1] = "09";
+                break;
+            case "October":
+                dayMonthYearDate[1] = "10";
+                break;
+            case "November":
+                dayMonthYearDate[1] = "11";
+                break;
+            case "December":
+                dayMonthYearDate[1] = "12";
+        }
+
+        int intDay = Integer.parseInt(dayMonthYearDate[0]);
+        switch (intDay)
+        {
+            case 1:
+                dayMonthYearDate[0] = "01";
+                break;
+            case 2:
+                dayMonthYearDate[0] = "02";
+                break;
+            case 3:
+                dayMonthYearDate[0] = "03";
+                break;
+            case 4:
+                dayMonthYearDate[0] = "04";
+                break;
+            case 5:
+                dayMonthYearDate[0] = "05";
+                break;
+            case 6:
+                dayMonthYearDate[0] = "06";
+                break;
+            case 7:
+                dayMonthYearDate[0] = "07";
+                break;
+            case 8:
+                dayMonthYearDate[0] = "08";
+                break;
+            case 9:
+                dayMonthYearDate[0] = "09";
+        }
+        dayMonthYearDate[3] = dayMonthYearDate[2] + "-" + dayMonthYearDate[1] + "-" + dayMonthYearDate[0];
+
+        return dayMonthYearDate;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -56,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Creates Layout for Tabs/Fragments: History, Stats, Bank
-    public void setupViewPager(ViewPager upViewPager) {
+    public void setupViewPager(ViewPager upViewPager)
+    {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(hist, "History");
         adapter.addFragment(stats, "Statistics");
@@ -65,42 +144,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // New Game Button Leads to Game Form
-    public void onClickNewGame(View v) {
+    public void onClickNewGame(View v)
+    {
         Intent intent = new Intent(MainActivity.this, GameFormActivity.class);
         startActivity(intent);
     }
 
     // Deposit/Withdraw Button Leads to a Bank Form
-    public void onClickDepositWithdraw(View v) {
+    public void onClickDepositWithdraw(View v)
+    {
         Intent intent = new Intent(MainActivity.this, BankFormActivity.class);
         startActivity(intent);
     }
 
     // Reset Button Resets Games
-    public void onClickResetGame(View v) {
+    public void onClickResetGame(View v)
+    {
 
         Button btn = (Button) findViewById(R.id.buttonResetGames);
 
         // Confirmation Reset Game History Alert
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 AlertDialog.Builder altdial = new AlertDialog.Builder(MainActivity.this);
-                altdial.setMessage("Do you want to clear your session history?").setCancelable(false)
-                        .setPositiveButton("Clear Sessions", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which){
-                                db.clearGames();
-                                hist.displayGames();
-                                stats.displayStats();
-                            }
-                        })
-                        .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                dialogInterface.cancel();
-                         }
-                        });
+                altdial.setMessage("Do you want to clear your session history?").setCancelable(false).setPositiveButton("Clear Sessions", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which)
+                    {
+                        db.clearGames();
+                        hist.displayGames();
+                        stats.displayStats();
+                    }
+                }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which)
+                    {
+                        dialogInterface.cancel();
+                    }
+                });
                 AlertDialog alert = altdial.create();
                 alert.setTitle("Clear Session History");
                 alert.show();
@@ -109,29 +195,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Reset Button Resets Bank Transactions
-    public void onClickResetBank(View v) {
+    public void onClickResetBank(View v)
+    {
 
         Button btn = (Button) findViewById(R.id.buttonResetBank);
 
         // Confirmation Reset Bank Transaction History Alert
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 AlertDialog.Builder altdial = new AlertDialog.Builder(MainActivity.this);
-                altdial.setMessage("Do you want to clear your bankroll transactions?").setCancelable(false)
-                        .setPositiveButton("Clear Transactions", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which){
-                                db.clearBank();
-                                bank.displayBanks();
-                            }
-                        })
-                        .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                dialogInterface.cancel();
-                            }
-                        });
+                altdial.setMessage("Do you want to clear your bankroll transactions?").setCancelable(false).setPositiveButton("Clear Transactions", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which)
+                    {
+                        db.clearBank();
+                        bank.displayBanks();
+                    }
+                }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which)
+                    {
+                        dialogInterface.cancel();
+                    }
+                });
                 AlertDialog alert = altdial.create();
                 alert.setTitle("Clear Bankroll Transactions");
                 alert.show();
@@ -140,76 +231,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Clicking on Game Listing Leads to Game Details Page
-    public void onClickGame(View v) {
+    public void onClickGame(View v)
+    {
         gameId = v.getId();
         Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
         startActivity(intent);
     }
 
     // Clicking on Bank Listing Leads to Bank Details Page
-    public void onClickBank(View v) {
+    public void onClickBank(View v)
+    {
         bankId = v.getId();
         Intent intent = new Intent(MainActivity.this, BankDetailActivity.class);
         startActivity(intent);
     }
 
-    public void onClickStatsGraph(View v){
+    public void onClickStatsGraph(View v)
+    {
         Intent intent = new Intent(MainActivity.this, StatsGraphActivity.class);
         startActivity(intent);
-    }
-
-    // Append Day, Month, Year to Format Date: MM/DD/YYYY Date2: YYYY/MM/DD
-    public static String[] appendDates(String[] dayMonthYearDateDate2){
-
-        switch(dayMonthYearDateDate2[1]){
-            case "January": dayMonthYearDateDate2[1] = "01";
-                break;
-            case "February": dayMonthYearDateDate2[1] = "02";
-                break;
-            case "March": dayMonthYearDateDate2[1] = "03";
-                break;
-            case "April": dayMonthYearDateDate2[1] = "04";
-                break;
-            case "May": dayMonthYearDateDate2[1] = "05";
-                break;
-            case "June": dayMonthYearDateDate2[1] = "06";
-                break;
-            case "July": dayMonthYearDateDate2[1] = "07";
-                break;
-            case "August": dayMonthYearDateDate2[1] = "08";
-                break;
-            case "September": dayMonthYearDateDate2[1] = "09";
-                break;
-            case "October": dayMonthYearDateDate2[1] = "10";
-                break;
-            case "November": dayMonthYearDateDate2[1] = "11";
-                break;
-            case "December": dayMonthYearDateDate2[1] = "12";
-        }
-
-        int intDay = Integer.parseInt(dayMonthYearDateDate2[0]);
-        switch(intDay){
-            case 1: dayMonthYearDateDate2[0] = "01";
-                break;
-            case 2: dayMonthYearDateDate2[0] = "02";
-                break;
-            case 3: dayMonthYearDateDate2[0] = "03";
-                break;
-            case 4: dayMonthYearDateDate2[0] = "04";
-                break;
-            case 5: dayMonthYearDateDate2[0] = "05";
-                break;
-            case 6: dayMonthYearDateDate2[0] = "06";
-                break;
-            case 7: dayMonthYearDateDate2[0] = "07";
-                break;
-            case 8: dayMonthYearDateDate2[0] = "08";
-                break;
-            case 9: dayMonthYearDateDate2[0] = "09";
-        }
-        dayMonthYearDateDate2[3] = dayMonthYearDateDate2[1] + "/" + dayMonthYearDateDate2[0] + "/" + dayMonthYearDateDate2[2];
-        dayMonthYearDateDate2[4] = dayMonthYearDateDate2[2] + "/" + dayMonthYearDateDate2[1] + "/" + dayMonthYearDateDate2[0];
-
-        return dayMonthYearDateDate2;
     }
 }

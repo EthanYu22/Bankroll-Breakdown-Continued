@@ -1,8 +1,8 @@
 package com.example.ethan.pokerjournal;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,7 +22,7 @@ public class LoginPage extends AppCompatActivity
         String pwd = loginPW.getText().toString();
         String truePW = getResources().getString(R.string.password);
 
-        if(pwd.equals(truePW))
+        if (pwd.equals(truePW))
         {
             Intent intent = new Intent(LoginPage.this, MainActivity.class);
             startActivity(intent);

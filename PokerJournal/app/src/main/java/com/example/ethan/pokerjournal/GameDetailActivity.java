@@ -12,15 +12,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 // Displays Game Details on a Separate Page
-public class GameDetailActivity extends AppCompatActivity {
+public class GameDetailActivity extends AppCompatActivity
+{
 
     DatabaseHelper db;
-    private Toolbar toolbar;
     Game game;
     int gameId;
+    private Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -33,7 +35,8 @@ public class GameDetailActivity extends AppCompatActivity {
 
 
     // Action When On Game Detail Page
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         displayDetails();
     }
@@ -47,17 +50,20 @@ public class GameDetailActivity extends AppCompatActivity {
 
     // Functionality of Toolbar Back Arrow
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
         int id = menuItem.getItemId();
 
-        if(id == android.R.id.home){
+        if (id == android.R.id.home)
+        {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
     // Displays Game Details
-    public void displayDetails() {
+    public void displayDetails()
+    {
         TextView hourlyRate = (TextView) findViewById(R.id.textGameHourlyRate);
         TextView netProfit = (TextView) findViewById(R.id.textGameNetProfit);
         TextView type = (TextView) findViewById(R.id.textGameType);
@@ -70,7 +76,7 @@ public class GameDetailActivity extends AppCompatActivity {
 
         // Calculate Net Profit and Hourly Rate
         Double nProfit = game.getCashOut() - game.getBuyIn();
-        Double hRate = nProfit/game.getTime();
+        Double hRate = nProfit / game.getTime();
 
         // Set Significant Figures to 2 for Net Profit, Hourly Rate, Buy In, and Cash Out
         String nP = String.format("%.2f", Math.abs(nProfit));
@@ -80,53 +86,63 @@ public class GameDetailActivity extends AppCompatActivity {
 
 
         // Set Text for Each TextView
-        if(hRate < 0){
+        if (hRate < 0)
+        {
             hourlyRate.setText("Session Hourly Rate: -$" + hR);
-        }else{
+        }
+        else
+        {
             hourlyRate.setText("Session Hourly Rate: $" + hR);
         }
-        if(nProfit < 0){
+        if (nProfit < 0)
+        {
             netProfit.setText("Session Net Profit: -$" + nP);
-        }else{
+        }
+        else
+        {
             netProfit.setText("Session Net Profit: $" + nP);
         }
         type.setText("Game: " + game.getType());
         blinds.setText("Blinds: " + game.getBlinds());
         location.setText("Location: " + game.getLocation());
-        date.setText("Date: " + game.getDate());
+        date.setText("Date: " + game.getConvertedDateMMddyyyy());
         time.setText("Time: " + game.getTime() + " Hours");
         buyIn.setText("Buy In: $" + bIn);
         cashOut.setText("Cash Out: $" + cOut);
     }
 
     // Edit Game Entries
-    public void onClickEditGame(View v) {
+    public void onClickEditGame(View v)
+    {
         gameId = v.getId();
         Intent intent = new Intent(GameDetailActivity.this, GameEditActivity.class);
         startActivity(intent);
     }
 
     // Reset Button Resets Games
-    public void onClickDeleteGame(View v) {
+    public void onClickDeleteGame(View v)
+    {
 
         // Confirmation Delete Game Alert
         AlertDialog.Builder altdial = new AlertDialog.Builder(GameDetailActivity.this);
-        altdial.setMessage("Do you want to delete this session?").setCancelable(false)
-                .setPositiveButton("Delete Session", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which){
-                        db.deleteGame(gameId);
-                        Toast toast = Toast.makeText(getApplication(), "Session Deleted", Toast.LENGTH_SHORT);
-                        toast.show();
-                        finish();
-                    }
-                })
-                .setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                        dialogInterface.cancel();
-                    }
-                });
+        altdial.setMessage("Do you want to delete this session?").setCancelable(false).setPositiveButton("Delete Session", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which)
+            {
+                db.deleteGame(gameId);
+                Toast toast = Toast.makeText(getApplication(), "Session Deleted", Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+            }
+        }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which)
+            {
+                dialogInterface.cancel();
+            }
+        });
         AlertDialog alert = altdial.create();
         alert.setTitle("Delete Session");
         alert.show();

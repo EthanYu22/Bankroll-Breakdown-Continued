@@ -12,12 +12,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 // Bank Transaction Entry Form
-public class BankFormActivity extends AppCompatActivity {
+public class BankFormActivity extends AppCompatActivity
+{
 
     private Toolbar toolbar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_form);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -29,7 +31,7 @@ public class BankFormActivity extends AppCompatActivity {
         final Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
         final Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
 
-        final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this,R.array.months, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days30Array = ArrayAdapter.createFromResource(this, R.array.days30, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> daysArray = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_dropdown_item);
@@ -45,10 +47,13 @@ public class BankFormActivity extends AppCompatActivity {
         spinYear.setAdapter(yearsArray);
 
         // Change Days Displayed in Spinners According to Month
-        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                switch (position)
+                {
                     case 0:
                         spinDay.setAdapter(daysArray);
                         break;
@@ -86,6 +91,7 @@ public class BankFormActivity extends AppCompatActivity {
                         spinDay.setAdapter(daysArray);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
@@ -100,17 +106,20 @@ public class BankFormActivity extends AppCompatActivity {
     */
 
     // Functionality of Toolbar Back Arrow
-    public boolean onOptionsItemSelected(MenuItem menuItem){
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
         int id = menuItem.getItemId();
 
-        if(id == android.R.id.home){
+        if (id == android.R.id.home)
+        {
             this.finish();
         }
         return super.onOptionsItemSelected(menuItem);
     }
 
     // Submit Bank Transaction
-    public void onClickBankButton(View v) {
+    public void onClickBankButton(View v)
+    {
         DatabaseHelper db = new DatabaseHelper(this);
         Bank bank = new Bank();
         Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
@@ -129,18 +138,17 @@ public class BankFormActivity extends AppCompatActivity {
         String year = spinYear.getSelectedItem().toString();
 
         String date = "";
-        String date2 = "";
-        String[] dayMonthYearDateDate2 = {day, month, year, date, date2};
+        String[] dayMonthYearDate = {day, month, year, date};
 
-        // Append Day, Month, Year to Format - Date: MM/DD/YYYY Date2: YYYY/MM/DD
-        MainActivity.appendDates(dayMonthYearDateDate2);
-        date = dayMonthYearDateDate2[3];
-        date2 = dayMonthYearDateDate2[4];
+        // Append Day, Month, Year to Format - Date: YYYY/MM/DD
+        MainActivity.appendDates(dayMonthYearDate);
+        date = dayMonthYearDate[3];
 
         // Get Amount and Make Sure it's Valid
         EditText editAmount = (EditText) findViewById(R.id.editAmount);
         String Amount = editAmount.getText().toString();
-        if(Amount.isEmpty()) {
+        if (Amount.isEmpty())
+        {
             toast.show();
             return;
         }
@@ -149,7 +157,7 @@ public class BankFormActivity extends AppCompatActivity {
         double amountMoney = Double.parseDouble(editAmount.getText().toString());
 
         // Set Entries into DB
-        bank.setEntries(type, date, date2, amountMoney);
+        bank.setEntries(type, date, amountMoney);
 
         db.createBank(bank);
 

@@ -12,42 +12,50 @@ import java.util.Comparator;
 import java.util.List;
 
 // Displays Each Game Session Sorted By Date as a List Under History Tab
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment
+{
 
     DatabaseHelper db;
     List<Game> gameList;
 
-    public HistoryFragment() {
+    public HistoryFragment()
+    {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate((savedInstanceState));
         db = new DatabaseHelper(getActivity());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         return inflater.inflate(R.layout.history, container, false); // Inflate Layout
     }
 
     // Action When On History Page
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         displayGames();
     }
 
     // Displays All Game Sessions
-    public void displayGames() {
+    public void displayGames()
+    {
         // Displays Game Sessions
         gameList = db.getAllGames();
         ListView lv = (ListView) getView().findViewById(R.id.listGames);
         GameArrayAdapter adapter = new GameArrayAdapter(getActivity(), gameList);
 
-        // Sorts Games by Date2
-        adapter.sort(new Comparator<Game>() {
-            public int compare(Game arg0, Game arg1) {
-                return arg0.date2.compareTo(arg1.date2);
+        // Sorts Games by Date
+        adapter.sort(new Comparator<Game>()
+        {
+            public int compare(Game arg0, Game arg1)
+            {
+                return arg0.date.compareTo(arg1.date);
             }
         });
 
