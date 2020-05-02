@@ -121,21 +121,28 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         long time = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
 
-        Toast zeroMinutes = Toast.makeText(getApplication(), "Time can't be less than a minute!", Toast.LENGTH_SHORT);
+        Toast zeroMinutes = Toast.makeText(getApplication(), "Session can't be less than a minute!", Toast.LENGTH_SHORT);
         Toast timerNotStarted = Toast.makeText(getApplication(), "Timer was not started!", Toast.LENGTH_SHORT);
         Toast noCashOutEntry = Toast.makeText(getApplication(), "Please fill in the \"Cash Out ($)\" field", Toast.LENGTH_SHORT);
 
-        if((int) time == 0)
-        {
-            zeroMinutes.show();
-            return;
-        }
-
+        // Make Sure Cash Out Field is Filled, Timer is Started, Time is Over a Minute Long
+        EditText editCashOut = (EditText) findViewById(R.id.editLiveCashOut);
         if(started == false)
         {
             timerNotStarted.show();
             return;
         }
+        else if (editCashOut.getText().toString().isEmpty())
+        {
+            noCashOutEntry.show();
+            return;
+        }
+        else if((int) time == 0)
+        {
+            zeroMinutes.show();
+            return;
+        }
+
         DatabaseHelper db = new DatabaseHelper(this);
         Session session = new Session();
 
@@ -143,18 +150,11 @@ public class LiveSessionTracker extends AppCompatActivity
         LocalDate today = LocalDate.now();
         String date = today.format(formatter);
 
-        // Get Cash Out and Make Sure it's Valid
-        EditText editCashOut = (EditText) findViewById(R.id.editLiveCashOut);
-        if (editCashOut.getText().toString().isEmpty())
-        {
-            noCashOutEntry.show();
-            return;
-        }
         // Input Cash Out Entry
         int cashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
-        session.setEntries(sessionTypeValue, sessionBlindsValue, locationValue, date, (int) (long) time, totalBuyIn, cashOut);
+        session.setEntries(sessionTypeValue, sessionBlindsValue, locationValue, date, (int) time, totalBuyIn, cashOut);
 
         db.createSession(session);
 
