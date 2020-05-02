@@ -33,6 +33,7 @@ public class LiveGameFormActivity extends AppCompatActivity
 
         spinType = (Spinner) findViewById(R.id.spinnerLiveGameType);
         spinBlinds = (Spinner) findViewById(R.id.spinnerLiveGameBlinds);
+        spinBlinds.setSelection(4);
     }
 
     // Action When On Live Game Form Page
