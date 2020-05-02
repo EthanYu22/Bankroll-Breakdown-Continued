@@ -115,9 +115,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
                 g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
                 g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
                 g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
-                g.setTime(c.getDouble(c.getColumnIndex(GAMES_TIME)));
-                g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
-                g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
+                g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
+                g.setBuyIn(c.getInt(c.getColumnIndex(GAMES_BUY_IN)));
+                g.setCashOut(c.getInt(c.getColumnIndex(GAMES_CASH_OUT)));
 
                 games.add(g);
             } while (c.moveToNext());
@@ -145,9 +145,9 @@ public class DatabaseHelper extends SQLiteOpenHelper
         g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
         g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
         g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
-        g.setTime(c.getDouble(c.getColumnIndex(GAMES_TIME)));
-        g.setBuyIn(c.getDouble(c.getColumnIndex(GAMES_BUY_IN)));
-        g.setCashOut(c.getDouble(c.getColumnIndex(GAMES_CASH_OUT)));
+        g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
+        g.setBuyIn(c.getInt(c.getColumnIndex(GAMES_BUY_IN)));
+        g.setCashOut(c.getInt(c.getColumnIndex(GAMES_CASH_OUT)));
 
         return g;
     }
@@ -211,7 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
             do
             {
                 Bank b = new Bank();
-                b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
+                b.setAmount(c.getInt(c.getColumnIndex(BANK_AMOUNT)));
                 b.setType(c.getString(c.getColumnIndex(BANK_TYPE)));
                 b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
                 b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));
@@ -235,7 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }
 
         Bank b = new Bank();
-        b.setAmount(c.getDouble(c.getColumnIndex(BANK_AMOUNT)));
+        b.setAmount(c.getInt(c.getColumnIndex(BANK_AMOUNT)));
         b.setType(c.getString(c.getColumnIndex(BANK_TYPE)));
         b.setId(c.getInt(c.getColumnIndex(BANK_ID)));
         b.setDate(c.getString(c.getColumnIndex(BANK_DATE)));

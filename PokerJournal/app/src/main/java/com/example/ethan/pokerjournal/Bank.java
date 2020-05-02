@@ -10,16 +10,16 @@ public class Bank
     protected int id; // Transaction ID
     protected String type; // Transaction Type
     protected String date; // Transaction Computed Date YYYY/MM/DD
-    protected double amount; // Transaction Amount
+    protected int amount; // Transaction Amount
 
-    public void setEntries(String type, String date, double amount)
+    public void setEntries(String type, String date, int amount)
     {
         this.type = type;
         this.date = date;
         this.amount = amount;
     }
 
-    public void setAll(int id, String type, String date, double amount)
+    public void setAll(int id, String type, String date, int amount)
     {
         this.id = id;
         setEntries(type, date, amount);
@@ -53,12 +53,12 @@ public class Bank
         this.date = date;
     }
 
-    public double getAmount()
+    public int getAmount()
     {
         return amount;
     }
 
-    public void setAmount(double amount) { this.amount = amount; }
+    public void setAmount(int amount) { this.amount = amount; }
 
     public String getConvertedDateMMddyyyy()
     {

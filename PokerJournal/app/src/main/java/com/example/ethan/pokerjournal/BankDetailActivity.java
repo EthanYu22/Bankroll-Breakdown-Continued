@@ -67,12 +67,9 @@ public class BankDetailActivity extends AppCompatActivity
         TextView type = (TextView) findViewById(R.id.textBankType);
         TextView amount = (TextView) findViewById(R.id.textBankAmount);
 
-        // Set Significant Figures to 2 for Amount Deposited or Withdrawn
-        String amt = String.format("%.2f", bank.getAmount());
-
         date.setText("Date: " + bank.getConvertedDateMMddyyyy());
         type.setText("Deposit/Withdraw: " + bank.getType());
-        amount.setText("Amount: $" + amt);
+        amount.setText("Amount: $" + bank.getAmount());
     }
 
     // Edit Bank Entries

@@ -23,7 +23,6 @@
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
 
-    // Display "Game Hourly Rate:"
     <TextView
         android:id="@+id/textGameHourlyRate"
         android:text="Game Hourly Rate:"
@@ -36,7 +35,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Game Net Profit:" Under textGameHourly Rate
     <TextView
         android:id="@+id/textGameNetProfit"
         android:text="Game Net Profit:"
@@ -48,7 +46,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Date:" 90dp Under textGameNetProfit
     <TextView
         android:id="@+id/textGameDate"
         android:text="Date:"
@@ -61,7 +58,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Type:" Under textGameDate
     <TextView
         android:id="@+id/textGameType"
         android:text="Type:"
@@ -73,7 +69,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Blinds:" Under textGameType
     <TextView
         android:id="@+id/textGameBlinds"
         android:text="Blinds:"
@@ -85,7 +80,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Location" Under textGameBlinds
     <TextView
         android:id="@+id/textGameLocation"
         android:text="Location:"
@@ -97,10 +91,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Time:" Under textGameLocation
     <TextView
-        android:id="@+id/textGameTime"
-        android:text="Time:"
+        android:id="@+id/textGameTimeHours"
+        android:text="Time in Hours:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/textGameLocation"
         android:layout_alignParentStart="true"
@@ -109,19 +102,28 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Buy In:" Under textGameTime
     <TextView
-        android:id="@+id/textGameBuyIn"
-        android:text="Buy In:"
+        android:id="@+id/textGameTimeMins"
+        android:text="Time in Minutes:"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textGameTime"
+        android:layout_below="@+id/textGameTimeHours"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Cash Out:" Under textGameBuyIn
+    <TextView
+        android:id="@+id/textGameBuyIn"
+        android:text="Buy In:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textGameTimeMins"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
     <TextView
         android:id="@+id/textGameCashOut"
         android:text="Cash Out:"
@@ -133,7 +135,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Edit Button Above buttonDeleteGame
     <Button
         android:id="@+id/buttonEditGame"
         android:text="Edit"
@@ -146,7 +147,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Delete Button at Bottom of Page
     <Button
         android:id="@+id/buttonDeleteGame"
         android:text="Delete"

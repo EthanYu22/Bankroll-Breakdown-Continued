@@ -46,30 +46,30 @@ public class StatsFragment extends Fragment
         gameList = db.getAllGames();
         double totalHours = 0;
         double avgSessionDuration;
-        double netProfit;
-        double buyIn = 0;
-        double cashOut = 0;
-        double avgBuy = 0;
-        double avgCashOut = 0;
+        int netProfit;
+        int buyIn = 0;
+        int cashOut = 0;
+        int avgBuyIn = 0;
+        int avgCashOut = 0;
         double hourlyRate;
         int winningSession = 0;
         int losingSession = 0;
         int totalSessions = 0;
-        double biggestWin = 0;
-        double biggestLoss = 0;
+        int biggestWin = 0;
+        int biggestLoss = 0;
 
         // Calculation for Statistics
         for (int i = 0; i < gameList.size(); i++)
         {
             game = gameList.get(i);
-            totalHours += game.getTime(); // Net Hours
+            totalHours += game.getTime() / 60.0; // Net Hours
             buyIn += game.getBuyIn(); // Net Buy In
             cashOut += game.getCashOut(); // Net Cash Out
-            avgBuy = buyIn / gameList.size(); // Average Buy In
+            avgBuyIn = buyIn / gameList.size(); // Average Buy In
             avgCashOut = cashOut / gameList.size(); // Average Cash Out
 
             // Find Biggest Win and Loss
-            double bigwin = game.getCashOut() - game.getBuyIn();
+            int bigwin = game.getCashOut() - game.getBuyIn();
             if (bigwin > biggestWin)
             {
                 biggestWin = bigwin;
@@ -116,7 +116,7 @@ public class StatsFragment extends Fragment
             hr.setText("Hourly Rate: ");
             np.setText("Net Profit: ");
             x.setText("Hours Played: ");
-            ast.setText("Avg Session Duration: ");
+            ast.setText("Avg Hourly Session Duration: ");
             ts.setText("Sessions Count: ");
             abi.setText("Avg Buy In: ");
             aco.setText("Avg Cash Out: ");
@@ -133,42 +133,32 @@ public class StatsFragment extends Fragment
             hourlyRate = netProfit / totalHours;
             avgSessionDuration = totalHours / gameList.size();
 
-            // Set Significant Figures to 2 for Net Profit, Hourly Rate, Total Hours, Avg Session Duration, Avg Buy In, Biggest Win, and Biggest Loss
-            String nProfit = String.format("%.2f", Math.abs(netProfit));
-            String hourlyR = String.format("%.2f", Math.abs(hourlyRate));
-            String tHours = String.format("%.2f", totalHours);
-            String avgSD = String.format("%.2f", avgSessionDuration);
-            String avgB = String.format("%.2f", avgBuy);
-            String avgCO = String.format("%.2f", avgCashOut);
-            String bWin = String.format("%.2f", biggestWin);
-            String bLoss = String.format("%.2f", Math.abs(biggestLoss));
-
             // Set Text for Each TextView
             if (hourlyRate < 0)
             {
-                hr.setText("Hourly Rate: -$" + hourlyR);
+                hr.setText("Hourly Rate: -$" + String.format("%.2f", Math.abs(hourlyRate)));
             }
             else
             {
-                hr.setText("Hourly Rate: $" + hourlyR);
+                hr.setText("Hourly Rate: $" + String.format("%.2f", Math.abs(hourlyRate)));
             }
             if (netProfit < 0)
             {
-                np.setText("Net Profit: -$" + nProfit);
+                np.setText("Net Profit: -$" + netProfit);
             }
             else
             {
-                np.setText("Net Profit: $" + nProfit);
+                np.setText("Net Profit: $" + netProfit);
             }
-            x.setText("Hours Played: " + tHours);
-            ast.setText("Avg Session Duration: " + avgSD);
+            x.setText("Hours Played: " + String.format("%.2f", totalHours));
+            ast.setText("Avg Hourly Session Duration: " + String.format("%.2f", avgSessionDuration));
             ts.setText("Sessions Count: " + totalSessions);
-            abi.setText("Avg Buy In: $" + avgB);
-            aco.setText("Avg Cash Out: $" + avgCO);
+            abi.setText("Avg Buy In: $" + avgBuyIn);
+            aco.setText("Avg Cash Out: $" + avgCashOut);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
-            bw.setText("Largest Win: $" + bWin);
-            bl.setText("Largest Loss: $" + bLoss);
+            bw.setText("Largest Win: $" + biggestWin);
+            bl.setText("Largest Loss: $" + biggestLoss);
         }
     }
 }

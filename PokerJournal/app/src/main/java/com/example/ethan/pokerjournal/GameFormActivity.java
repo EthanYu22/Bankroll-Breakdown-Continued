@@ -166,7 +166,7 @@ public class GameFormActivity extends AppCompatActivity
             return;
         }
         // Input Session Duration Entry
-        double time = Double.parseDouble(editTime.getText().toString());
+        int time = Integer.parseInt(editTime.getText().toString());
 
         // Get Buy In and Make Sure it's Valid
         EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);
@@ -176,7 +176,7 @@ public class GameFormActivity extends AppCompatActivity
             return;
         }
         // Input Buy In Entry
-        double buyIn = Double.parseDouble(editBuyIn.getText().toString());
+        int buyIn = Integer.parseInt(editBuyIn.getText().toString());
 
         // Get Cash Out and Make Sure it's Valid
         EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
@@ -186,7 +186,7 @@ public class GameFormActivity extends AppCompatActivity
             return;
         }
         // Input Cash Out Entry
-        double cashOut = Double.parseDouble(editCashOut.getText().toString());
+        int cashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
         game.setEntries(type, blinds, location, date, time, buyIn, cashOut);

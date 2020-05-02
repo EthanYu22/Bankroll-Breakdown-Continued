@@ -20,20 +20,18 @@
         android:textSize="25dp"
         android:textStyle="bold" />
 
-    // Display "Hourly Rate" 15dp Under stats
     <TextView
         android:id="@+id/hourlyRate"
-        android:text="Hourly Rate"
+        android:text="Hourly Rate:"
         android:layout_below="@+id/stats"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Net Profit" Under hourlyRate
     <TextView
         android:id="@+id/netProfit"
-        android:text="Net Profit"
+        android:text="Net Profit:"
         android:layout_below="@+id/hourlyRate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
@@ -41,10 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Hours Played" Under netProfit
     <TextView
         android:id="@+id/hoursPlayed"
-        android:text="Hours Played"
+        android:text="Hours Played:"
         android:layout_below="@+id/netProfit"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
@@ -52,87 +49,77 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Avg Session Duration" Under hoursPlayed
     <TextView
         android:id="@+id/avgHours"
-        android:text="Avg Session Duration"
+        android:text="Avg Hourly Session Duration:"
         android:layout_below="@+id/hoursPlayed"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Session Count" Under avghours
     <TextView
         android:id="@+id/totalSession"
-        android:text="Session Count"
+        android:text="Session Count:"
         android:layout_below="@+id/avgHours"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Avg Buy In" Under totalSession
     <TextView
         android:id="@+id/avgBuy"
-        android:text="Avg Buy In"
+        android:text="Avg Buy In:"
         android:layout_below="@+id/totalSession"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Avg Cash Out" Under avgBuy
     <TextView
         android:id="@+id/avgCashOut"
-        android:text="Avg Cash Out"
+        android:text="Avg Cash Out:"
         android:layout_below="@+id/avgBuy"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Winning Sessions" Under avgCashOut
     <TextView
         android:id="@+id/winningSession"
-        android:text="Winning Sessions"
+        android:text="Winning Sessions:"
         android:layout_below="@+id/avgCashOut"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Losing Sessions" Under winningSession
     <TextView
         android:id="@+id/losingSession"
-        android:text="Losing Sessions"
+        android:text="Losing Sessions:"
         android:layout_below="@+id/winningSession"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Largest Win" Under losingSession
     <TextView
         android:id="@+id/biggestWin"
-        android:text="Largest Win"
+        android:text="Largest Win:"
         android:layout_below="@+id/losingSession"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    // Display "Largest Loss" Under biggestWin
     <TextView
         android:id="@+id/biggestLoss"
-        android:text="Largest Loss"
+        android:text="Largest Loss:"
         android:layout_below="@+id/biggestWin"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
-    // Stats Graph Button at Bottom of Page
 
     <Button
         android:id="@+id/buttonStatsGraph"

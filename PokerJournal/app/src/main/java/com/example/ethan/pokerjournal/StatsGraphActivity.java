@@ -60,7 +60,7 @@ public class StatsGraphActivity extends AppCompatActivity
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
-        Double netBankroll = 0.0;
+        int netBankroll = 0;
 
 
         for (int i = 0; i < gameList.size() - 1; i++)

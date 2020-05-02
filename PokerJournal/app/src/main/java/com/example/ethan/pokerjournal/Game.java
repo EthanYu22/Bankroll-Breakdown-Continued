@@ -13,12 +13,12 @@ public class Game implements Comparator<Game>
     protected String type; // Poker Variation Type
     protected String blinds; // Blinds
     protected String location; // Casino
-    protected String date; // Computed Date YYYY/MM/DD
-    protected double time; // Session Duration Time
-    protected double buyIn; // Total Buy In Amount
-    protected double cashOut; // Total Cash Out Amount
+    protected String date; // Computed Date YYYY-MM-DD
+    protected int time; // Session Duration Time
+    protected int buyIn; // Total Buy In Amount
+    protected int cashOut; // Total Cash Out Amount
 
-    public void setEntries(String type, String blinds, String location, String date, double time, double buyIn, double cashOut)
+    public void setEntries(String type, String blinds, String location, String date, int time, int buyIn, int cashOut)
     {
         this.id = id;
         this.type = type;
@@ -30,7 +30,7 @@ public class Game implements Comparator<Game>
         this.cashOut = cashOut;
     }
 
-    public void setAll(int id, String type, String blinds, String location, String date, double time, double buyIn, double cashOut)
+    public void setAll(int id, String type, String blinds, String location, String date, int time, int buyIn, int cashOut)
     {
         this.id = id;
         this.type = type;
@@ -64,17 +64,17 @@ public class Game implements Comparator<Game>
 
     public void setDate(String date) {this.date = date;}
 
-    public double getTime() {return time;}
+    public int getTime() {return time;}
 
-    public void setTime(double time) {this.time = time;}
+    public void setTime(int time) {this.time = time;}
 
-    public double getBuyIn() {return buyIn;}
+    public int getBuyIn() {return buyIn;}
 
-    public void setBuyIn(double buyIn) {this.buyIn = buyIn;}
+    public void setBuyIn(int buyIn) {this.buyIn = buyIn;}
 
-    public double getCashOut() {return cashOut;}
+    public int getCashOut() {return cashOut;}
 
-    public void setCashOut(double cashOut) {this.cashOut = cashOut;}
+    public void setCashOut(int cashOut) {this.cashOut = cashOut;}
 
     public String getConvertedDateMMddyyyy()
     {
@@ -90,12 +90,12 @@ public class Game implements Comparator<Game>
     // Turns Date into a Stringf
     public String toString()
     {
-        double netProfit = cashOut - buyIn;
+        int netProfit = cashOut - buyIn;
         if (netProfit < 0)
         {
-            return " " + getConvertedDateMMddyyyy() + "\n Location: " + location + "\n -$" + -netProfit + " in " + time + " hours";
+            return " " + getConvertedDateMMddyyyy() + "\n Location: " + location + "\n -$" + -netProfit + " in " + String.format("%.2f", time/60.0) + " hours";
         }
-        return " " + getConvertedDateMMddyyyy() + "\n Location: " + location + "\n $" + netProfit + " in " + time + " hours";
+        return " " + getConvertedDateMMddyyyy() + "\n Location: " + location + "\n $" + netProfit + " in " + String.format("%.2f", time/60.0) + " hours";
     }
     // Arbitrary For No Error Alerts
     @Override

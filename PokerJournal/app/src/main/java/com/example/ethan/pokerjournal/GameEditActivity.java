@@ -1,5 +1,6 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -42,11 +43,11 @@ public class GameEditActivity extends AppCompatActivity
         final TextView displayLocation = (TextView) findViewById(R.id.editLocation);
         displayLocation.setText(game.getLocation());
         final TextView displayTime = (TextView) findViewById(R.id.editTime);
-        displayTime.setText(Double.toString(game.getTime()));
+        displayTime.setText(Integer.toString((int)(game.getTime())));
         final TextView displayBuyIn = (TextView) findViewById(R.id.editBuyIn);
-        displayBuyIn.setText(Double.toString(game.getBuyIn()));
+        displayBuyIn.setText(Integer.toString((int)(game.getBuyIn())));
         final TextView displayCashOut = (TextView) findViewById(R.id.editCashOut);
-        displayCashOut.setText(Double.toString(game.getCashOut()));
+        displayCashOut.setText(Integer.toString((int)(game.getCashOut())));
 
         // Set Up Type & Blinds Spinner
         spinType = (Spinner) findViewById(R.id.spinnerGameType);
@@ -237,7 +238,7 @@ public class GameEditActivity extends AppCompatActivity
             return;
         }
         // Input Session Duration Entry
-        double time = Double.parseDouble(editTime.getText().toString());
+        int time = Integer.parseInt(editTime.getText().toString());
 
         // Get Buy In and Make Sure it's Valid
         EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);
@@ -247,7 +248,7 @@ public class GameEditActivity extends AppCompatActivity
             return;
         }
         // Input Buy In Entry
-        double buyIn = Double.parseDouble(editBuyIn.getText().toString());
+        int buyIn = Integer.parseInt(editBuyIn.getText().toString());
 
         // Get Cash Out and Make Sure it's Valid
         EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
@@ -258,13 +259,14 @@ public class GameEditActivity extends AppCompatActivity
         }
 
         // Cash Out as Double
-        double cashOut = Double.parseDouble(editCashOut.getText().toString());
+        int cashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
         game.setAll(gameId, type, blinds, location, date, time, buyIn, cashOut);
 
         db.editGame(game);
 
-        finish();
+        Intent intent = new Intent(GameEditActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }

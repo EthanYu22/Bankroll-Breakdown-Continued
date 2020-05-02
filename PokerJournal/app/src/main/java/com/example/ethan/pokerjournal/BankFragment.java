@@ -84,11 +84,11 @@ public class BankFragment extends Fragment
         // Calculate Net Bank Transactions
         Bank bank;
         banksList = db.getAllBanks();
-        double totalMoney = 0;
-        double Bankroll = 0;
-        double WithdrawDeposit = 0;
-        double totalWithdraw = 0;
-        double totalDeposit = 0;
+        int totalMoney = 0;
+        int Bankroll = 0;
+        int WithdrawDeposit = 0;
+        int totalWithdraw = 0;
+        int totalDeposit = 0;
         for (int i = 0; i < banksList.size(); i++)
         {
             bank = banksList.get(i);

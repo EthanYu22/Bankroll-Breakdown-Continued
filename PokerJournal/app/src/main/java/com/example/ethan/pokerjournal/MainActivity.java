@@ -150,6 +150,13 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    // Live Session Button Leads to Live Game Form
+    public void onClickLiveGameForm(View v)
+    {
+        Intent intent = new Intent(MainActivity.this, LiveGameFormActivity.class);
+        startActivity(intent);
+    }
+
     // Deposit/Withdraw Button Leads to a Bank Form
     public void onClickDepositWithdraw(View v)
     {

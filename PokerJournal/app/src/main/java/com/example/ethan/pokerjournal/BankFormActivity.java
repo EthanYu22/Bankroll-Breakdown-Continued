@@ -154,7 +154,7 @@ public class BankFormActivity extends AppCompatActivity
         }
 
         // Amount Transaction
-        double amountMoney = Double.parseDouble(editAmount.getText().toString());
+        int amountMoney = Integer.parseInt(editAmount.getText().toString());
 
         // Set Entries into DB
         bank.setEntries(type, date, amountMoney);

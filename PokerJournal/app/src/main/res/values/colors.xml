@@ -18,4 +18,9 @@
     <color name="navigationBarColor">#000000</color> // Black
     <color name="colorAccent">#000000</color> // Black
 
+    // Single Colors
+    <color name ="red">#ff4222</color>
+    <color name ="blue">#ADD8E6</color>
+    <color name ="green">#02aB22</color>
+
 </resources>

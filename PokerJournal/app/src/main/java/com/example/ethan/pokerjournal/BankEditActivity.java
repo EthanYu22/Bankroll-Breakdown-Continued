@@ -1,5 +1,6 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +41,7 @@ public class BankEditActivity extends AppCompatActivity
         bank = db.getBank(bankId);
 
         final TextView displayAmount = (TextView) findViewById(R.id.editAmount);
-        displayAmount.setText(Double.toString(bank.getAmount()));
+        displayAmount.setText(Integer.toString(bank.getAmount()));
 
         // Set Up Type Spinner
         spinType = (Spinner) findViewById(R.id.spinnerType);
@@ -151,7 +152,7 @@ public class BankEditActivity extends AppCompatActivity
     // Displays Current Day Entry
     public void setDaySpinner(String date)
     {
-        String month = (String) date.subSequence(6, 7);
+        String month = (String) date.subSequence(8, 9);
         int position = Integer.parseInt(month) - 1;
         spinDay.setSelection(position);
     }
@@ -159,7 +160,7 @@ public class BankEditActivity extends AppCompatActivity
     // Displays Current Month Entry
     public void setMonthSpinner(String date)
     {
-        String month = (String) date.subSequence(4, 5);
+        String month = (String) date.subSequence(5, 6);
         int position = Integer.parseInt(month) - 1;
         spinMonth.setSelection(position);
     }
@@ -209,13 +210,14 @@ public class BankEditActivity extends AppCompatActivity
         }
 
         // Amount Transaction as a Double
-        double amountMoney = Double.parseDouble(editAmount.getText().toString());
+        int amountMoney = Integer.parseInt(editAmount.getText().toString());
 
         // Set Entries into DB
         bank.setAll(bankId, type, date, amountMoney);
 
         db.editBank(bank);
 
-        finish();
+        Intent intent = new Intent(BankEditActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
