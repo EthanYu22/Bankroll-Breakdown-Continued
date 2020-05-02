@@ -120,8 +120,17 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onClickLiveSession(View v)
     {
         long time = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
-        Toast noCashOutEntry = Toast.makeText(getApplication(), "Please fill in the \"Cash Out ($)\" field", Toast.LENGTH_SHORT);
+
+        Toast zeroMinutes = Toast.makeText(getApplication(), "Time can't be less than a minute!", Toast.LENGTH_SHORT);
         Toast timerNotStarted = Toast.makeText(getApplication(), "Timer was not started!", Toast.LENGTH_SHORT);
+        Toast noCashOutEntry = Toast.makeText(getApplication(), "Please fill in the \"Cash Out ($)\" field", Toast.LENGTH_SHORT);
+
+        if((int) time == 0)
+        {
+            zeroMinutes.show();
+            return;
+        }
+
         if(started == false)
         {
             timerNotStarted.show();
