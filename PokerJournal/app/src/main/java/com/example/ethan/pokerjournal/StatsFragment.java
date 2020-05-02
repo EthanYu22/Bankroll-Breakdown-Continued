@@ -144,7 +144,7 @@ public class StatsFragment extends Fragment
             }
             if (netProfit < 0)
             {
-                np.setText("Net Profit: -$" + netProfit);
+                np.setText("Net Profit: -$" + Math.abs(netProfit));
             }
             else
             {
@@ -158,7 +158,7 @@ public class StatsFragment extends Fragment
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
             bw.setText("Largest Win: $" + biggestWin);
-            bl.setText("Largest Loss: $" + biggestLoss);
+            bl.setText("Largest Loss: $" + Math.abs(biggestLoss));
         }
     }
 }

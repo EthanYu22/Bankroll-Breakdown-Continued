@@ -94,7 +94,7 @@ public class SessionDetailActivity extends AppCompatActivity
         }
         if (nProfit < 0)
         {
-            netProfit.setText("Session Net Profit: -$" + nProfit);
+            netProfit.setText("Session Net Profit: -$" + Math.abs(nProfit));
         }
         else
         {
