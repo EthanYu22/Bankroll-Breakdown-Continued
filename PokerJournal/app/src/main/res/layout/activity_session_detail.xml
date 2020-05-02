@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.ethan.pokerjournal.LiveGameFormActivity">
+    tools:context="com.example.ethan.pokerjournal.SessionDetailActivity">
 
     // Toolbar Detailing
     <android.support.design.widget.AppBarLayout
@@ -23,11 +23,10 @@
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
 
-    // Display "Game Type:"
     <TextView
-        android:id="@+id/textLiveGameType"
-        android:text="Game Type:"
-        android:textSize="20dp"
+        android:id="@+id/textSessionHourlyRate"
+        android:text="Session Hourly Rate:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
@@ -36,88 +35,111 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display GameType Spinner Under textGameType With Entries Listed in game_types in strings.xml
-    <Spinner
-        android:id="@+id/spinnerLiveGameType"
-        android:entries="@array/game_types"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/textLiveGameType"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    // Display "Game Blinds:" Under spinnerGameType
     <TextView
-        android:id="@+id/textLiveGameBlinds"
-        android:text="Game Blinds:"
-        android:textSize="20dp"
-        android:layout_below="@+id/spinnerLiveGameType"
+        android:id="@+id/textSessionNetProfit"
+        android:text="Session Net Profit:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textSessionHourlyRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display GameBlinds Spinner Under textGameBlinds With Entries Listed in game_blinds in strings.xml
-    <Spinner
-        android:id="@+id/spinnerLiveGameBlinds"
-        android:entries="@array/game_blinds"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/textLiveGameBlinds"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    // Display "Location:" Under spinnerGameMonth
     <TextView
-        android:id="@+id/textLiveLocation"
+        android:id="@+id/textSessionDate"
+        android:text="Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="160dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textSessionType"
+        android:text="Type:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionDate"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textSessionBlinds"
+        android:text="Blinds:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionType"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textSessionLocation"
         android:text="Location:"
-        android:textSize="20dp"
-        android:layout_below="@+id/spinnerLiveGameBlinds"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionBlinds"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Location Under textLocation
-
-    <EditText
-        android:id="@+id/editLiveLocation"
-        android:inputType="text|textAutoComplete"
-        android:textSize="15dp"
-        android:layout_below="@+id/textLiveLocation"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    // Display "Buy In (Dollars):" Under editTime
     <TextView
-        android:id="@+id/textLiveBuyIn"
-        android:text="Initial Buy In ($):"
-        android:textSize="20dp"
-        android:layout_below="@+id/editLiveLocation"
+        android:id="@+id/textSessionTimeHours"
+        android:text="Time in Hours:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionLocation"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Buy In Under textBuyIn
+    <TextView
+        android:id="@+id/textSessionTimeMins"
+        android:text="Time in Minutes:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionTimeHours"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
 
-    <EditText
-        android:id="@+id/editLiveBuyIn"
-        android:inputType="number|numberDecimal"
-        android:ems="10"
-        android:layout_below="@+id/textLiveBuyIn"
+    <TextView
+        android:id="@+id/textSessionBuyIn"
+        android:text="Buy In:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionTimeMins"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textSessionCashOut"
+        android:text="Cash Out:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/textSessionBuyIn"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <Button
+        android:id="@+id/buttonEditSession"
+        android:text="Edit"
+        android:onClick="onClickEditSession"
+        android:layout_above="@+id/buttonDeleteSession"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -125,11 +147,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Submit Button at Bottom of Page
     <Button
-        android:text="Start Live Session"
-        android:id="@+id/buttonSubmitLiveGame"
-        android:onClick="onClickLiveGameTracker"
+        android:id="@+id/buttonDeleteSession"
+        android:text="Delete"
+        android:onClick="onClickDeleteSession"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

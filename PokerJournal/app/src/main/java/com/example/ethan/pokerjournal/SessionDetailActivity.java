@@ -11,30 +11,30 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// Displays Game Details on a Separate Page
-public class GameDetailActivity extends AppCompatActivity
+// Displays Session Details on a Separate Page
+public class SessionDetailActivity extends AppCompatActivity
 {
 
     DatabaseHelper db;
-    Game game;
-    int gameId;
+    Session session;
+    int sessionId;
     private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_detail);
+        setContentView(R.layout.activity_session_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        gameId = MainActivity.gameId;
+        sessionId = MainActivity.sessionId;
         db = new DatabaseHelper(this);
-        game = db.getGame(gameId);
+        session = db.getSession(sessionId);
     }
 
 
-    // Action When On Game Detail Page
+    // Action When On Session Detail Page
     public void onResume()
     {
         super.onResume();
@@ -42,7 +42,7 @@ public class GameDetailActivity extends AppCompatActivity
     }
 
     /*
-    // Action When Off Game Detail Page
+    // Action When Off Session Detail Page
     public void onPause() {
         super.onPause();
         finish();
@@ -61,23 +61,23 @@ public class GameDetailActivity extends AppCompatActivity
         return super.onOptionsItemSelected(menuItem);
     }
 
-    // Displays Game Details
+    // Displays Session Details
     public void displayDetails()
     {
-        double timeInHours = game.getTime() / 60.0;
-        TextView hourlyRate = (TextView) findViewById(R.id.textGameHourlyRate);
-        TextView netProfit = (TextView) findViewById(R.id.textGameNetProfit);
-        TextView type = (TextView) findViewById(R.id.textGameType);
-        TextView blinds = (TextView) findViewById(R.id.textGameBlinds);
-        TextView location = (TextView) findViewById(R.id.textGameLocation);
-        TextView date = (TextView) findViewById(R.id.textGameDate);
-        TextView timeMins = (TextView) findViewById(R.id.textGameTimeMins);
-        TextView timeHours = (TextView) findViewById(R.id.textGameTimeHours);
-        TextView buyIn = (TextView) findViewById(R.id.textGameBuyIn);
-        TextView cashOut = (TextView) findViewById(R.id.textGameCashOut);
+        double timeInHours = session.getTime() / 60.0;
+        TextView hourlyRate = (TextView) findViewById(R.id.textSessionHourlyRate);
+        TextView netProfit = (TextView) findViewById(R.id.textSessionNetProfit);
+        TextView type = (TextView) findViewById(R.id.textSessionType);
+        TextView blinds = (TextView) findViewById(R.id.textSessionBlinds);
+        TextView location = (TextView) findViewById(R.id.textSessionLocation);
+        TextView date = (TextView) findViewById(R.id.textSessionDate);
+        TextView timeMins = (TextView) findViewById(R.id.textSessionTimeMins);
+        TextView timeHours = (TextView) findViewById(R.id.textSessionTimeHours);
+        TextView buyIn = (TextView) findViewById(R.id.textSessionBuyIn);
+        TextView cashOut = (TextView) findViewById(R.id.textSessionCashOut);
 
         // Calculate Net Profit and Hourly Rate
-        int nProfit = game.getCashOut() - game.getBuyIn();
+        int nProfit = session.getCashOut() - session.getBuyIn();
         double hRate = nProfit / timeInHours;
 
         // Set Significant Figures to 2 for Net Profit, Hourly Rate, Buy In, and Cash Out
@@ -100,36 +100,36 @@ public class GameDetailActivity extends AppCompatActivity
         {
             netProfit.setText("Session Net Profit: $" + nProfit);
         }
-        type.setText("Game: " + game.getType());
-        blinds.setText("Blinds: " + game.getBlinds());
-        location.setText("Location: " + game.getLocation());
-        date.setText("Date: " + game.getConvertedDateMMddyyyy());
-        timeMins.setText("Time in Minutes: " + game.getTime() + " mins");
-        timeHours.setText("Time in Hours: " + String.format("%.2f", game.getTime()/60.0) + " hrs");
-        buyIn.setText("Buy In: $" + game.getBuyIn());
-        cashOut.setText("Cash Out: $" + game.getCashOut());
+        type.setText("Type: " + session.getType());
+        blinds.setText("Blinds: " + session.getBlinds());
+        location.setText("Location: " + session.getLocation());
+        date.setText("Date: " + session.getConvertedDateMMddyyyy());
+        timeMins.setText("Time in Minutes: " + session.getTime() + " mins");
+        timeHours.setText("Time in Hours: " + String.format("%.2f", session.getTime()/60.0) + " hrs");
+        buyIn.setText("Buy In: $" + session.getBuyIn());
+        cashOut.setText("Cash Out: $" + session.getCashOut());
     }
 
-    // Edit Game Entries
-    public void onClickEditGame(View v)
+    // Edit Session Entries
+    public void onClickEditSession(View v)
     {
-        gameId = v.getId();
-        Intent intent = new Intent(GameDetailActivity.this, GameEditActivity.class);
+        sessionId = v.getId();
+        Intent intent = new Intent(SessionDetailActivity.this, SessionEditActivity.class);
         startActivity(intent);
     }
 
-    // Reset Button Resets Games
-    public void onClickDeleteGame(View v)
+    // Reset Button Resets Sessions
+    public void onClickDeleteSession(View v)
     {
 
-        // Confirmation Delete Game Alert
-        AlertDialog.Builder altdial = new AlertDialog.Builder(GameDetailActivity.this);
+        // Confirmation Delete Session Alert
+        AlertDialog.Builder altdial = new AlertDialog.Builder(SessionDetailActivity.this);
         altdial.setMessage("Do you want to delete this session?").setCancelable(false).setPositiveButton("Delete Session", new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialogInterface, int which)
             {
-                db.deleteGame(gameId);
+                db.deleteSession(sessionId);
                 Toast toast = Toast.makeText(getApplication(), "Session Deleted", Toast.LENGTH_SHORT);
                 toast.show();
                 finish();

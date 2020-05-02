@@ -97,7 +97,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Amount:" Under spinnerGameMonth
+    // Display "Amount:" Under spinnerSessionMonth
     <TextView
         android:id="@+id/amountTV"
         android:text="Amount ($): "
@@ -125,7 +125,7 @@
 
     // Submit Button at Bottom of Page
     <Button
-        android:id="@+id/buttonSubmitGame"
+        android:id="@+id/buttonSubmitSession"
         android:text="Submit"
         android:onClick="onClickBankButton"
         android:layout_alignParentStart="true"

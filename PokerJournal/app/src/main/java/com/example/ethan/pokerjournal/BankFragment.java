@@ -17,7 +17,7 @@ public class BankFragment extends Fragment
 {
 
     DatabaseHelper db;
-    List<Game> gameList;
+    List<Session> sessionList;
     List<Bank> banksList;
 
     public BankFragment() {}
@@ -68,16 +68,16 @@ public class BankFragment extends Fragment
         adapter.notifyDataSetChanged();
 
         // Calculate Net Profit from Poker Sessions
-        Game game;
-        gameList = db.getAllGames();
+        Session session;
+        sessionList = db.getAllSessions();
         int netProfit;
         int buyIn = 0;
         int cashOut = 0;
-        for (int i = 0; i < gameList.size(); i++)
+        for (int i = 0; i < sessionList.size(); i++)
         {
-            game = gameList.get(i);
-            buyIn += game.getBuyIn();
-            cashOut += game.getCashOut();
+            session = sessionList.get(i);
+            buyIn += session.getBuyIn();
+            cashOut += session.getCashOut();
         }
         netProfit = cashOut - buyIn;
 

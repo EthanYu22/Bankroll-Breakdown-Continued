@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 
-// ~ Need Comparator to Sort Games by Date ~
-// Represents a Poker Session/Game
-public class Game implements Comparator<Game>
+// ~ Need Comparator to Sort Sessions by Date ~
+// Represents a Poker Session/Session
+public class Session implements Comparator<Session>
 {
 
-    protected int id; // Game ID
+    protected int id; // Session ID
     protected String type; // Poker Variation Type
     protected String blinds; // Blinds
     protected String location; // Casino
@@ -99,5 +99,5 @@ public class Game implements Comparator<Game>
     }
     // Arbitrary For No Error Alerts
     @Override
-    public int compare(Game game, Game t1) {return 0;}
+    public int compare(Session session, Session t1) {return 0;}
 }

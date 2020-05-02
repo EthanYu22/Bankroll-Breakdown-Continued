@@ -5,43 +5,46 @@
     android:layout_height="match_parent"
     tools:context="com.example.ethan.pokerjournal.HistoryFragment">
 
-    // New Game Button
+    // New Session Button
     <Button
-        android:id="@+id/buttonNewGame"
-        android:text="New Game"
-        android:onClick="onClickNewGame"
+        android:id="@+id/buttonNewSession"
+        android:text="New Session"
+        android:onClick="onClickNewSession"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     // Live Session Button
-    <Button
-        android:id="@+id/buttonLiveGame"
-        android:text="Live Session"
-        android:onClick="onClickLiveGameForm"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
     // Reset Button
+
     <Button
-        android:id="@+id/buttonResetGames"
+        android:id="@+id/buttonLiveSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="154dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:onClick="onClickLiveSessionForm"
+        android:text="Live Session" />
+
+    <Button
+        android:id="@+id/buttonResetSessions"
         android:text="Clear"
-        android:onClick="onClickResetGame"
+        android:onClick="onClickResetSession"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    // List View for Game Session History
+    // List View for Session Session History
     <ListView
-        android:id="@+id/listGames"
+        android:id="@+id/listSessions"
         android:scrollbars="vertical"
         android:fastScrollEnabled="true"
         android:fastScrollAlwaysVisible="true"
-        android:layout_below="@+id/buttonResetGames"
-        android:layout_alignEnd="@+id/buttonResetGames"
+        android:layout_below="@+id/buttonResetSessions"
+        android:layout_alignEnd="@+id/buttonResetSessions"
         android:layout_marginBottom="58dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

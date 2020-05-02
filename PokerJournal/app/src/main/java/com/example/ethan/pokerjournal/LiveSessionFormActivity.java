@@ -11,7 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LiveGameFormActivity extends AppCompatActivity
+public class LiveSessionFormActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
     TextView inputLocation;
@@ -23,7 +23,7 @@ public class LiveGameFormActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live_game_form);
+        setContentView(R.layout.activity_live_session_form);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -31,12 +31,12 @@ public class LiveGameFormActivity extends AppCompatActivity
         inputLocation = (TextView) findViewById(R.id.editLiveLocation);
         inputBuyIn = (TextView) findViewById(R.id.editLiveBuyIn);
 
-        spinType = (Spinner) findViewById(R.id.spinnerLiveGameType);
-        spinBlinds = (Spinner) findViewById(R.id.spinnerLiveGameBlinds);
+        spinType = (Spinner) findViewById(R.id.spinnerLiveSessionType);
+        spinBlinds = (Spinner) findViewById(R.id.spinnerLiveSessionBlinds);
         spinBlinds.setSelection(4);
     }
 
-    // Action When On Live Game Form Page
+    // Action When On Live Session Form Page
     public void onResume()
     {
         super.onResume();
@@ -54,8 +54,8 @@ public class LiveGameFormActivity extends AppCompatActivity
         return super.onOptionsItemSelected(menuItem);
     }
 
-    // Live Session Button Leads to Live Game Form
-    public void onClickLiveGameTracker(View v)
+    // Live Session Button Leads to Live Session Form
+    public void onClickLiveSessionTracker(View v)
     {
         Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
 
@@ -78,7 +78,7 @@ public class LiveGameFormActivity extends AppCompatActivity
         String sessionType = spinType.getSelectedItem().toString();
         String sessionBlinds = spinBlinds.getSelectedItem().toString();
 
-        Intent intent = new Intent(LiveGameFormActivity.this, LiveGameTracker.class);
+        Intent intent = new Intent(LiveSessionFormActivity.this, LiveSessionTracker.class);
         intent.putExtra("location",location);
         intent.putExtra("buyIn",buyIn);
         intent.putExtra("sessionType", sessionType);

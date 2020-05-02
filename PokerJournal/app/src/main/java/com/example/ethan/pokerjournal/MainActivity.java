@@ -19,10 +19,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
 
-    public static int gameId; // Used to Hold Game View ID
+    public static int sessionId; // Used to Hold Session View ID
     public static int bankId; // Used to Hold Bank View ID
     DatabaseHelper db;
-    List<Game> gameList;
+    List<Session> sessionList;
     List<Bank> bankList;
     // Tabs-Fragments
     HistoryFragment hist;
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = new DatabaseHelper(this);
-        gameList = db.getAllGames();
+        sessionList = db.getAllSessions();
         bankList = db.getAllBanks();
         hist = new HistoryFragment();
         stats = new StatsFragment();
@@ -143,17 +143,17 @@ public class MainActivity extends AppCompatActivity
         viewPager.setAdapter(adapter);
     }
 
-    // New Game Button Leads to Game Form
-    public void onClickNewGame(View v)
+    // New Session Button Leads to Session Form
+    public void onClickNewSession(View v)
     {
-        Intent intent = new Intent(MainActivity.this, GameFormActivity.class);
+        Intent intent = new Intent(MainActivity.this, SessionFormActivity.class);
         startActivity(intent);
     }
 
-    // Live Session Button Leads to Live Game Form
-    public void onClickLiveGameForm(View v)
+    // Live Session Button Leads to Live Session Form
+    public void onClickLiveSessionForm(View v)
     {
-        Intent intent = new Intent(MainActivity.this, LiveGameFormActivity.class);
+        Intent intent = new Intent(MainActivity.this, LiveSessionFormActivity.class);
         startActivity(intent);
     }
 
@@ -164,13 +164,13 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    // Reset Button Resets Games
-    public void onClickResetGame(View v)
+    // Reset Button Resets Sessions
+    public void onClickResetSession(View v)
     {
 
-        Button btn = (Button) findViewById(R.id.buttonResetGames);
+        Button btn = (Button) findViewById(R.id.buttonResetSessions);
 
-        // Confirmation Reset Game History Alert
+        // Confirmation Reset Session History Alert
         btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which)
                     {
-                        db.clearGames();
-                        hist.displayGames();
+                        db.clearSessions();
+                        hist.displaySessions();
                         stats.displayStats();
                     }
                 }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
@@ -237,11 +237,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    // Clicking on Game Listing Leads to Game Details Page
-    public void onClickGame(View v)
+    // Clicking on Session Listing Leads to Session Details Page
+    public void onClickSession(View v)
     {
-        gameId = v.getId();
-        Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
+        sessionId = v.getId();
+        Intent intent = new Intent(MainActivity.this, SessionDetailActivity.class);
         startActivity(intent);
     }
 

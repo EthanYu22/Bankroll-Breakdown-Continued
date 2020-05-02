@@ -17,25 +17,25 @@ public class DatabaseHelper extends SQLiteOpenHelper
     private static final String DATABASE_NAME = "pokerJournalDatabase";
     private static final int DATABASE_VERSION = 9;
 
-    // Game & Bank Tables
-    private static final String TABLE_GAMES = "games";
+    // Session & Bank Tables
+    private static final String TABLE_SESSIONS = "sessions";
     private static final String TABLE_BANK = "bank";
 
-    // Game Fields
-    private static final String GAMES_ID = "id";
-    private static final String GAMES_TYPE = "type"; // Poker Variation Type
-    private static final String GAMES_BLINDS = "blinds";
-    private static final String GAMES_LOC = "location";
-    private static final String GAMES_DATE = "date";
-    private static final String GAMES_TIME = "time";
-    private static final String GAMES_BUY_IN = "buyIn";
-    private static final String GAMES_CASH_OUT = "cashOut";
+    // Session Fields
+    private static final String SESSIONS_ID = "id";
+    private static final String SESSIONS_TYPE = "type"; // Poker Variation Type
+    private static final String SESSIONS_BLINDS = "blinds";
+    private static final String SESSIONS_LOC = "location";
+    private static final String SESSIONS_DATE = "date";
+    private static final String SESSIONS_TIME = "time";
+    private static final String SESSIONS_BUY_IN = "buyIn";
+    private static final String SESSIONS_CASH_OUT = "cashOut";
 
-    // Create Game Statements
-    private static final String CREATE_TABLE_GAMES = "CREATE TABLE " + TABLE_GAMES + "(" + GAMES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + GAMES_TYPE + " TEXT NOT NULL," + GAMES_BLINDS + " TEXT NOT NULL," + GAMES_LOC + " TEXT NOT NULL," + GAMES_DATE + " TEXT NOT NULL," + GAMES_TIME + " REAL NOT NULL," + GAMES_BUY_IN + " REAL NOT NULL," + GAMES_CASH_OUT + " REAL NOT NULL" + ")";
+    // Create Session Statements
+    private static final String CREATE_TABLE_SESSIONS = "CREATE TABLE " + TABLE_SESSIONS + "(" + SESSIONS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + SESSIONS_TYPE + " TEXT NOT NULL," + SESSIONS_BLINDS + " TEXT NOT NULL," + SESSIONS_LOC + " TEXT NOT NULL," + SESSIONS_DATE + " TEXT NOT NULL," + SESSIONS_TIME + " REAL NOT NULL," + SESSIONS_BUY_IN + " REAL NOT NULL," + SESSIONS_CASH_OUT + " REAL NOT NULL" + ")";
 
-    // Update on Games Table for Adding GAMES_BLINDS Field (Ver 2)
-    private static final String DATABASE_ALTER_GAME_1 = "ALTER TABLE " + TABLE_GAMES + " ADD COLUMN " + GAMES_BLINDS + " string;";
+    // Update on Sessions Table for Adding SESSIONS_BLINDS Field (Ver 2)
+    private static final String DATABASE_ALTER_SESSION_1 = "ALTER TABLE " + TABLE_SESSIONS + " ADD COLUMN " + SESSIONS_BLINDS + " string;";
 
     // Bank Transaction Fields
     private static final String BANK_ID = "id";
@@ -55,11 +55,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Run SQLite DB with Both Games and Bank Tables
+    // Run SQLite DB with Both Sessions and Bank Tables
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        db.execSQL(CREATE_TABLE_GAMES);
+        db.execSQL(CREATE_TABLE_SESSIONS);
         db.execSQL(CREATE_TABLE_BANK);
     }
 
@@ -70,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 
         /*// Update For Adding Blinds Field
         if (oldVersion > 1) {
-            db.execSQL(DATABASE_ALTER_GAME_2);
+            db.execSQL(DATABASE_ALTER_SESSION_2);
         }
 
         // Update For Adding Bank Transaction Date Field
@@ -79,28 +79,28 @@ public class DatabaseHelper extends SQLiteOpenHelper
         }*/
     }
 
-    // Game DB Methods
-    public void createGame(Game game)
+    // Session DB Methods
+    public void createSession(Session session)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(GAMES_TYPE, game.getType());
-        values.put(GAMES_BLINDS, game.getBlinds());
-        values.put(GAMES_LOC, game.getLocation());
-        values.put(GAMES_DATE, game.getDate());
-        values.put(GAMES_TIME, game.getTime());
-        values.put(GAMES_BUY_IN, game.getBuyIn());
-        values.put(GAMES_CASH_OUT, game.getCashOut());
+        values.put(SESSIONS_TYPE, session.getType());
+        values.put(SESSIONS_BLINDS, session.getBlinds());
+        values.put(SESSIONS_LOC, session.getLocation());
+        values.put(SESSIONS_DATE, session.getDate());
+        values.put(SESSIONS_TIME, session.getTime());
+        values.put(SESSIONS_BUY_IN, session.getBuyIn());
+        values.put(SESSIONS_CASH_OUT, session.getCashOut());
 
-        long game_return = db.insert(TABLE_GAMES, null, values);
+        long session_return = db.insert(TABLE_SESSIONS, null, values);
     }
 
-    // Get All Games
-    public List<Game> getAllGames()
+    // Get All Sessions
+    public List<Session> getAllSessions()
     {
-        List<Game> games = new ArrayList<Game>();
-        String selectQuery = "SELECT * FROM " + TABLE_GAMES;
+        List<Session> sessions = new ArrayList<Session>();
+        String selectQuery = "SELECT * FROM " + TABLE_SESSIONS;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -109,28 +109,28 @@ public class DatabaseHelper extends SQLiteOpenHelper
         {
             do
             {
-                Game g = new Game();
-                g.setId(c.getInt(c.getColumnIndex(GAMES_ID)));
-                g.setType(c.getString(c.getColumnIndex(GAMES_TYPE)));
-                g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
-                g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
-                g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
-                g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
-                g.setBuyIn(c.getInt(c.getColumnIndex(GAMES_BUY_IN)));
-                g.setCashOut(c.getInt(c.getColumnIndex(GAMES_CASH_OUT)));
+                Session g = new Session();
+                g.setId(c.getInt(c.getColumnIndex(SESSIONS_ID)));
+                g.setType(c.getString(c.getColumnIndex(SESSIONS_TYPE)));
+                g.setBlinds(c.getString(c.getColumnIndex(SESSIONS_BLINDS)));
+                g.setLocation(c.getString(c.getColumnIndex(SESSIONS_LOC)));
+                g.setDate(c.getString(c.getColumnIndex(SESSIONS_DATE)));
+                g.setTime(c.getInt(c.getColumnIndex(SESSIONS_TIME)));
+                g.setBuyIn(c.getInt(c.getColumnIndex(SESSIONS_BUY_IN)));
+                g.setCashOut(c.getInt(c.getColumnIndex(SESSIONS_CASH_OUT)));
 
-                games.add(g);
+                sessions.add(g);
             } while (c.moveToNext());
         }
 
-        return games;
+        return sessions;
     }
 
-    // Gets a Specific Game
-    public Game getGame(int gameId)
+    // Gets a Specific Session
+    public Session getSession(int sessionId)
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * From " + TABLE_GAMES + " WHERE " + GAMES_ID + " = " + gameId;
+        String selectQuery = "SELECT * From " + TABLE_SESSIONS + " WHERE " + SESSIONS_ID + " = " + sessionId;
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -139,49 +139,49 @@ public class DatabaseHelper extends SQLiteOpenHelper
             c.moveToFirst();
         }
 
-        Game g = new Game();
-        g.setId(c.getInt(c.getColumnIndex(GAMES_ID)));
-        g.setType(c.getString(c.getColumnIndex(GAMES_TYPE)));
-        g.setBlinds(c.getString(c.getColumnIndex(GAMES_BLINDS)));
-        g.setLocation(c.getString(c.getColumnIndex(GAMES_LOC)));
-        g.setDate(c.getString(c.getColumnIndex(GAMES_DATE)));
-        g.setTime(c.getInt(c.getColumnIndex(GAMES_TIME)));
-        g.setBuyIn(c.getInt(c.getColumnIndex(GAMES_BUY_IN)));
-        g.setCashOut(c.getInt(c.getColumnIndex(GAMES_CASH_OUT)));
+        Session g = new Session();
+        g.setId(c.getInt(c.getColumnIndex(SESSIONS_ID)));
+        g.setType(c.getString(c.getColumnIndex(SESSIONS_TYPE)));
+        g.setBlinds(c.getString(c.getColumnIndex(SESSIONS_BLINDS)));
+        g.setLocation(c.getString(c.getColumnIndex(SESSIONS_LOC)));
+        g.setDate(c.getString(c.getColumnIndex(SESSIONS_DATE)));
+        g.setTime(c.getInt(c.getColumnIndex(SESSIONS_TIME)));
+        g.setBuyIn(c.getInt(c.getColumnIndex(SESSIONS_BUY_IN)));
+        g.setCashOut(c.getInt(c.getColumnIndex(SESSIONS_CASH_OUT)));
 
         return g;
     }
 
-    // Edit Games in DB
-    public void editGame(Game game)
+    // Edit Sessions in DB
+    public void editSession(Session session)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(GAMES_TYPE, game.getType());
-        values.put(GAMES_BLINDS, game.getBlinds());
-        values.put(GAMES_LOC, game.getLocation());
-        values.put(GAMES_DATE, game.getDate());
-        values.put(GAMES_TIME, game.getTime());
-        values.put(GAMES_BUY_IN, game.getBuyIn());
-        values.put(GAMES_CASH_OUT, game.getCashOut());
-        values.put(GAMES_ID, game.getId());
+        values.put(SESSIONS_TYPE, session.getType());
+        values.put(SESSIONS_BLINDS, session.getBlinds());
+        values.put(SESSIONS_LOC, session.getLocation());
+        values.put(SESSIONS_DATE, session.getDate());
+        values.put(SESSIONS_TIME, session.getTime());
+        values.put(SESSIONS_BUY_IN, session.getBuyIn());
+        values.put(SESSIONS_CASH_OUT, session.getCashOut());
+        values.put(SESSIONS_ID, session.getId());
 
-        long game_return = db.replace(TABLE_GAMES, GAMES_ID, values);
+        long session_return = db.replace(TABLE_SESSIONS, SESSIONS_ID, values);
     }
 
-    // Delete All Games from DB
-    public void clearGames()
+    // Delete All Sessions from DB
+    public void clearSessions()
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_GAMES, null, null);
+        db.delete(TABLE_SESSIONS, null, null);
     }
 
-    // Deletes a Specific Game
-    public void deleteGame(int gameId)
+    // Deletes a Specific Session
+    public void deleteSession(int sessionId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_GAMES, GAMES_ID + " = ?", new String[]{String.valueOf(gameId)});
+        db.delete(TABLE_SESSIONS, SESSIONS_ID + " = ?", new String[]{String.valueOf(sessionId)});
     }
 
     // Bank DB Methods

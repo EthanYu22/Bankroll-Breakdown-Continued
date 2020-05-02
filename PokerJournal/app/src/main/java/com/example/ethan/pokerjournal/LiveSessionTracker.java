@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class LiveGameTracker extends AppCompatActivity
+public class LiveSessionTracker extends AppCompatActivity
 {
 
     private Toolbar toolbar;
@@ -39,7 +39,7 @@ public class LiveGameTracker extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live_game_tracker);
+        setContentView(R.layout.activity_live_session_tracker);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,7 +60,7 @@ public class LiveGameTracker extends AppCompatActivity
 
     }
 
-    // Action When On Live Game Form Page
+    // Action When On Live Session Form Page
     public void onResume()
     {
         super.onResume();
@@ -107,7 +107,7 @@ public class LiveGameTracker extends AppCompatActivity
         pauseTimer(v);
     }
 
-    // Edit Game Entries
+    // Edit Session Entries
     public void onClickAddOnRebuy(View v)
     {
         int addOnValue = Integer.parseInt(addOnAmount.getText().toString());
@@ -116,7 +116,7 @@ public class LiveGameTracker extends AppCompatActivity
         addOnAmount.setText("");
     }
 
-    // Submit live Game
+    // Submit live Session
     public void onClickLiveSession(View v)
     {
         long time = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
@@ -128,7 +128,7 @@ public class LiveGameTracker extends AppCompatActivity
             return;
         }
         DatabaseHelper db = new DatabaseHelper(this);
-        Game game = new Game();
+        Session session = new Session();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate today = LocalDate.now();
@@ -145,11 +145,11 @@ public class LiveGameTracker extends AppCompatActivity
         int cashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setEntries(sessionTypeValue, sessionBlindsValue, locationValue, date, (int) (long) time, totalBuyIn, cashOut);
+        session.setEntries(sessionTypeValue, sessionBlindsValue, locationValue, date, (int) (long) time, totalBuyIn, cashOut);
 
-        db.createGame(game);
+        db.createSession(session);
 
-        Intent intent = new Intent(LiveGameTracker.this, MainActivity.class);
+        Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
         startActivity(intent);
     }
 }

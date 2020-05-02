@@ -19,11 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameFormActivity" />
-        <activity android:name=".GameDetailActivity" />
-        <activity android:name=".GameEditActivity" />
-        <activity android:name=".LiveGameTracker"></activity>
-        <activity android:name=".LiveGameFormActivity" />
+        <activity android:name=".SessionFormActivity" />
+        <activity android:name=".SessionDetailActivity" />
+        <activity android:name=".SessionEditActivity" />
+        <activity android:name=".LiveSessionTracker"></activity>
+        <activity android:name=".LiveSessionFormActivity" />
         <activity android:name=".BankFormActivity" />
         <activity android:name=".BankDetailActivity" />
         <activity android:name=".BankEditActivity" />

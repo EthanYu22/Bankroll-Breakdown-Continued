@@ -11,12 +11,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-// Displays Each Game Session Sorted By Date as a List Under History Tab
+// Displays Each Session Session Sorted By Date as a List Under History Tab
 public class HistoryFragment extends Fragment
 {
 
     DatabaseHelper db;
-    List<Game> gameList;
+    List<Session> sessionList;
 
     public HistoryFragment()
     {
@@ -39,28 +39,28 @@ public class HistoryFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        displayGames();
+        displaySessions();
     }
 
-    // Displays All Game Sessions
-    public void displayGames()
+    // Displays All Session Sessions
+    public void displaySessions()
     {
-        // Displays Game Sessions
-        gameList = db.getAllGames();
-        ListView lv = (ListView) getView().findViewById(R.id.listGames);
-        GameArrayAdapter adapter = new GameArrayAdapter(getActivity(), gameList);
+        // Displays Session Sessions
+        sessionList = db.getAllSessions();
+        ListView lv = (ListView) getView().findViewById(R.id.listSessions);
+        SessionArrayAdapter adapter = new SessionArrayAdapter(getActivity(), sessionList);
 
-        // Sorts Games by Date
-        adapter.sort(new Comparator<Game>()
+        // Sorts Sessions by Date
+        adapter.sort(new Comparator<Session>()
         {
-            public int compare(Game arg0, Game arg1)
+            public int compare(Session arg0, Session arg1)
             {
                 return arg0.date.compareTo(arg1.date);
             }
         });
 
         // Descending Order (Most Recent on Top)
-        Collections.reverse(gameList);
+        Collections.reverse(sessionList);
 
         // Arbitrary Code for Sorting + Displaying Adapter
         lv.setAdapter(adapter);

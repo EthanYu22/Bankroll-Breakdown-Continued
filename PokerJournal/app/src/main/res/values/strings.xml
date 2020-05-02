@@ -6,13 +6,13 @@
     <string name="password">2588</string>
 
     // Poker Variance Types Menu
-    <string-array name="game_types">
+    <string-array name="session_types">
         <item>Texas Hold Em</item>
         <item>Pot-Limit Omaha</item>
     </string-array>
 
-    // Game Blinds Menu
-    <string-array name="game_blinds">
+    // Session Blinds Menu
+    <string-array name="session_blinds">
         <item>1-1-2</item>
         <item>1-3</item>
         <item>2-5</item>

@@ -14,7 +14,7 @@ public class StatsFragment extends Fragment
 {
 
     DatabaseHelper db;
-    List<Game> gameList;
+    List<Session> sessionList;
 
     public StatsFragment() {}
 
@@ -39,11 +39,11 @@ public class StatsFragment extends Fragment
         displayStats();
     }
 
-    // Displays Overall Game Statistics
+    // Displays Overall Session Statistics
     public void displayStats()
     {
-        Game game;
-        gameList = db.getAllGames();
+        Session session;
+        sessionList = db.getAllSessions();
         double totalHours = 0;
         double avgSessionDuration;
         int netProfit;
@@ -59,17 +59,17 @@ public class StatsFragment extends Fragment
         int biggestLoss = 0;
 
         // Calculation for Statistics
-        for (int i = 0; i < gameList.size(); i++)
+        for (int i = 0; i < sessionList.size(); i++)
         {
-            game = gameList.get(i);
-            totalHours += game.getTime() / 60.0; // Net Hours
-            buyIn += game.getBuyIn(); // Net Buy In
-            cashOut += game.getCashOut(); // Net Cash Out
-            avgBuyIn = buyIn / gameList.size(); // Average Buy In
-            avgCashOut = cashOut / gameList.size(); // Average Cash Out
+            session = sessionList.get(i);
+            totalHours += session.getTime() / 60.0; // Net Hours
+            buyIn += session.getBuyIn(); // Net Buy In
+            cashOut += session.getCashOut(); // Net Cash Out
+            avgBuyIn = buyIn / sessionList.size(); // Average Buy In
+            avgCashOut = cashOut / sessionList.size(); // Average Cash Out
 
             // Find Biggest Win and Loss
-            int bigwin = game.getCashOut() - game.getBuyIn();
+            int bigwin = session.getCashOut() - session.getBuyIn();
             if (bigwin > biggestWin)
             {
                 biggestWin = bigwin;
@@ -80,24 +80,24 @@ public class StatsFragment extends Fragment
             }
 
             // Tally Number of Winning and Losing Sessions
-            if (game.getCashOut() - game.getBuyIn() > 0)
+            if (session.getCashOut() - session.getBuyIn() > 0)
             {
                 winningSession++;
             }
-            else if (game.getBuyIn() - game.getCashOut() > 0)
+            else if (session.getBuyIn() - session.getCashOut() > 0)
             {
                 losingSession++;
             }
 
             // Get Total Sessions
             totalSessions = winningSession + losingSession;
-            if (game.getCashOut() - game.getBuyIn() == 0)
+            if (session.getCashOut() - session.getBuyIn() == 0)
             {
                 totalSessions++;
             }
         }
 
-        // Displays Game Statistics
+        // Displays Session Statistics
         TextView x = (TextView) getView().findViewById(R.id.hoursPlayed); // Total Hours
         TextView ast = (TextView) getView().findViewById(R.id.avgHours); // Average Session Time
         TextView np = (TextView) getView().findViewById(R.id.netProfit); // Net Profit
@@ -110,8 +110,8 @@ public class StatsFragment extends Fragment
         TextView bw = (TextView) getView().findViewById(R.id.biggestWin); // Biggest Win
         TextView bl = (TextView) getView().findViewById(R.id.biggestLoss); // Biggest Loss
 
-        if (gameList.size() == 0)
-        { // If No Games Are Played Display This
+        if (sessionList.size() == 0)
+        { // If No Sessions Are Played Display This
             // Set Text As Blank for Each TextView
             hr.setText("Hourly Rate: ");
             np.setText("Net Profit: ");
@@ -127,11 +127,11 @@ public class StatsFragment extends Fragment
 
         }
         else
-        { // If Games Are Played Display This
+        { // If Sessions Are Played Display This
             // Calculate Net Profit, Hourly Rate, and Average Session Duration
             netProfit = cashOut - buyIn;
             hourlyRate = netProfit / totalHours;
-            avgSessionDuration = totalHours / gameList.size();
+            avgSessionDuration = totalHours / sessionList.size();
 
             // Set Text for Each TextView
             if (hourlyRate < 0)

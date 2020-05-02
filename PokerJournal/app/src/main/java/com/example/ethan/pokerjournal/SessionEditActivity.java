@@ -15,13 +15,13 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
-// Edits Game Entries
-public class GameEditActivity extends AppCompatActivity
+// Edits Session Entries
+public class SessionEditActivity extends AppCompatActivity
 {
 
     DatabaseHelper db;
-    Game game;
-    int gameId;
+    Session session;
+    int sessionId;
     Spinner spinType;
     Spinner spinBlinds;
     Spinner spinMonth;
@@ -33,31 +33,31 @@ public class GameEditActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_edit);
+        setContentView(R.layout.activity_session_edit);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         db = new DatabaseHelper(this);
-        gameId = MainActivity.gameId;
-        game = db.getGame(gameId);
+        sessionId = MainActivity.sessionId;
+        session = db.getSession(sessionId);
 
         final TextView displayLocation = (TextView) findViewById(R.id.editLocation);
-        displayLocation.setText(game.getLocation());
+        displayLocation.setText(session.getLocation());
         final TextView displayTime = (TextView) findViewById(R.id.editTime);
-        displayTime.setText(Integer.toString((int)(game.getTime())));
+        displayTime.setText(Integer.toString((int)(session.getTime())));
         final TextView displayBuyIn = (TextView) findViewById(R.id.editBuyIn);
-        displayBuyIn.setText(Integer.toString((int)(game.getBuyIn())));
+        displayBuyIn.setText(Integer.toString((int)(session.getBuyIn())));
         final TextView displayCashOut = (TextView) findViewById(R.id.editCashOut);
-        displayCashOut.setText(Integer.toString((int)(game.getCashOut())));
+        displayCashOut.setText(Integer.toString((int)(session.getCashOut())));
 
         // Set Up Type & Blinds Spinner
-        spinType = (Spinner) findViewById(R.id.spinnerGameType);
-        spinBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
+        spinType = (Spinner) findViewById(R.id.spinnerSessionType);
+        spinBlinds = (Spinner) findViewById(R.id.spinnerSessionBlinds);
 
         // Set Up Date Spinners
-        spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
-        spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
-        spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
+        spinMonth = (Spinner) findViewById(R.id.spinnerSessionMonth);
+        spinDay = (Spinner) findViewById(R.id.spinnerSessionDay);
+        spinYear = (Spinner) findViewById(R.id.spinnerSessionYear);
 
         final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
@@ -74,10 +74,10 @@ public class GameEditActivity extends AppCompatActivity
         spinDay.setAdapter(daysArray);
         spinYear.setAdapter(yearsArray);
 
-        setTypeSpinner(game.getType());
-        setBlindsSpinner(game.getBlinds());
-        setMonthSpinner(game.getConvertedDateMMddyyyy());
-        setYearSpinner(game.getConvertedDateMMddyyyy());
+        setTypeSpinner(session.getType());
+        setBlindsSpinner(session.getBlinds());
+        setMonthSpinner(session.getConvertedDateMMddyyyy());
+        setYearSpinner(session.getConvertedDateMMddyyyy());
 
         // Change Days Displayed in Spinners According to Month
         spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -123,7 +123,7 @@ public class GameEditActivity extends AppCompatActivity
                     case 11:
                         spinDay.setAdapter(daysArray);
                 }
-                setDaySpinner(game.getConvertedDateMMddyyyy());
+                setDaySpinner(session.getConvertedDateMMddyyyy());
             }
 
             @Override
@@ -132,7 +132,7 @@ public class GameEditActivity extends AppCompatActivity
     }
 
     /*
-    // Action When Off Game Form Page
+    // Action When Off Session Form Page
     public void onPause() {
         super.onPause();
         finish();
@@ -150,10 +150,10 @@ public class GameEditActivity extends AppCompatActivity
         return super.onOptionsItemSelected(menuItem);
     }
 
-    // Displays Current Game Type Entry
+    // Displays Current Session Type Entry
     public void setTypeSpinner(String type)
     {
-        String[] typeArray = getResources().getStringArray(R.array.game_types);
+        String[] typeArray = getResources().getStringArray(R.array.session_types);
         int position = Arrays.asList(typeArray).indexOf(type);
         spinType.setSelection(position);
     }
@@ -161,7 +161,7 @@ public class GameEditActivity extends AppCompatActivity
     //Displays Current Blinds Entry
     public void setBlindsSpinner(String blinds)
     {
-        String[] blindsArray = getResources().getStringArray(R.array.game_blinds);
+        String[] blindsArray = getResources().getStringArray(R.array.session_blinds);
         int position = Arrays.asList(blindsArray).indexOf(blinds);
         spinBlinds.setSelection(position);
     }
@@ -191,21 +191,21 @@ public class GameEditActivity extends AppCompatActivity
         spinYear.setSelection(position);
     }
 
-    // Submit Edited Game Session
-    public void onClickGameButton(View v)
+    // Submit Edited Session Session
+    public void onClickSessionButton(View v)
     {
         DatabaseHelper db = new DatabaseHelper(this);
-        Game game = new Game();
+        Session session = new Session();
         Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         // Get Input for Poker Variation Type
-        Spinner spinGameType = (Spinner) findViewById(R.id.spinnerGameType);
-        String type = spinGameType.getSelectedItem().toString();
+        Spinner spinSessionType = (Spinner) findViewById(R.id.spinnerSessionType);
+        String type = spinSessionType.getSelectedItem().toString();
 
         // Get Input for Blind Amount
-        Spinner spinGameBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
-        String blinds = spinGameBlinds.getSelectedItem().toString();
+        Spinner spinSessionBlinds = (Spinner) findViewById(R.id.spinnerSessionBlinds);
+        String blinds = spinSessionBlinds.getSelectedItem().toString();
 
         // Get Location and Make Sure it's Valid
         EditText editLocation = (EditText) findViewById(R.id.editLocation);
@@ -217,11 +217,11 @@ public class GameEditActivity extends AppCompatActivity
         }
 
         // Get Input of Date and Format into String
-        Spinner spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
+        Spinner spinMonth = (Spinner) findViewById(R.id.spinnerSessionMonth);
         String month = spinMonth.getSelectedItem().toString();
-        Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
+        Spinner spinDay = (Spinner) findViewById(R.id.spinnerSessionDay);
         String day = spinDay.getSelectedItem().toString();
-        Spinner spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
+        Spinner spinYear = (Spinner) findViewById(R.id.spinnerSessionYear);
         String year = spinYear.getSelectedItem().toString();
 
         String date = "";
@@ -263,11 +263,11 @@ public class GameEditActivity extends AppCompatActivity
         int cashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setAll(gameId, type, blinds, location, date, time, buyIn, cashOut);
+        session.setAll(sessionId, type, blinds, location, date, time, buyIn, cashOut);
 
-        db.editGame(game);
+        db.editSession(session);
 
-        Intent intent = new Intent(GameEditActivity.this, MainActivity.class);
+        Intent intent = new Intent(SessionEditActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }

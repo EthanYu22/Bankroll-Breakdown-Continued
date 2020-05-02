@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.ethan.pokerjournal.LiveGameTracker">
+    tools:context="com.example.ethan.pokerjournal.LiveSessionTracker">
 
     // Toolbar Detailing
     <android.support.design.widget.AppBarLayout
@@ -149,7 +149,7 @@
     // Submit Button at Bottom of Page
     <Button
         android:text="Finish Live Session"
-        android:id="@+id/buttonSubmitLiveGame"
+        android:id="@+id/buttonSubmitLiveSession"
         android:onClick="onClickLiveSession"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"

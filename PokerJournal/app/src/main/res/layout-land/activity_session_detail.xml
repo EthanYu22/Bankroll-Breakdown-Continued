@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_vertical_margin"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="com.example.ethan.pokerjournal.GameDetailActivity">
+        tools:context="com.example.ethan.pokerjournal.SessionDetailActivity">
 
         // Toolbar Detailing
         <android.support.design.widget.AppBarLayout
@@ -28,10 +28,10 @@
                 android:layout_height="?attr/actionBarSize"/>
         </android.support.design.widget.AppBarLayout>
 
-        // Display "Game Hourly Rate:"
+        // Display "Session Hourly Rate:"
         <TextView
-            android:id="@+id/textGameHourlyRate"
-            android:text="Game Hourly Rate:"
+            android:id="@+id/textSessionHourlyRate"
+            android:text="Session Hourly Rate:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -41,21 +41,21 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Game Net Profit:" Under textGameHourly Rate
+        // Display "Session Net Profit:" Under textSessionHourly Rate
         <TextView
-            android:id="@+id/textGameNetProfit"
-            android:text="Game Net Profit:"
+            android:id="@+id/textSessionNetProfit"
+            android:text="Session Net Profit:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textGameHourlyRate"
+            android:layout_below="@+id/textSessionHourlyRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Date:" 90dp Under textGameNetProfit
+        // Display "Date:" 90dp Under textSessionNetProfit
         <TextView
-            android:id="@+id/textGameDate"
+            android:id="@+id/textSessionDate"
             android:text="Date:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_alignParentStart="true"
@@ -66,72 +66,72 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Type:" Under textGameDate
+        // Display "Type:" Under textSessionDate
         <TextView
-            android:id="@+id/textGameType"
+            android:id="@+id/textSessionType"
             android:text="Type:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textGameDate"
+            android:layout_below="@+id/textSessionDate"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Blinds:" Under textGameType
+        // Display "Blinds:" Under textSessionType
         <TextView
-            android:id="@+id/textGameBlinds"
+            android:id="@+id/textSessionBlinds"
             android:text="Blinds:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textGameType"
+            android:layout_below="@+id/textSessionType"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Location" Under textGameBlinds
+        // Display "Location" Under textSessionBlinds
         <TextView
-            android:id="@+id/textGameLocation"
+            android:id="@+id/textSessionLocation"
             android:text="Location:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textGameBlinds"
+            android:layout_below="@+id/textSessionBlinds"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Time:" Under textGameLocation
+        // Display "Time:" Under textSessionLocation
         <TextView
-            android:id="@+id/textGameTime"
+            android:id="@+id/textSessionTime"
             android:text="Time:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textGameLocation"
+            android:layout_below="@+id/textSessionLocation"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Buy In:" Under textGameTime
+        // Display "Buy In:" Under textSessionTime
         <TextView
-            android:id="@+id/textGameBuyIn"
+            android:id="@+id/textSessionBuyIn"
             android:text="Buy In:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textGameTime"
+            android:layout_below="@+id/textSessionTime"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Display "Cash Out:" Under textGameBuyIn
+        // Display "Cash Out:" Under textSessionBuyIn
         <TextView
-            android:id="@+id/textGameCashOut"
+            android:id="@+id/textSessionCashOut"
             android:text="Cash Out:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textGameBuyIn"
+            android:layout_below="@+id/textSessionBuyIn"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -139,12 +139,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
-        // Edit Button Above buttonDeleteGame
+        // Edit Button Above buttonDeleteSession
         <Button
-            android:id="@+id/buttonEditGame"
+            android:id="@+id/buttonEditSession"
             android:text="Edit"
-            android:onClick="onClickEditGame"
-            android:layout_below="@+id/textGameCashOut"
+            android:onClick="onClickEditSession"
+            android:layout_below="@+id/textSessionCashOut"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
@@ -154,10 +154,10 @@
 
         // Delete Button at Bottom of Page
         <Button
-            android:id="@+id/buttonDeleteGame"
+            android:id="@+id/buttonDeleteSession"
             android:text="Delete"
-            android:onClick="onClickDeleteGame"
-            android:layout_below="@+id/buttonEditGame"
+            android:onClick="onClickDeleteSession"
+            android:layout_below="@+id/buttonEditSession"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"

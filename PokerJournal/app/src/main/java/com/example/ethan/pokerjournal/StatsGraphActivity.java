@@ -19,7 +19,7 @@ public class StatsGraphActivity extends AppCompatActivity
 {
 
     DatabaseHelper db;
-    List<Game> gameList;
+    List<Session> sessionList;
     LineGraphSeries<DataPoint> series;
     private Toolbar toolbar;
 
@@ -33,39 +33,39 @@ public class StatsGraphActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         db = new DatabaseHelper(getApplicationContext());
-        gameList = db.getAllGames();
+        sessionList = db.getAllSessions();
 
 
-        GameArrayAdapter adapter = new GameArrayAdapter(getApplicationContext(), gameList);
+        SessionArrayAdapter adapter = new SessionArrayAdapter(getApplicationContext(), sessionList);
 
-        // Sorts Games by Date
-        adapter.sort(new Comparator<Game>()
+        // Sorts Sessions by Date
+        adapter.sort(new Comparator<Session>()
         {
-            public int compare(Game arg0, Game arg1)
+            public int compare(Session arg0, Session arg1)
             {
                 return arg0.date.compareTo(arg1.date);
             }
         });
 
         // generate Dates
-        Date[] dates = new Date[gameList.size()];
-        for (int i = 0; i < gameList.size() - 1; i++)
+        Date[] dates = new Date[sessionList.size()];
+        for (int i = 0; i < sessionList.size() - 1; i++)
         {
-            dates[i] = new Date(gameList.get(i).getConvertedDateMMddyyyy());
+            dates[i] = new Date(sessionList.get(i).getConvertedDateMMddyyyy());
         }
 
         GraphView graph = (GraphView) findViewById(R.id.statsGraph);
 
-        DataPoint[] dataPoints = new DataPoint[gameList.size()];
+        DataPoint[] dataPoints = new DataPoint[sessionList.size()];
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
         int netBankroll = 0;
 
 
-        for (int i = 0; i < gameList.size() - 1; i++)
+        for (int i = 0; i < sessionList.size() - 1; i++)
         {
-            netBankroll += (gameList.get(i).getCashOut() - gameList.get(i).getBuyIn());
+            netBankroll += (sessionList.get(i).getCashOut() - sessionList.get(i).getBuyIn());
             dataPoints[i] = new DataPoint(dates[i], netBankroll);
             series.appendData(dataPoints[i], true, 100);
         }
@@ -97,9 +97,9 @@ public class StatsGraphActivity extends AppCompatActivity
 
         /*
         // generate Dates
-        Date[] dates = new Date[gameList.size()];
-        for(int i = 0; i < gameList.size() - 1; i++){
-            dates[i] = new Date(gameList.get(i).getConvertedDateMMddyyyy());
+        Date[] dates = new Date[sessionList.size()];
+        for(int i = 0; i < sessionList.size() - 1; i++){
+            dates[i] = new Date(sessionList.get(i).getConvertedDateMMddyyyy());
         }
 
         GraphView graph = (GraphView) findViewById(R.id.statsGraph);
@@ -109,9 +109,9 @@ public class StatsGraphActivity extends AppCompatActivity
 
 // this will convert the Date to double via Date#getTime()
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(dates[0], (gameList.get(0).getCashOut() - gameList.get(0).getBuyIn())),
-                new DataPoint(dates[1], (gameList.get(1).getCashOut() - gameList.get(1).getBuyIn())),
-                new DataPoint(dates[2], (gameList.get(2).getCashOut() - gameList.get(2).getBuyIn()))
+                new DataPoint(dates[0], (sessionList.get(0).getCashOut() - sessionList.get(0).getBuyIn())),
+                new DataPoint(dates[1], (sessionList.get(1).getCashOut() - sessionList.get(1).getBuyIn())),
+                new DataPoint(dates[2], (sessionList.get(2).getCashOut() - sessionList.get(2).getBuyIn()))
         });
 
         */
@@ -129,8 +129,8 @@ public class StatsGraphActivity extends AppCompatActivity
 
         Calendar calendar = Calendar.getInstance();
         Date d1 = calendar.getTime();
-        Date dMin = new Date(gameList.get(0).getConvertedDateMMddyyyy());
-        Date dMax = new Date(gameList.get(gameList.size() / 2 - 1).getConvertedDateMMddyyyy());
+        Date dMin = new Date(sessionList.get(0).getConvertedDateMMddyyyy());
+        Date dMax = new Date(sessionList.get(sessionList.size() / 2 - 1).getConvertedDateMMddyyyy());
         // set manual x bounds to have nice steps
         graph.getViewport().setMinX(dMin.getTime());
         graph.getViewport().setMaxX(d1.getTime());

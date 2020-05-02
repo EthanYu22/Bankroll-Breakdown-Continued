@@ -12,14 +12,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
-// Game Entry Form
-public class GameFormActivity extends AppCompatActivity
+// Session Entry Form
+public class SessionFormActivity extends AppCompatActivity
 {
 
     private Toolbar toolbar;
 
-    Spinner spinGameType;
-    Spinner spinGameBlinds;
+    Spinner spinSessionType;
+    Spinner spinSessionBlinds;
     Spinner spinMonth;
     Spinner spinDay;
     Spinner spinYear;
@@ -28,18 +28,18 @@ public class GameFormActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_form);
+        setContentView(R.layout.activity_session_form);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set Up Spinners
-        spinGameType = (Spinner) findViewById(R.id.spinnerGameType);
-        spinGameBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
-        spinGameBlinds.setSelection(4);
-        spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
-        spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
-        spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
+        spinSessionType = (Spinner) findViewById(R.id.spinnerSessionType);
+        spinSessionBlinds = (Spinner) findViewById(R.id.spinnerSessionBlinds);
+        spinSessionBlinds.setSelection(4);
+        spinMonth = (Spinner) findViewById(R.id.spinnerSessionMonth);
+        spinDay = (Spinner) findViewById(R.id.spinnerSessionDay);
+        spinYear = (Spinner) findViewById(R.id.spinnerSessionYear);
 
         final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
@@ -109,7 +109,7 @@ public class GameFormActivity extends AppCompatActivity
     }
 
     /*
-    // Action When Off Game Form Page
+    // Action When Off Session Form Page
     public void onPause() {
         super.onPause();
         finish();
@@ -128,19 +128,19 @@ public class GameFormActivity extends AppCompatActivity
         return super.onOptionsItemSelected(menuItem);
     }
 
-    // Submit Game Transaction
-    public void onClickGameButton(View v)
+    // Submit Session Transaction
+    public void onClickSessionButton(View v)
     {
         DatabaseHelper db = new DatabaseHelper(this);
-        Game game = new Game();
+        Session session = new Session();
         Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         // Get Input for Poker Variation Type
-        String type = spinGameType.getSelectedItem().toString();
+        String type = spinSessionType.getSelectedItem().toString();
 
         // Get Input for Blind Amount
-        String blinds = spinGameBlinds.getSelectedItem().toString();
+        String blinds = spinSessionBlinds.getSelectedItem().toString();
 
         // Get Location and Make Sure it's Valid
         EditText editLocation = (EditText) findViewById(R.id.editLocation);
@@ -194,9 +194,9 @@ public class GameFormActivity extends AppCompatActivity
         int cashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
-        game.setEntries(type, blinds, location, date, time, buyIn, cashOut);
+        session.setEntries(type, blinds, location, date, time, buyIn, cashOut);
 
-        db.createGame(game);
+        db.createSession(session);
 
         finish();
     }
