@@ -100,7 +100,7 @@
     // Display "Amount:" Under spinnerGameMonth
     <TextView
         android:id="@+id/amountTV"
-        android:text="Amount: "
+        android:text="Amount ($): "
         android:textSize="20dp"
         android:layout_below="@+id/spinnerBankMonth"
         android:layout_alignParentStart="true"
