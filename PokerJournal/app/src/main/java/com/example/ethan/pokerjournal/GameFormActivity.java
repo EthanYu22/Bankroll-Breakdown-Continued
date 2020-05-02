@@ -18,6 +18,12 @@ public class GameFormActivity extends AppCompatActivity
 
     private Toolbar toolbar;
 
+    Spinner spinGameType;
+    Spinner spinGameBlinds;
+    Spinner spinMonth;
+    Spinner spinDay;
+    Spinner spinYear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,10 +33,13 @@ public class GameFormActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Set Up Date Spinners
-        final Spinner spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
-        final Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
-        final Spinner spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
+        // Set Up Spinners
+        spinGameType = (Spinner) findViewById(R.id.spinnerGameType);
+        spinGameBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
+        spinGameBlinds.setSelection(4);
+        spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
+        spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
+        spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
 
         final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
@@ -46,6 +55,7 @@ public class GameFormActivity extends AppCompatActivity
         spinMonth.setAdapter(monthsArray);
         spinDay.setAdapter(daysArray);
         spinYear.setAdapter(yearsArray);
+        spinYear.setSelection(2);
 
         // Change Days Displayed in Spinners According to Month
         spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -127,11 +137,9 @@ public class GameFormActivity extends AppCompatActivity
 
         // ~ Get Entries and Validate ~
         // Get Input for Poker Variation Type
-        Spinner spinGameType = (Spinner) findViewById(R.id.spinnerGameType);
         String type = spinGameType.getSelectedItem().toString();
 
         // Get Input for Blind Amount
-        Spinner spinGameBlinds = (Spinner) findViewById(R.id.spinnerGameBlinds);
         String blinds = spinGameBlinds.getSelectedItem().toString();
 
         // Get Location and Make Sure it's Valid
@@ -144,11 +152,8 @@ public class GameFormActivity extends AppCompatActivity
         }
 
         // Get Input of Date
-        Spinner spinMonth = (Spinner) findViewById(R.id.spinnerGameMonth);
         String month = spinMonth.getSelectedItem().toString();
-        Spinner spinDay = (Spinner) findViewById(R.id.spinnerGameDay);
         String day = spinDay.getSelectedItem().toString();
-        Spinner spinYear = (Spinner) findViewById(R.id.spinnerGameYear);
         String year = spinYear.getSelectedItem().toString();
 
         String date = "";

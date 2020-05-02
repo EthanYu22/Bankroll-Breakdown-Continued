@@ -17,6 +17,11 @@ public class BankFormActivity extends AppCompatActivity
 
     private Toolbar toolbar;
 
+    Spinner spinType;
+    Spinner spinMonth;
+    Spinner spinDay;
+    Spinner spinYear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,9 +32,10 @@ public class BankFormActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set Up Date Spinners
-        final Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
-        final Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
-        final Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
+        spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
+        spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
+        spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
+        spinType = (Spinner) findViewById(R.id.spinnerType);
 
         final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
         final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
@@ -45,6 +51,7 @@ public class BankFormActivity extends AppCompatActivity
         spinMonth.setAdapter(monthsArray);
         spinDay.setAdapter(daysArray);
         spinYear.setAdapter(yearsArray);
+        spinYear.setSelection(2);
 
         // Change Days Displayed in Spinners According to Month
         spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -126,7 +133,6 @@ public class BankFormActivity extends AppCompatActivity
 
         // ~ Get Entries and Validate ~
         // Get Input of Deposit or Withdraw
-        Spinner spinType = (Spinner) findViewById(R.id.spinnerType);
         String type = spinType.getSelectedItem().toString();
 
         // Get Input of Date and Format into String

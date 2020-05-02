@@ -3,6 +3,7 @@ package com.example.ethan.pokerjournal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -73,6 +74,11 @@ public class GameEditActivity extends AppCompatActivity
         spinDay.setAdapter(daysArray);
         spinYear.setAdapter(yearsArray);
 
+        setTypeSpinner(game.getType());
+        setBlindsSpinner(game.getBlinds());
+        setMonthSpinner(game.getConvertedDateMMddyyyy());
+        setYearSpinner(game.getConvertedDateMMddyyyy());
+
         // Change Days Displayed in Spinners According to Month
         spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -123,11 +129,6 @@ public class GameEditActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
-
-        setTypeSpinner(game.getType());
-        setBlindsSpinner(game.getBlinds());
-        setMonthSpinner(game.getConvertedDateMMddyyyy());
-        setYearSpinner(game.getConvertedDateMMddyyyy());
     }
 
     /*
@@ -168,15 +169,15 @@ public class GameEditActivity extends AppCompatActivity
     // Displays Current Day Entry
     public void setDaySpinner(String date)
     {
-        String month = (String) date.subSequence(6, 7);
-        int position = Integer.parseInt(month) - 1;
+        String day = (String) date.subSequence(3, 5);
+        int position = Integer.parseInt(day) - 1;
         spinDay.setSelection(position);
     }
 
     // Displays Current Month Entry
     public void setMonthSpinner(String date)
     {
-        String month = (String) date.subSequence(4, 5);
+        String month = (String) date.subSequence(0, 2);
         int position = Integer.parseInt(month) - 1;
         spinMonth.setSelection(position);
     }
@@ -184,9 +185,9 @@ public class GameEditActivity extends AppCompatActivity
     // Displays Current Year Entry
     public void setYearSpinner(String date)
     {
-        String month = (String) date.subSequence(0, 3);
+        String year = (String) date.subSequence(6, 10);
         String[] monthArray = getResources().getStringArray(R.array.years);
-        int position = Arrays.asList(monthArray).indexOf(month);
+        int position = Arrays.asList(monthArray).indexOf(year);
         spinYear.setSelection(position);
     }
 
