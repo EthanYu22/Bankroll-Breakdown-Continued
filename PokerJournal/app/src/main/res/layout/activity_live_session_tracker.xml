@@ -146,6 +146,18 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
+    <Button
+        android:text="Home"
+        android:id="@+id/buttonHome"
+        android:onClick="onClickHome"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/buttonSubmitLiveSession"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
     // Submit Button at Bottom of Page
     <Button
         android:text="Finish Live Session"

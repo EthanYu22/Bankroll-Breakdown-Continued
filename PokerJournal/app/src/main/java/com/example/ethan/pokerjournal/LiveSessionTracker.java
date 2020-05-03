@@ -1,6 +1,7 @@
 package com.example.ethan.pokerjournal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import java.time.format.DateTimeFormatter;
 public class LiveSessionTracker extends AppCompatActivity
 {
 
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
     private Toolbar toolbar;
     TextView currentTotalBuyIn;
     TextView addOnAmount;
@@ -40,6 +43,11 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_session_tracker);
+        prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = prefs.edit();
+        editor.putBoolean("liveSessionActive", true);
+        editor.commit();
+        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", false)));
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,21 +59,54 @@ public class LiveSessionTracker extends AppCompatActivity
         addOnAmount = (TextView) findViewById(R.id.editAddOn);
 
         locationValue = intent.getStringExtra("location");
-        buyInValue = intent.getStringExtra("buyIn");;
-        sessionTypeValue = intent.getStringExtra("sessionType");;
-        sessionBlindsValue = intent.getStringExtra("sessionBlinds");;
+        buyInValue = intent.getStringExtra("buyIn");
+        sessionTypeValue = intent.getStringExtra("sessionType");
+        sessionBlindsValue = intent.getStringExtra("sessionBlinds");
 
         totalBuyIn = Integer.parseInt(buyInValue);
         currentTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
 
     }
 
+    /*@Override
+    public void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        if(savedInstanceState != null)
+        {
+            timer.setBase(savedInstanceState.getLong("savedTime"));
+            timer.start();
+        }
+        buyInValue = Integer.toString(savedInstanceState.getInt("savedTotalBuyIn"));
+        locationValue = savedInstanceState.getString("savedLocation");
+        sessionTypeValue = savedInstanceState.getString("savedType");
+        sessionBlindsValue = savedInstanceState.getString("savedBlinds");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putLong("savedTime",timer.getBase());
+        savedInstanceState.putInt("savedTotalBuyIn", totalBuyIn);
+        savedInstanceState.putString("savedLocation", locationValue);
+        savedInstanceState.putString("savedType", sessionTypeValue);
+        savedInstanceState.putString("savedBlinds", sessionBlindsValue);
+    }*/
+
     // Action When On Live Session Form Page
+    @Override
     public void onResume()
     {
         super.onResume();
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        editor.putBoolean("liveSessionActive", false);
+        editor.commit();
+    }
     // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
@@ -116,7 +157,14 @@ public class LiveSessionTracker extends AppCompatActivity
         addOnAmount.setText("");
     }
 
-    // Submit live Session
+    // Hit Home Page
+    public void onClickHome(View  v)
+    {
+        Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    // Submit Live Session
     public void onClickLiveSession(View v)
     {
         long time = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
@@ -159,6 +207,8 @@ public class LiveSessionTracker extends AppCompatActivity
         db.createSession(session);
 
         Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 }

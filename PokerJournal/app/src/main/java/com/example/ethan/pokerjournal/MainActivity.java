@@ -5,12 +5,14 @@ Uses a Guide From www.androidhive.info for Tabs and SQLite
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity
     public static int sessionId; // Used to Hold Session View ID
     public static int bankId; // Used to Hold Bank View ID
     DatabaseHelper db;
+    SharedPreferences prefs;
     List<Session> sessionList;
     List<Bank> bankList;
     // Tabs-Fragments
@@ -32,6 +35,29 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Instantiate All
+        prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        db = new DatabaseHelper(this);
+        sessionList = db.getAllSessions();
+        bankList = db.getAllBanks();
+        hist = new HistoryFragment();
+        stats = new StatsFragment();
+        bank = new BankFragment();
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 
     // Append Day, Month, Year to Format Date: YYYY/MM/DD
     public static String[] appendDates(String[] dayMonthYearDate)
@@ -111,28 +137,6 @@ public class MainActivity extends AppCompatActivity
         return dayMonthYearDate;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Instantiate All
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        db = new DatabaseHelper(this);
-        sessionList = db.getAllSessions();
-        bankList = db.getAllBanks();
-        hist = new HistoryFragment();
-        stats = new StatsFragment();
-        bank = new BankFragment();
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-    }
-
     // Creates Layout for Tabs/Fragments: History, Stats, Bank
     public void setupViewPager(ViewPager upViewPager)
     {
@@ -153,8 +157,16 @@ public class MainActivity extends AppCompatActivity
     // Live Session Button Leads to Live Session Form
     public void onClickLiveSessionForm(View v)
     {
-        Intent intent = new Intent(MainActivity.this, LiveSessionFormActivity.class);
-        startActivity(intent);
+        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", true)));
+        if(prefs.getBoolean("liveSessionActive", true))
+        {
+            Intent intent = new Intent(MainActivity.this, LiveSessionTracker.class);
+            startActivity(intent);
+        }else
+        {
+            Intent intent = new Intent(MainActivity.this, LiveSessionFormActivity.class);
+            startActivity(intent);
+        }
     }
 
     // Deposit/Withdraw Button Leads to a Bank Form

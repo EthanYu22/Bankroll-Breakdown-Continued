@@ -22,7 +22,7 @@
         <activity android:name=".SessionFormActivity" />
         <activity android:name=".SessionDetailActivity" />
         <activity android:name=".SessionEditActivity" />
-        <activity android:name=".LiveSessionTracker"></activity>
+        <activity android:name=".LiveSessionTracker" android:launchMode="singleTask" />
         <activity android:name=".LiveSessionFormActivity" />
         <activity android:name=".BankFormActivity" />
         <activity android:name=".BankDetailActivity" />

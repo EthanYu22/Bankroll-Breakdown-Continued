@@ -83,6 +83,7 @@ public class LiveSessionFormActivity extends AppCompatActivity
         intent.putExtra("buyIn",buyIn);
         intent.putExtra("sessionType", sessionType);
         intent.putExtra("sessionBlinds",sessionBlinds);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }
