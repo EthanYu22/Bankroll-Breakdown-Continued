@@ -6,6 +6,7 @@ Uses a Guide From www.androidhive.info for Tabs and SQLite
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -13,8 +14,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     public static int bankId; // Used to Hold Bank View ID
     DatabaseHelper db;
     SharedPreferences prefs;
+    SharedPreferences.Editor editor;
     List<Session> sessionList;
     List<Bank> bankList;
     // Tabs-Fragments
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     // Formatting of App
     private Toolbar toolbar;
     private TabLayout tabLayout;
+    ViewPagerAdapter adapter;
     private ViewPager viewPager;
 
     @Override
@@ -44,6 +50,9 @@ public class MainActivity extends AppCompatActivity
 
         // Instantiate All
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = prefs.edit();
+        editor.putBoolean("liveSessionActive", false);
+        editor.commit();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,6 +66,42 @@ public class MainActivity extends AppCompatActivity
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
+    }
+
+    // Creates Layout for Tabs/Fragments: History, Stats, Bank
+    public void setupViewPager(ViewPager upViewPager)
+    {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(hist, "History");
+        adapter.addFragment(stats, "Statistics");
+        adapter.addFragment(bank, "Bankroll");
+        viewPager.setAdapter(adapter);
+    }
+
+    // Functionality of Toolbar Back Arrow
+    public boolean onOptionsItemSelected(MenuItem menuItem)
+    {
+        int id = menuItem.getItemId();
+
+        if (id == android.R.id.home)
+        {
+            if(viewPager.getCurrentItem() != 0){
+                tabLayout.getTabAt(viewPager.getCurrentItem() - 1).select();
+            }
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     // Append Day, Month, Year to Format Date: YYYY/MM/DD
@@ -137,20 +182,11 @@ public class MainActivity extends AppCompatActivity
         return dayMonthYearDate;
     }
 
-    // Creates Layout for Tabs/Fragments: History, Stats, Bank
-    public void setupViewPager(ViewPager upViewPager)
-    {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(hist, "History");
-        adapter.addFragment(stats, "Statistics");
-        adapter.addFragment(bank, "Bankroll");
-        viewPager.setAdapter(adapter);
-    }
-
     // New Session Button Leads to Session Form
     public void onClickNewSession(View v)
     {
-        Intent intent = new Intent(MainActivity.this, SessionFormActivity.class);
+        Intent intent = new Intent(this, SessionFormActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -160,11 +196,13 @@ public class MainActivity extends AppCompatActivity
         Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", true)));
         if(prefs.getBoolean("liveSessionActive", true))
         {
-            Intent intent = new Intent(MainActivity.this, LiveSessionTracker.class);
+            Intent intent = new Intent(this, LiveSessionTracker.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }else
         {
-            Intent intent = new Intent(MainActivity.this, LiveSessionFormActivity.class);
+            Intent intent = new Intent(this, LiveSessionFormActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
         }
     }
@@ -172,7 +210,8 @@ public class MainActivity extends AppCompatActivity
     // Deposit/Withdraw Button Leads to a Bank Form
     public void onClickDepositWithdraw(View v)
     {
-        Intent intent = new Intent(MainActivity.this, BankFormActivity.class);
+        Intent intent = new Intent(this, BankFormActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -253,7 +292,8 @@ public class MainActivity extends AppCompatActivity
     public void onClickSession(View v)
     {
         sessionId = v.getId();
-        Intent intent = new Intent(MainActivity.this, SessionDetailActivity.class);
+        Intent intent = new Intent(this, SessionDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -261,13 +301,21 @@ public class MainActivity extends AppCompatActivity
     public void onClickBank(View v)
     {
         bankId = v.getId();
-        Intent intent = new Intent(MainActivity.this, BankDetailActivity.class);
+        Intent intent = new Intent(this, BankDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     public void onClickStatsGraph(View v)
     {
-        Intent intent = new Intent(MainActivity.this, StatsGraphActivity.class);
+        if(sessionList.size() < 2){
+            Toast noSessions = Toast.makeText(getApplication(), "Need two sessions to display.", Toast.LENGTH_SHORT);
+            noSessions.setGravity(Gravity.CENTER, 0, 0);
+            noSessions.show();
+            return;
+        }
+        Intent intent = new Intent(this, StatsGraphActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 }

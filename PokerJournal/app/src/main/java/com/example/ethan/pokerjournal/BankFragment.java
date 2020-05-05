@@ -36,6 +36,7 @@ public class BankFragment extends Fragment
     }
 
     // Action When On Bank Page
+    @Override
     public void onResume()
     {
         super.onResume();

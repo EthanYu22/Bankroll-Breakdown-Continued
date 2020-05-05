@@ -49,7 +49,9 @@ public class LiveSessionFormActivity extends AppCompatActivity
 
         if (id == android.R.id.home)
         {
-            this.finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(menuItem);
     }
@@ -78,12 +80,12 @@ public class LiveSessionFormActivity extends AppCompatActivity
         String sessionType = spinType.getSelectedItem().toString();
         String sessionBlinds = spinBlinds.getSelectedItem().toString();
 
-        Intent intent = new Intent(LiveSessionFormActivity.this, LiveSessionTracker.class);
+        Intent intent = new Intent(this, LiveSessionTracker.class);
         intent.putExtra("location",location);
         intent.putExtra("buyIn",buyIn);
         intent.putExtra("sessionType", sessionType);
         intent.putExtra("sessionBlinds",sessionBlinds);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 }

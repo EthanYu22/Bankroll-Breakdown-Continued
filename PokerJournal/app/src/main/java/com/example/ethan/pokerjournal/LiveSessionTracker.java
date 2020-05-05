@@ -106,7 +106,10 @@ public class LiveSessionTracker extends AppCompatActivity
         super.onDestroy();
         editor.putBoolean("liveSessionActive", false);
         editor.commit();
+        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", false)));
+
     }
+
     // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
@@ -114,7 +117,9 @@ public class LiveSessionTracker extends AppCompatActivity
 
         if (id == android.R.id.home)
         {
-            this.finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(menuItem);
     }
@@ -151,21 +156,28 @@ public class LiveSessionTracker extends AppCompatActivity
     // Edit Session Entries
     public void onClickAddOnRebuy(View v)
     {
+        if(addOnAmount.getText().toString().isEmpty())
+        {
+            Toast noRebuyEntry = Toast.makeText(getApplication(), "Please fill in the \"Add On ($)\" field", Toast.LENGTH_SHORT);
+            noRebuyEntry.show();
+            return;
+        }
         int addOnValue = Integer.parseInt(addOnAmount.getText().toString());
         totalBuyIn += addOnValue;
         currentTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
         addOnAmount.setText("");
     }
 
-    // Hit Home Page
-    public void onClickHome(View  v)
+    public void onClickDeleteLiveSession(View  v)
     {
-        Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+        finish();
     }
 
     // Submit Live Session
-    public void onClickLiveSession(View v)
+    public void onClickSubmitLiveSession(View v)
     {
         long time = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
 
@@ -206,7 +218,7 @@ public class LiveSessionTracker extends AppCompatActivity
 
         db.createSession(session);
 
-        Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

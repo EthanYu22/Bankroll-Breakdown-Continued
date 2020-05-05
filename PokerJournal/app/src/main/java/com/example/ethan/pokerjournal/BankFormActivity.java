@@ -1,5 +1,6 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -119,7 +120,9 @@ public class BankFormActivity extends AppCompatActivity
 
         if (id == android.R.id.home)
         {
-            this.finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(menuItem);
     }
@@ -129,7 +132,7 @@ public class BankFormActivity extends AppCompatActivity
     {
         DatabaseHelper db = new DatabaseHelper(this);
         Bank bank = new Bank();
-        Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
+        Toast fillAmount = Toast.makeText(getApplication(), "Please fill in the \"Amount ($)\" field", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         // Get Input of Deposit or Withdraw
@@ -155,7 +158,7 @@ public class BankFormActivity extends AppCompatActivity
         String Amount = editAmount.getText().toString();
         if (Amount.isEmpty())
         {
-            toast.show();
+            fillAmount.show();
             return;
         }
 

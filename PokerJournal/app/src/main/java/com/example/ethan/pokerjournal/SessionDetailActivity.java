@@ -28,8 +28,8 @@ public class SessionDetailActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        sessionId = MainActivity.sessionId;
         db = new DatabaseHelper(this);
+        sessionId = MainActivity.sessionId;
         session = db.getSession(sessionId);
     }
 
@@ -38,6 +38,8 @@ public class SessionDetailActivity extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
+        sessionId = MainActivity.sessionId;
+        session = db.getSession(sessionId);
         displayDetails();
     }
 
@@ -114,7 +116,7 @@ public class SessionDetailActivity extends AppCompatActivity
     public void onClickEditSession(View v)
     {
         sessionId = v.getId();
-        Intent intent = new Intent(SessionDetailActivity.this, SessionEditActivity.class);
+        Intent intent = new Intent(this, SessionEditActivity.class);
         startActivity(intent);
     }
 

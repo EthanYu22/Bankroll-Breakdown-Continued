@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -196,7 +197,7 @@ public class SessionEditActivity extends AppCompatActivity
     {
         DatabaseHelper db = new DatabaseHelper(this);
         Session session = new Session();
-        Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
+        Toast fillOutFields = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         // Get Input for Poker Variation Type
@@ -210,11 +211,6 @@ public class SessionEditActivity extends AppCompatActivity
         // Get Location and Make Sure it's Valid
         EditText editLocation = (EditText) findViewById(R.id.editLocation);
         String location = editLocation.getText().toString();
-        if (location.isEmpty())
-        {
-            toast.show();
-            return;
-        }
 
         // Get Input of Date and Format into String
         Spinner spinMonth = (Spinner) findViewById(R.id.spinnerSessionMonth);
@@ -233,29 +229,23 @@ public class SessionEditActivity extends AppCompatActivity
 
         // Get Session Duration and Make Sure it's Valid
         EditText editTime = (EditText) findViewById(R.id.editTime);
-        if (editTime.getText().toString().isEmpty())
-        {
-            toast.show();
-            return;
-        }
+
         // Input Session Duration Entry
         int time = Integer.parseInt(editTime.getText().toString());
 
         // Get Buy In and Make Sure it's Valid
         EditText editBuyIn = (EditText) findViewById(R.id.editBuyIn);
-        if (editBuyIn.getText().toString().isEmpty())
-        {
-            toast.show();
-            return;
-        }
+
         // Input Buy In Entry
         int buyIn = Integer.parseInt(editBuyIn.getText().toString());
 
         // Get Cash Out and Make Sure it's Valid
         EditText editCashOut = (EditText) findViewById(R.id.editCashOut);
-        if (editCashOut.getText().toString().isEmpty())
+
+        if (location.isEmpty() || editTime.getText().toString().isEmpty() || editBuyIn.getText().toString().isEmpty() || editCashOut.getText().toString().isEmpty())
         {
-            toast.show();
+            fillOutFields.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            fillOutFields.show();
             return;
         }
 
@@ -267,7 +257,8 @@ public class SessionEditActivity extends AppCompatActivity
 
         db.editSession(session);
 
-        Intent intent = new Intent(SessionEditActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 }

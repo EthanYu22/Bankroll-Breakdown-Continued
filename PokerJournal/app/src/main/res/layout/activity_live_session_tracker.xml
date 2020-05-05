@@ -147,9 +147,9 @@
         android:layout_marginStart="16dp"/>
 
     <Button
-        android:text="Home"
-        android:id="@+id/buttonHome"
-        android:onClick="onClickHome"
+        android:text="Trash Live Session"
+        android:id="@+id/buttonDeleteLiveSession"
+        android:onClick="onClickDeleteLiveSession"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/buttonSubmitLiveSession"
         android:layout_alignParentEnd="true"
@@ -160,9 +160,9 @@
 
     // Submit Button at Bottom of Page
     <Button
-        android:text="Finish Live Session"
+        android:text="Submit Live Session"
         android:id="@+id/buttonSubmitLiveSession"
-        android:onClick="onClickLiveSession"
+        android:onClick="onClickSubmitLiveSession"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

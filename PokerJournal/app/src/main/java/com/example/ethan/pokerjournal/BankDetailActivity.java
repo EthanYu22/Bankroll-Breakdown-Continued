@@ -34,9 +34,12 @@ public class BankDetailActivity extends AppCompatActivity
     }
 
     // Action When On Bank Detail Page
+    @Override
     public void onResume()
     {
         super.onResume();
+        bankId = MainActivity.bankId;
+        bank = db.getBank(bankId);
         displayDetails();
     }
 
@@ -76,7 +79,7 @@ public class BankDetailActivity extends AppCompatActivity
     public void onClickEditBank(View v)
     {
         bankId = v.getId();
-        Intent intent = new Intent(BankDetailActivity.this, BankEditActivity.class);
+        Intent intent = new Intent(this, BankEditActivity.class);
         startActivity(intent);
     }
 

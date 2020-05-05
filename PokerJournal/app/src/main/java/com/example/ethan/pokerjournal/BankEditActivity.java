@@ -217,7 +217,9 @@ public class BankEditActivity extends AppCompatActivity
 
         db.editBank(bank);
 
-        Intent intent = new Intent(BankEditActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+        finish();
     }
 }
