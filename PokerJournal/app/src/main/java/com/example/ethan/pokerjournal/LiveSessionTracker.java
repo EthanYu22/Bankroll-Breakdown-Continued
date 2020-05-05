@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,6 +26,9 @@ public class LiveSessionTracker extends AppCompatActivity
     private Toolbar toolbar;
     TextView currentTotalBuyIn;
     TextView addOnAmount;
+    Button startButton;
+    Button pauseButton;
+    Button resetButton;
 
     String locationValue;
     String buyInValue;
@@ -49,6 +53,9 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.commit();
         Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", false)));
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        startButton = (Button) findViewById(R.id.timerStart);
+        pauseButton = (Button) findViewById(R.id.timerPause);
+        resetButton = (Button) findViewById(R.id.timerReset);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
@@ -131,6 +138,12 @@ public class LiveSessionTracker extends AppCompatActivity
         {
             timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
             timer.start();
+            startButton.setText("Running");
+            startButton.setTextColor(getResources().getColor(R.color.white));
+            startButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            pauseButton.setText("Pause");
+            pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
+            pauseButton.setTextColor(getResources().getColor(R.color.black));
             running = true;
         }
     }
@@ -141,6 +154,12 @@ public class LiveSessionTracker extends AppCompatActivity
         {
             timer.stop();
             pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
+            pauseButton.setText("Paused");
+            pauseButton.setTextColor(getResources().getColor(R.color.white));
+            pauseButton.setBackgroundColor(getResources().getColor(R.color.darkBlue));
+            startButton.setText("Resume");
+            startButton.setTextColor(getResources().getColor(R.color.black));
+            startButton.setBackgroundColor(getResources().getColor(R.color.green));
             running = false;
         }
     }
@@ -151,6 +170,12 @@ public class LiveSessionTracker extends AppCompatActivity
         timer.setBase(SystemClock.elapsedRealtime());
         pauseOffset = 0;
         pauseTimer(v);
+        pauseButton.setText("Pause");
+        pauseButton.setTextColor(getResources().getColor(R.color.black));
+        pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
+        startButton.setText("Start");
+        startButton.setTextColor(getResources().getColor(R.color.black));
+        startButton.setBackgroundColor(getResources().getColor(R.color.green));
     }
 
     // Edit Session Entries

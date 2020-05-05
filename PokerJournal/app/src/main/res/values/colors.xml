@@ -22,5 +22,11 @@
     <color name ="red">#ff4222</color>
     <color name ="blue">#ADD8E6</color>
     <color name ="green">#02aB22</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 
+    <color name="darkRed">#800000</color>
+    <color name="darkBlue">#000080</color>
+    <color name="darkGreen">#228b22</color>
+    <color name="darkYellow">#ffdf00</color>
 </resources>
