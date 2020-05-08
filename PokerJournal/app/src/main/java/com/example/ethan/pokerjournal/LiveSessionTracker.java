@@ -39,6 +39,7 @@ public class LiveSessionTracker extends AppCompatActivity
 
     private Chronometer timer;
     private long pauseOffset;
+    private long runningTimerBase;
     private boolean started = false;
     private boolean running;
 
@@ -49,8 +50,6 @@ public class LiveSessionTracker extends AppCompatActivity
         setContentView(R.layout.activity_live_session_tracker);
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
-        editor.putBoolean("liveSessionActive", true);
-        editor.commit();
         Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", false)));
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         startButton = (Button) findViewById(R.id.timerStart);
@@ -105,16 +104,99 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
+        if(prefs.getBoolean("liveSessionActive", false))
+        {
+            if(prefs.getBoolean("liveSessionRunning", true))
+            {
+                runningTimerBase = prefs.getLong("liveSessionTimerBase", 0);
+                timer.setBase(runningTimerBase);
+                timer.start();
+                startButton.setText("Running");
+                startButton.setTextColor(getResources().getColor(R.color.white));
+                startButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                running = true;
+                started = true;
+            }
+            else
+            {
+                runningTimerBase = prefs.getLong("liveSessionTimerBase", 0);
+                pauseOffset = prefs.getLong("liveSessionPauseOffset", 0);
+                timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+                started = prefs.getBoolean("liveSessionStarted", false);
+                if(started)
+                {
+                    pauseButton.setText("Paused");
+                    pauseButton.setTextColor(getResources().getColor(R.color.white));
+                    pauseButton.setBackgroundColor(getResources().getColor(R.color.darkBlue));
+                    startButton.setText("Resume");
+                    startButton.setTextColor(getResources().getColor(R.color.black));
+                    startButton.setBackgroundColor(getResources().getColor(R.color.green));
+                }
+                else
+                {
+                    pauseButton.setText("Pause");
+                    pauseButton.setTextColor(getResources().getColor(R.color.black));
+                    pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
+                    startButton.setText("Start");
+                    startButton.setTextColor(getResources().getColor(R.color.black));
+                    startButton.setBackgroundColor(getResources().getColor(R.color.green));
+                }
+            }
+        }
+        editor.putBoolean("liveSessionActive", true);
+        editor.commit();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        editor.putBoolean("liveSessionRunning", running);
+        editor.putBoolean("liveSessionStarted", started);
+        editor.putLong("liveSessionTimerBase", runningTimerBase);
+        editor.putString("liveSessionType", sessionTypeValue);
+        editor.putString("liveSessionBlinds", sessionBlindsValue);
+        editor.putString("liveSessionLocation", locationValue);
+        editor.putString("liveSessionBuyIn", Integer.toString(totalBuyIn));
+        if(running)
+        {
+            editor.putLong("liveSessionPauseOffset", 0);
+        }
+        else
+        {
+            editor.putLong("liveSessionPauseOffset", pauseOffset);
+        }
+        editor.commit();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        editor.putBoolean("liveSessionActive", false);
+        editor.putBoolean("liveSessionRunning", running);
+        editor.putBoolean("liveSessionStarted", started);
+        editor.putLong("liveSessionTimerBase", runningTimerBase);
+        editor.putString("liveSessionType", sessionTypeValue);
+        editor.putString("liveSessionBlinds", sessionBlindsValue);
+        editor.putString("liveSessionLocation", locationValue);
+        editor.putString("liveSessionBuyIn", Integer.toString(totalBuyIn));
+        if(running)
+        {
+            editor.putLong("liveSessionPauseOffset", 0);
+        }
+        else
+        {
+            editor.putLong("liveSessionPauseOffset", pauseOffset);
+        }
         editor.commit();
-        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", false)));
+    }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     // Functionality of Toolbar Back Arrow
@@ -136,15 +218,17 @@ public class LiveSessionTracker extends AppCompatActivity
         started = true;
         if (!running)
         {
-            timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            running = true;
+            runningTimerBase = SystemClock.elapsedRealtime() - pauseOffset;
+            timer.setBase(runningTimerBase);
             timer.start();
+            pauseOffset = 0;
             startButton.setText("Running");
             startButton.setTextColor(getResources().getColor(R.color.white));
             startButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
             pauseButton.setText("Pause");
             pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
             pauseButton.setTextColor(getResources().getColor(R.color.black));
-            running = true;
         }
     }
 
@@ -153,7 +237,7 @@ public class LiveSessionTracker extends AppCompatActivity
         if(running)
         {
             timer.stop();
-            pauseOffset = SystemClock.elapsedRealtime() - timer.getBase();
+            pauseOffset = SystemClock.elapsedRealtime() - timer.getBase(); // time passed since timer started and timer paused
             pauseButton.setText("Paused");
             pauseButton.setTextColor(getResources().getColor(R.color.white));
             pauseButton.setBackgroundColor(getResources().getColor(R.color.darkBlue));
@@ -166,16 +250,18 @@ public class LiveSessionTracker extends AppCompatActivity
 
     public void resetTimer(View v)
     {
-        started = false;
-        timer.setBase(SystemClock.elapsedRealtime());
+        timer.stop();
+        runningTimerBase = SystemClock.elapsedRealtime();
+        timer.setBase(runningTimerBase);
         pauseOffset = 0;
-        pauseTimer(v);
         pauseButton.setText("Pause");
         pauseButton.setTextColor(getResources().getColor(R.color.black));
         pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
         startButton.setText("Start");
         startButton.setTextColor(getResources().getColor(R.color.black));
         startButton.setBackgroundColor(getResources().getColor(R.color.green));
+        started = false;
+        running = false;
     }
 
     // Edit Session Entries
@@ -195,6 +281,8 @@ public class LiveSessionTracker extends AppCompatActivity
 
     public void onClickDeleteLiveSession(View  v)
     {
+        editor.putBoolean("liveSessionActive", false);
+        editor.commit();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
@@ -242,6 +330,9 @@ public class LiveSessionTracker extends AppCompatActivity
         session.setEntries(sessionTypeValue, sessionBlindsValue, locationValue, date, (int) time, totalBuyIn, cashOut);
 
         db.createSession(session);
+
+        editor.putBoolean("liveSessionActive", false);
+        editor.commit();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

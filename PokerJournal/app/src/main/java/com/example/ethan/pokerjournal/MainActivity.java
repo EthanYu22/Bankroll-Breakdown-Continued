@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity
         // Instantiate All
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
-        editor.putBoolean("liveSessionActive", false);
-        editor.commit();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -193,11 +191,14 @@ public class MainActivity extends AppCompatActivity
     // Live Session Button Leads to Live Session Form
     public void onClickLiveSessionForm(View v)
     {
-        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", true)));
         if(prefs.getBoolean("liveSessionActive", true))
         {
             Intent intent = new Intent(this, LiveSessionTracker.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.putExtra("sessionType", prefs.getString("liveSessionType",""));
+            intent.putExtra("sessionBlinds",prefs.getString("liveSessionBlinds",""));
+            intent.putExtra("location", prefs.getString("liveSessionLocation", ""));
+            intent.putExtra("buyIn",prefs.getString("liveSessionBuyIn","0"));
             startActivity(intent);
         }else
         {
