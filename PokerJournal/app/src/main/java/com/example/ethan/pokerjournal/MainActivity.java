@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity
 
     public void onClickStatsGraph(View v)
     {
+        sessionList = db.getAllSessions();
         if(sessionList.size() < 2){
             Toast noSessions = Toast.makeText(getApplication(), "Need two sessions to display.", Toast.LENGTH_SHORT);
             noSessions.setGravity(Gravity.CENTER, 0, 0);
