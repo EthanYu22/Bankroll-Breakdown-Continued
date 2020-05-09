@@ -20,6 +20,15 @@ import java.time.format.DateTimeFormatter;
 
 public class LiveSessionTracker extends AppCompatActivity
 {
+    private static final String LIVE_ACTIVE = "liveSessionActive";
+    private static final String LIVE_STARTED = "liveSessionStarted";
+    private static final String LIVE_RUNNING = "liveSessionRunning";
+    private static final String LIVE_TIMER_BASE = "liveSessionTimerBase";
+    private static final String LIVE_TYPE = "liveSessionType";
+    private static final String LIVE_BLINDS = "liveSessionBlinds";
+    private static final String LIVE_LOCATION = "liveSessionLocation";
+    private static final String LIVE_BUY_IN = "liveSessionBuyIn";
+    private static final String LIVE_PAUSE_OFFSET = "liveSessionPauseOffset";
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -50,7 +59,6 @@ public class LiveSessionTracker extends AppCompatActivity
         setContentView(R.layout.activity_live_session_tracker);
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
-        Log.d("@@@@@@@@@@@@@@@@@@@@@@@@ ETHAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Boolean.toString(prefs.getBoolean("liveSessionActive", false)));
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         startButton = (Button) findViewById(R.id.timerStart);
         pauseButton = (Button) findViewById(R.id.timerPause);
@@ -104,11 +112,11 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
-        if(prefs.getBoolean("liveSessionActive", false))
+        if(prefs.getBoolean(LIVE_ACTIVE, false))
         {
-            if(prefs.getBoolean("liveSessionRunning", true))
+            if(prefs.getBoolean(LIVE_RUNNING, true))
             {
-                runningTimerBase = prefs.getLong("liveSessionTimerBase", 0);
+                runningTimerBase = prefs.getLong(LIVE_TIMER_BASE, 0);
                 timer.setBase(runningTimerBase);
                 timer.start();
                 startButton.setText("Running");
@@ -119,10 +127,10 @@ public class LiveSessionTracker extends AppCompatActivity
             }
             else
             {
-                runningTimerBase = prefs.getLong("liveSessionTimerBase", 0);
-                pauseOffset = prefs.getLong("liveSessionPauseOffset", 0);
+                runningTimerBase = prefs.getLong(LIVE_TIMER_BASE, 0);
+                pauseOffset = prefs.getLong(LIVE_PAUSE_OFFSET, 0);
                 timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-                started = prefs.getBoolean("liveSessionStarted", false);
+                started = prefs.getBoolean(LIVE_STARTED, false);
                 if(started)
                 {
                     pauseButton.setText("Paused");
@@ -143,7 +151,7 @@ public class LiveSessionTracker extends AppCompatActivity
                 }
             }
         }
-        editor.putBoolean("liveSessionActive", true);
+        editor.putBoolean(LIVE_ACTIVE, true);
         editor.commit();
     }
 
@@ -151,20 +159,20 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onPause()
     {
         super.onPause();
-        editor.putBoolean("liveSessionRunning", running);
-        editor.putBoolean("liveSessionStarted", started);
-        editor.putLong("liveSessionTimerBase", runningTimerBase);
-        editor.putString("liveSessionType", sessionTypeValue);
-        editor.putString("liveSessionBlinds", sessionBlindsValue);
-        editor.putString("liveSessionLocation", locationValue);
-        editor.putString("liveSessionBuyIn", Integer.toString(totalBuyIn));
+        editor.putBoolean(LIVE_RUNNING, running);
+        editor.putBoolean(LIVE_STARTED, started);
+        editor.putLong(LIVE_TIMER_BASE, runningTimerBase);
+        editor.putString(LIVE_TYPE, sessionTypeValue);
+        editor.putString(LIVE_BLINDS, sessionBlindsValue);
+        editor.putString(LIVE_LOCATION, locationValue);
+        editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
         if(running)
         {
-            editor.putLong("liveSessionPauseOffset", 0);
+            editor.putLong(LIVE_PAUSE_OFFSET, 0);
         }
         else
         {
-            editor.putLong("liveSessionPauseOffset", pauseOffset);
+            editor.putLong(LIVE_PAUSE_OFFSET, pauseOffset);
         }
         editor.commit();
     }
@@ -173,20 +181,20 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onDestroy()
     {
         super.onDestroy();
-        editor.putBoolean("liveSessionRunning", running);
-        editor.putBoolean("liveSessionStarted", started);
-        editor.putLong("liveSessionTimerBase", runningTimerBase);
-        editor.putString("liveSessionType", sessionTypeValue);
-        editor.putString("liveSessionBlinds", sessionBlindsValue);
-        editor.putString("liveSessionLocation", locationValue);
-        editor.putString("liveSessionBuyIn", Integer.toString(totalBuyIn));
+        editor.putBoolean(LIVE_RUNNING, running);
+        editor.putBoolean(LIVE_STARTED, started);
+        editor.putLong(LIVE_TIMER_BASE, runningTimerBase);
+        editor.putString(LIVE_TYPE, sessionTypeValue);
+        editor.putString(LIVE_BLINDS, sessionBlindsValue);
+        editor.putString(LIVE_LOCATION, locationValue);
+        editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
         if(running)
         {
-            editor.putLong("liveSessionPauseOffset", 0);
+            editor.putLong(LIVE_PAUSE_OFFSET, 0);
         }
         else
         {
-            editor.putLong("liveSessionPauseOffset", pauseOffset);
+            editor.putLong(LIVE_PAUSE_OFFSET, pauseOffset);
         }
         editor.commit();
     }
@@ -281,7 +289,7 @@ public class LiveSessionTracker extends AppCompatActivity
 
     public void onClickDeleteLiveSession(View  v)
     {
-        editor.putBoolean("liveSessionActive", false);
+        editor.putBoolean(LIVE_ACTIVE, false);
         editor.commit();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -331,7 +339,7 @@ public class LiveSessionTracker extends AppCompatActivity
 
         db.createSession(session);
 
-        editor.putBoolean("liveSessionActive", false);
+        editor.putBoolean(LIVE_ACTIVE, false);
         editor.commit();
 
         Intent intent = new Intent(this, MainActivity.class);
