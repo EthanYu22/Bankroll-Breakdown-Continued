@@ -1,27 +1,33 @@
 package com.example.ethan.pokerjournal;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 // Bank Transaction Entry Form
 public class BankFormActivity extends AppCompatActivity
 {
 
     private Toolbar toolbar;
-
-    Spinner spinType;
-    Spinner spinMonth;
-    Spinner spinDay;
-    Spinner spinYear;
+    DatabaseHelper db;
+    Spinner spinTransactionType;
+    EditText inputAmount;
+    TextView selectDate;
+    private DatePickerDialog.OnDateSetListener dateSelectListener;
+    String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,85 +39,40 @@ public class BankFormActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set Up Date Spinners
-        spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
-        spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
-        spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
-        spinType = (Spinner) findViewById(R.id.spinnerType);
-
-        final ArrayAdapter<CharSequence> monthsArray = ArrayAdapter.createFromResource(this, R.array.months, android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter<CharSequence> days29Array = ArrayAdapter.createFromResource(this, R.array.days29, android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter<CharSequence> days30Array = ArrayAdapter.createFromResource(this, R.array.days30, android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter<CharSequence> daysArray = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_dropdown_item);
-        final ArrayAdapter<CharSequence> yearsArray = ArrayAdapter.createFromResource(this, R.array.years, android.R.layout.simple_spinner_dropdown_item);
-
-        monthsArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daysArray.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        days29Array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        days30Array.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinMonth.setAdapter(monthsArray);
-        spinDay.setAdapter(daysArray);
-        spinYear.setAdapter(yearsArray);
-        spinYear.setSelection(2);
-
-        // Change Days Displayed in Spinners According to Month
-        spinMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
+        spinTransactionType = (Spinner) findViewById(R.id.spinnerTransType);
+        inputAmount = (EditText) findViewById(R.id.evAmount);
+        selectDate = (TextView) findViewById(R.id.selectDate);
+        selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                switch (position)
-                {
-                    case 0:
-                        spinDay.setAdapter(daysArray);
-                        break;
-                    case 1:
-                        spinDay.setAdapter(days29Array);
-                        break;
-                    case 2:
-                        spinDay.setAdapter(daysArray);
-                        break;
-                    case 3:
-                        spinDay.setAdapter(days30Array);
-                        break;
-                    case 4:
-                        spinDay.setAdapter(daysArray);
-                        break;
-                    case 5:
-                        spinDay.setAdapter(days30Array);
-                        break;
-                    case 6:
-                        spinDay.setAdapter(daysArray);
-                        break;
-                    case 7:
-                        spinDay.setAdapter(daysArray);
-                        break;
-                    case 8:
-                        spinDay.setAdapter(days30Array);
-                        break;
-                    case 9:
-                        spinDay.setAdapter(daysArray);
-                        break;
-                    case 10:
-                        spinDay.setAdapter(days30Array);
-                        break;
-                    case 11:
-                        spinDay.setAdapter(daysArray);
-                }
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        BankFormActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, dateSelectListener,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
         });
+
+        dateSelectListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String displayDate = String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + year;
+                selectDate.setText(displayDate);
+                date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+            }
+        };
     }
 
-    /*
-    // Action When Off Bank Form Page
     public void onPause() {
         super.onPause();
-        finish();
     }
-    */
 
     // Functionality of Toolbar Back Arrow
     public boolean onOptionsItemSelected(MenuItem menuItem)
@@ -130,46 +91,22 @@ public class BankFormActivity extends AppCompatActivity
     // Submit Bank Transaction
     public void onClickBankButton(View v)
     {
-        DatabaseHelper db = new DatabaseHelper(this);
+        db = new DatabaseHelper(this);
         Bank bank = new Bank();
         Toast fillAmount = Toast.makeText(getApplication(), "Please fill in the \"Amount ($)\" field", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
-        // Get Input of Deposit or Withdraw
-        String type = spinType.getSelectedItem().toString();
-
-        // Get Input of Date and Format into String
-        Spinner spinMonth = (Spinner) findViewById(R.id.spinnerBankMonth);
-        String month = spinMonth.getSelectedItem().toString();
-        Spinner spinDay = (Spinner) findViewById(R.id.spinnerBankDay);
-        String day = spinDay.getSelectedItem().toString();
-        Spinner spinYear = (Spinner) findViewById(R.id.spinnerBankYear);
-        String year = spinYear.getSelectedItem().toString();
-
-        String date = "";
-        String[] dayMonthYearDate = {day, month, year, date};
-
-        // Append Day, Month, Year to Format - Date: YYYY/MM/DD
-        MainActivity.appendDates(dayMonthYearDate);
-        date = dayMonthYearDate[3];
-
-        // Get Amount and Make Sure it's Valid
-        EditText editAmount = (EditText) findViewById(R.id.editAmount);
-        String Amount = editAmount.getText().toString();
+        String inputType = spinTransactionType.getSelectedItem().toString();
+        String Amount = inputAmount.getText().toString();
         if (Amount.isEmpty())
         {
             fillAmount.show();
             return;
         }
 
-        // Amount Transaction
-        int amountMoney = Integer.parseInt(editAmount.getText().toString());
-
         // Set Entries into DB
-        bank.setEntries(type, date, amountMoney);
-
+        bank.setEntries( inputType, date, Integer.parseInt(inputAmount.getText().toString()) );
         db.createBank(bank);
-
         finish();
     }
 }

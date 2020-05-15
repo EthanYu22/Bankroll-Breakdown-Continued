@@ -9,7 +9,7 @@ public class Bank
 
     protected int id; // Transaction ID
     protected String type; // Transaction Type
-    protected String date; // Transaction Computed Date YYYY/MM/DD
+    protected String date; // Transaction Computed Date YYYY-MM-DD
     protected int amount; // Transaction Amount
 
     public void setEntries(String type, String date, int amount)
