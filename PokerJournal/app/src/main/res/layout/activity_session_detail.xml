@@ -24,35 +24,12 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/textSessionHourlyRate"
-        android:text="Session Hourly Rate:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    <TextView
-        android:id="@+id/textSessionNetProfit"
-        android:text="Session Net Profit:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textSessionHourlyRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    <TextView
         android:id="@+id/textSessionDate"
         android:text="Date:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="70dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -130,6 +107,29 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/textSessionBuyIn"
         android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textSessionHourlyRate"
+        android:text="Session Hourly Rate:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tvSessionCashOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:id="@+id/textSessionNetProfit"
+        android:text="Session Net Profit:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textSessionHourlyRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

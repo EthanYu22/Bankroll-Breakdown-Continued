@@ -60,6 +60,7 @@ public class Bank
 
     public void setAmount(int amount) { this.amount = amount; }
 
+    // Converts Date to Display Format
     public String getConvertedDateMMddyyyy()
     {
         String sessionDate = this.date;
@@ -69,9 +70,8 @@ public class Bank
         return localDate.format(formatter);
     }
 
-    // Used for Array Adapter to Understand
+    // Used for Array Adapter to Display Transaction Details
     @Override
-    // Turns Date into a String
     public String toString()
     {
         return " " + getConvertedDateMMddyyyy() + "\n " + type + "\n $" + amount;

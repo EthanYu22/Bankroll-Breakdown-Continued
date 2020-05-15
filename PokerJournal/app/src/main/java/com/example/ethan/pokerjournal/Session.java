@@ -76,6 +76,7 @@ public class Session implements Comparator<Session>
 
     public void setCashOut(int cashOut) {this.cashOut = cashOut;}
 
+    // Converts Date to Display Format
     public String getConvertedDateMMddyyyy()
     {
         String sessionDate = this.date;
@@ -85,9 +86,8 @@ public class Session implements Comparator<Session>
         return localDate.format(formatter);
     }
 
-    // Used for Array Adapter to Understand
+    // Used for Array Adapter to Display Session Details
     @Override
-    // Turns Date into a Stringf
     public String toString()
     {
         int netProfit = cashOut - buyIn;
