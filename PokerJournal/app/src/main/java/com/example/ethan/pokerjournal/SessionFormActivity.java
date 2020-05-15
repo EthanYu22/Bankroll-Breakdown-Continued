@@ -107,10 +107,10 @@ public class SessionFormActivity extends AppCompatActivity
     {
         DatabaseHelper db = new DatabaseHelper(this);
         Session session = new Session();
-        Toast fillOutFields = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
+        Toast fillOutFields = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
-        if (etLocation.getText().toString().isEmpty() || etTime.getText().toString().isEmpty() || etBuyIn.getText().toString().isEmpty() || etCashOut.getText().toString().isEmpty())
+        if (selectDate.getText().toString().isEmpty() || etLocation.getText().toString().isEmpty() || etTime.getText().toString().isEmpty() || etBuyIn.getText().toString().isEmpty() || etCashOut.getText().toString().isEmpty())
         {
             fillOutFields.show();
             return;

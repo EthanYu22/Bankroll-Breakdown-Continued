@@ -94,14 +94,14 @@ public class BankFormActivity extends AppCompatActivity
     {
         DatabaseHelper db = new DatabaseHelper(this);
         Bank bank = new Bank();
-        Toast fillAmount = Toast.makeText(getApplication(), "Please fill in the \"Amount ($)\" field", Toast.LENGTH_SHORT);
+        Toast fillOutFields = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         String inputType = spinTransactionType.getSelectedItem().toString();
         String inputAmount = etAmount.getText().toString();
-        if (inputAmount.isEmpty())
+        if (selectDate.getText().toString().isEmpty() || inputAmount.isEmpty())
         {
-            fillAmount.show();
+            fillOutFields.show();
             return;
         }
 

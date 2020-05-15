@@ -110,14 +110,14 @@ public class BankEditActivity extends AppCompatActivity
     // Submit Edited Bank Transaction
     public void onClickEditTransaction(View v)
     {
-        Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
+        Toast fillOutFields = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         String inputType = spinTransactionType.getSelectedItem().toString();
         String inputAmount = etAmount.getText().toString();
         if (inputAmount.isEmpty())
         {
-            toast.show();
+            fillOutFields.show();
             return;
         }
 

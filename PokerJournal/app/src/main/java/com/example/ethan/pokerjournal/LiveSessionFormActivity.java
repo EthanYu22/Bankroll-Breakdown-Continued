@@ -59,7 +59,7 @@ public class LiveSessionFormActivity extends AppCompatActivity
     // Live Session Button Leads to Live Session Form
     public void onClickLiveSessionTracker(View v)
     {
-        Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
 
         EditText editLocation = (EditText) findViewById(R.id.editLiveLocation);
         if (editLocation.getText().toString().isEmpty())
