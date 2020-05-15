@@ -69,14 +69,14 @@ public class SessionDetailActivity extends AppCompatActivity
         double timeInHours = session.getTime() / 60.0;
         TextView hourlyRate = (TextView) findViewById(R.id.textSessionHourlyRate);
         TextView netProfit = (TextView) findViewById(R.id.textSessionNetProfit);
-        TextView type = (TextView) findViewById(R.id.textSessionType);
-        TextView blinds = (TextView) findViewById(R.id.textSessionBlinds);
+        TextView type = (TextView) findViewById(R.id.tvSessionType);
+        TextView blinds = (TextView) findViewById(R.id.tvSessionBlinds);
         TextView location = (TextView) findViewById(R.id.textSessionLocation);
         TextView date = (TextView) findViewById(R.id.textSessionDate);
         TextView timeMins = (TextView) findViewById(R.id.textSessionTimeMins);
         TextView timeHours = (TextView) findViewById(R.id.textSessionTimeHours);
         TextView buyIn = (TextView) findViewById(R.id.textSessionBuyIn);
-        TextView cashOut = (TextView) findViewById(R.id.textSessionCashOut);
+        TextView cashOut = (TextView) findViewById(R.id.tvSessionCashOut);
 
         // Calculate Net Profit and Hourly Rate
         int nProfit = session.getCashOut() - session.getBuyIn();

@@ -68,7 +68,7 @@
 
         // Display "Type:" Under textSessionDate
         <TextView
-            android:id="@+id/textSessionType"
+            android:id="@+id/tvSessionType"
             android:text="Type:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_below="@+id/textSessionDate"
@@ -80,10 +80,10 @@
 
         // Display "Blinds:" Under textSessionType
         <TextView
-            android:id="@+id/textSessionBlinds"
+            android:id="@+id/tvSessionBlinds"
             android:text="Blinds:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textSessionType"
+            android:layout_below="@+id/tvSessionType"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             android:id="@+id/textSessionLocation"
             android:text="Location:"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/textSessionBlinds"
+            android:layout_below="@+id/tvSessionBlinds"
             android:layout_alignParentStart="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
 
         // Display "Cash Out:" Under textSessionBuyIn
         <TextView
-            android:id="@+id/textSessionCashOut"
+            android:id="@+id/tvSessionCashOut"
             android:text="Cash Out:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_below="@+id/textSessionBuyIn"
@@ -144,7 +144,7 @@
             android:id="@+id/buttonEditSession"
             android:text="Edit"
             android:onClick="onClickEditSession"
-            android:layout_below="@+id/textSessionCashOut"
+            android:layout_below="@+id/tvSessionCashOut"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"

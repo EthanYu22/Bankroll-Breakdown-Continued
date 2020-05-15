@@ -22,26 +22,27 @@ public class BankFormActivity extends AppCompatActivity
 {
 
     private Toolbar toolbar;
-    DatabaseHelper db;
     Spinner spinTransactionType;
-    EditText inputAmount;
+    EditText etAmount;
     TextView selectDate;
     private DatePickerDialog.OnDateSetListener dateSelectListener;
-    String date;
+    String inputDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_form);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Set Up Date Spinners
+        // Set Up Widgets
         spinTransactionType = (Spinner) findViewById(R.id.spinnerTransType);
-        inputAmount = (EditText) findViewById(R.id.evAmount);
-        selectDate = (TextView) findViewById(R.id.selectDate);
+        etAmount = (EditText) findViewById(R.id.etAmount);
+
+        selectDate = (TextView) findViewById(R.id.tvSelectDate);
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +66,7 @@ public class BankFormActivity extends AppCompatActivity
                 month = month + 1;
                 String displayDate = String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + year;
                 selectDate.setText(displayDate);
-                date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+                inputDate = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
             }
         };
     }
@@ -91,21 +92,21 @@ public class BankFormActivity extends AppCompatActivity
     // Submit Bank Transaction
     public void onClickBankButton(View v)
     {
-        db = new DatabaseHelper(this);
+        DatabaseHelper db = new DatabaseHelper(this);
         Bank bank = new Bank();
         Toast fillAmount = Toast.makeText(getApplication(), "Please fill in the \"Amount ($)\" field", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
         String inputType = spinTransactionType.getSelectedItem().toString();
-        String Amount = inputAmount.getText().toString();
-        if (Amount.isEmpty())
+        String inputAmount = etAmount.getText().toString();
+        if (inputAmount.isEmpty())
         {
             fillAmount.show();
             return;
         }
 
         // Set Entries into DB
-        bank.setEntries( inputType, date, Integer.parseInt(inputAmount.getText().toString()) );
+        bank.setEntries(inputType, inputDate, Integer.parseInt(inputAmount));
         db.createBank(bank);
         finish();
     }

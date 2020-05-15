@@ -23,9 +23,8 @@
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
 
-    // Display "Session Type:"
     <TextView
-        android:id="@+id/textSessionType"
+        android:id="@+id/tvSessionType"
         android:text="Session Type:"
         android:textSize="20dp"
         android:layout_alignParentStart="true"
@@ -33,24 +32,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display SessionType Spinner Under textSessionType With Entries Listed in session_types in strings.xml
     <Spinner
         android:id="@+id/spinnerSessionType"
         android:entries="@array/session_types"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/textSessionType"
+        android:layout_below="@+id/tvSessionType"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Session Blinds:" Under spinnerSessionType
     <TextView
-        android:id="@+id/textSessionBlinds"
+        android:id="@+id/tvSessionBlinds"
         android:text="Session Blinds:"
         android:textSize="20dp"
         android:layout_below="@+id/spinnerSessionType"
@@ -58,90 +54,53 @@
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display SessionBlinds Spinner Under textSessionBlinds With Entries Listed in session_blinds in strings.xml
     <Spinner
         android:id="@+id/spinnerSessionBlinds"
         android:entries="@array/session_blinds"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/textSessionBlinds"
+        android:layout_below="@+id/tvSessionBlinds"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Date:" Under spinnerSessionBlinds
     <TextView
+        android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date:"
-        android:id="@+id/tvDate"
         android:layout_below="@+id/spinnerSessionBlinds"
         android:layout_alignParentStart="true"
         android:textSize="20dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Month Spinner Under textDate With Entries Listed in months in strings.xml
-    <Spinner
-        android:id="@+id/spinnerSessionMonth"
-        android:entries="@array/months"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/tvDate"
-        android:layout_alignParentLeft="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    // Display Day Spinner Under textDate With Entries Listed in days in strings.xml
-    <Spinner
-        android:id="@+id/spinnerSessionDay"
-        android:entries="@array/days"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/tvDate"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    // Display Year Spinner Under textDate With Entries Listed in years in strings.xml
-    <Spinner
-        android:id="@+id/spinnerSessionYear"
-        android:entries="@array/years"
-        android:spinnerMode="dropdown"
-        android:layout_below="@+id/tvDate"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
-
-    // Display "Location:" Under spinnerSessionMonth
     <TextView
-        android:id="@+id/textLocation"
+        android:id="@+id/tvSelectDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Select Date"
+        android:layout_below="@+id/tvDate"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tvLocation"
         android:text="Location:"
         android:textSize="20dp"
-        android:layout_below="@+id/spinnerSessionMonth"
+        android:layout_below="@+id/tvSelectDate"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Location Under textLocation
-
     <EditText
-        android:id="@+id/editLocation"
+        android:id="@+id/etLocation"
         android:inputType="text|textAutoComplete"
         android:textSize="15dp"
-        android:layout_below="@+id/textLocation"
+        android:layout_below="@+id/tvLocation"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -149,24 +108,21 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Time (Mins):" Under editLocation
     <TextView
-        android:id="@+id/textTime"
+        android:id="@+id/tvTime"
         android:text="Time (Mins):"
         android:textSize="20dp"
-        android:layout_below="@+id/editLocation"
+        android:layout_below="@+id/etLocation"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Duration: Under textTime
     <EditText
-        android:id="@+id/editTime"
+        android:id="@+id/etTime"
         android:inputType="number|numberDecimal"
         android:ems="10"
-        android:layout_below="@+id/textTime"
+        android:layout_below="@+id/tvTime"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -174,25 +130,21 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Buy In (Dollars):" Under editTime
     <TextView
-        android:id="@+id/textBuyIn"
+        android:id="@+id/tvBuyIn"
         android:text="Buy In ($):"
         android:textSize="20dp"
-        android:layout_below="@+id/editTime"
+        android:layout_below="@+id/etTime"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Buy In Under textBuyIn
-
     <EditText
-        android:id="@+id/editBuyIn"
+        android:id="@+id/etBuyIn"
         android:inputType="number|numberDecimal"
         android:ems="10"
-        android:layout_below="@+id/textBuyIn"
+        android:layout_below="@+id/tvBuyIn"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -200,24 +152,21 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Cash Out (Dollars):" Under editBuyIn
     <TextView
-        android:id="@+id/textSessionCashOut"
+        android:id="@+id/tvSessionCashOut"
         android:text="Cash Out ($):"
         android:textSize="20dp"
-        android:layout_below="@+id/editBuyIn"
+        android:layout_below="@+id/etBuyIn"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Cash Out Under textSessionCashOut
     <EditText
-        android:id="@+id/editCashOut"
+        android:id="@+id/etCashOut"
         android:inputType="number|numberDecimal"
         android:ems="10"
-        android:layout_below="@+id/textSessionCashOut"
+        android:layout_below="@+id/tvSessionCashOut"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -225,7 +174,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Submit Button at Bottom of Page
     <Button
         android:text="Submit"
         android:id="@+id/btnSubmitSession"

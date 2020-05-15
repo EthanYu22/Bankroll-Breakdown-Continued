@@ -59,7 +59,7 @@
         android:layout_marginStart="16dp"/>
 
     <TextView
-        android:id="@+id/textSessionType"
+        android:id="@+id/tvSessionType"
         android:text="Type:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/textSessionDate"
@@ -70,10 +70,10 @@
         android:layout_marginStart="16dp"/>
 
     <TextView
-        android:id="@+id/textSessionBlinds"
+        android:id="@+id/tvSessionBlinds"
         android:text="Blinds:"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textSessionType"
+        android:layout_below="@+id/tvSessionType"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         android:id="@+id/textSessionLocation"
         android:text="Location:"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/textSessionBlinds"
+        android:layout_below="@+id/tvSessionBlinds"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         android:layout_marginStart="16dp"/>
 
     <TextView
-        android:id="@+id/textSessionCashOut"
+        android:id="@+id/tvSessionCashOut"
         android:text="Cash Out:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/textSessionBuyIn"

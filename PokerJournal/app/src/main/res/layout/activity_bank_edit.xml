@@ -53,7 +53,7 @@
         android:layout_marginStart="16dp"/>
 
     <TextView
-        android:id="@+id/selectDate"
+        android:id="@+id/tvSelectDate"
         android:layout_below="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,17 +65,17 @@
         android:id="@+id/tvAmount"
         android:text="Amount ($): "
         android:textSize="20dp"
-        android:layout_below="@+id/selectDate"
+        android:layout_below="@+id/tvSelectDate"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"/>
 
     <EditText
-        android:id="@+id/evAmount"
+        android:id="@+id/etAmount"
         android:inputType="number|numberDecimal"
         android:ems="10"
-        android:layout_below="@+id/selectDate"
+        android:layout_below="@+id/tvSelectDate"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"

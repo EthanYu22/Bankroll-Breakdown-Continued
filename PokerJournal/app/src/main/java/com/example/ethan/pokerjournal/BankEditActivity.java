@@ -27,16 +27,17 @@ public class BankEditActivity extends AppCompatActivity
     Bank bank;
     int bankId;
     Spinner spinTransactionType;
-    EditText inputAmount;
+    EditText etAmount;
     TextView selectDate;
     private DatePickerDialog.OnDateSetListener dateSelectListener;
-    String date;
+    String inputDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_edit);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,22 +46,22 @@ public class BankEditActivity extends AppCompatActivity
         bankId = MainActivity.bankId;
         bank = db.getBank(bankId);
 
+        // Set up Widgets w/ Current Transaction Data
         spinTransactionType = (Spinner) findViewById(R.id.spinnerTransType);
+        etAmount = (EditText) findViewById(R.id.etAmount);
         setTypeSpinner(bank.getType());
+        etAmount.setText(Integer.toString(bank.getAmount()));
 
-        inputAmount = (EditText) findViewById(R.id.evAmount);
-        inputAmount.setText(Integer.toString(bank.getAmount()));
-
-        selectDate = (TextView) findViewById(R.id.selectDate);
+        selectDate = (TextView) findViewById(R.id.tvSelectDate);
         selectDate.setText(bank.getConvertedDateMMddyyyy());
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
-                date = bank.getDate();
-                int year = Integer.parseInt(date.substring(0,4));
-                int month = Integer.parseInt(date.substring(5,7)) - 1;
-                int day = Integer.parseInt(date.substring(8,10));
+                String currDate = bank.getDate();
+                int year = Integer.parseInt(currDate.substring(0,4));
+                int month = Integer.parseInt(currDate.substring(5,7)) - 1; // DatePicker Month goes from 0-11
+                int day = Integer.parseInt(currDate.substring(8,10));
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         BankEditActivity.this,
@@ -77,7 +78,7 @@ public class BankEditActivity extends AppCompatActivity
                 month = month + 1;
                 String displayDate = String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + year;
                 selectDate.setText(displayDate);
-                date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+                inputDate = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
             }
         };
     }
@@ -109,20 +110,19 @@ public class BankEditActivity extends AppCompatActivity
     // Submit Edited Bank Transaction
     public void onClickEditTransaction(View v)
     {
-        db = new DatabaseHelper(this);
         Toast toast = Toast.makeText(getApplication(), "Please fill all fields", Toast.LENGTH_SHORT);
 
         // ~ Get Entries and Validate ~
-        String type = spinTransactionType.getSelectedItem().toString();
-        String Amount = inputAmount.getText().toString();
-        if (Amount.isEmpty())
+        String inputType = spinTransactionType.getSelectedItem().toString();
+        String inputAmount = etAmount.getText().toString();
+        if (inputAmount.isEmpty())
         {
             toast.show();
             return;
         }
 
         // Set Entries into DB
-        bank.setAll( bankId, type, date, Integer.parseInt(inputAmount.getText().toString()) );
+        bank.setAll(bankId, inputType, inputDate, Integer.parseInt(inputAmount));
         db.editBank(bank);
 
         Intent intent = new Intent(this, MainActivity.class);
