@@ -23,9 +23,8 @@
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
 
-    // Display "Session Type:"
     <TextView
-        android:id="@+id/textLiveSessionType"
+        android:id="@+id/tvLiveSessionType"
         android:text="Session Type:"
         android:textSize="20dp"
         android:layout_alignParentStart="true"
@@ -36,21 +35,19 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display SessionType Spinner Under textSessionType With Entries Listed in session_types in strings.xml
     <Spinner
         android:id="@+id/spinnerLiveSessionType"
         android:entries="@array/session_types"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/textLiveSessionType"
+        android:layout_below="@+id/tvLiveSessionType"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Session Blinds:" Under spinnerSessionType
     <TextView
-        android:id="@+id/textLiveSessionBlinds"
+        android:id="@+id/tvLiveSessionBlinds"
         android:text="Session Blinds:"
         android:textSize="20dp"
         android:layout_below="@+id/spinnerLiveSessionType"
@@ -61,21 +58,19 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display SessionBlinds Spinner Under textSessionBlinds With Entries Listed in session_blinds in strings.xml
     <Spinner
         android:id="@+id/spinnerLiveSessionBlinds"
         android:entries="@array/session_blinds"
         android:spinnerMode="dropdown"
-        android:layout_below="@+id/textLiveSessionBlinds"
+        android:layout_below="@+id/tvLiveSessionBlinds"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Location:" Under spinnerSessionMonth
     <TextView
-        android:id="@+id/textLiveLocation"
+        android:id="@+id/tvLiveLocation"
         android:text="Location:"
         android:textSize="20dp"
         android:layout_below="@+id/spinnerLiveSessionBlinds"
@@ -85,13 +80,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Location Under textLocation
-
     <EditText
-        android:id="@+id/editLiveLocation"
+        android:id="@+id/etLiveLocation"
         android:inputType="text|textAutoComplete"
         android:textSize="15dp"
-        android:layout_below="@+id/textLiveLocation"
+        android:layout_below="@+id/tvLiveLocation"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -99,25 +92,22 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Buy In (Dollars):" Under editTime
     <TextView
-        android:id="@+id/textLiveBuyIn"
+        android:id="@+id/tvLiveBuyIn"
         android:text="Initial Buy In ($):"
         android:textSize="20dp"
-        android:layout_below="@+id/editLiveLocation"
+        android:layout_below="@+id/etLiveLocation"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Buy In Under textBuyIn
-
     <EditText
-        android:id="@+id/editLiveBuyIn"
+        android:id="@+id/etLiveBuyIn"
         android:inputType="number|numberDecimal"
         android:ems="10"
-        android:layout_below="@+id/textLiveBuyIn"
+        android:layout_below="@+id/tvLiveBuyIn"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -125,10 +115,9 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Submit Button at Bottom of Page
     <Button
         android:text="Start Live Session"
-        android:id="@+id/buttonSubmitLiveSession"
+        android:id="@+id/btnSubmitLiveSession"
         android:onClick="onClickLiveSessionTracker"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"

@@ -32,11 +32,11 @@
         android:textSize="30sp" />
 
     <Button
-        android:id="@+id/timerStart"
+        android:id="@+id/timerStartBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/timer"
-        android:layout_toLeftOf="@id/timerPause"
+        android:layout_toLeftOf="@id/timerPauseBtn"
         android:layout_marginRight="15dp"
         android:layout_marginTop="25dp"
         android:text="Start"
@@ -44,7 +44,7 @@
         android:onClick="startTimer"/>
 
     <Button
-        android:id="@+id/timerPause"
+        android:id="@+id/timerPauseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -55,11 +55,11 @@
         android:onClick="pauseTimer"/>
 
     <Button
-        android:id="@+id/timerReset"
+        android:id="@+id/timerResetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_toRightOf="@id/timerPause"
+        android:layout_toRightOf="@id/timerPauseBtn"
         android:layout_marginLeft="15dp"
         android:layout_below="@id/timer"
         android:layout_marginTop="25dp"
@@ -69,10 +69,10 @@
 
     // Display "Location:"
     <TextView
-        android:id="@+id/textLiveBuyInTotal"
+        android:id="@+id/tvLiveBuyInTotal"
         android:text="Current Buy In Total:"
         android:textSize="20dp"
-        android:layout_below="@id/timerPause"
+        android:layout_below="@id/timerPauseBtn"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,12 +81,12 @@
         android:layout_marginStart="16dp"/>
 
     <TextView
-        android:id="@+id/textAddOn"
+        android:id="@+id/tvAddOn"
         android:text="Add On ($)"
         android:inputType="text|textAutoComplete"
         android:gravity="center"
         android:textSize="20dp"
-        android:layout_below="@+id/textLiveBuyInTotal"
+        android:layout_below="@+id/tvLiveBuyInTotal"
         android:layout_alignParentStart="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,11 +95,11 @@
         android:layout_marginTop="35dp"/>
 
     <EditText
-        android:id="@+id/editAddOn"
+        android:id="@+id/etAddOn"
         android:inputType="number|numberDecimal"
         android:gravity="center"
         android:textSize="15dp"
-        android:layout_below="@+id/textLiveBuyInTotal"
+        android:layout_below="@+id/tvLiveBuyInTotal"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -110,10 +110,10 @@
 
     // Display Form for Location Under textLocation
     <Button
-        android:id="@+id/buttonAddOnRebuy"
+        android:id="@+id/AddOnRebuyBtn"
         android:text="Rebuy"
         android:onClick="onClickAddOnRebuy"
-        android:layout_below="@+id/textLiveBuyInTotal"
+        android:layout_below="@+id/tvLiveBuyInTotal"
         android:ems="5"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -123,11 +123,11 @@
         android:layout_marginTop="25dp"/>
 
     <TextView
-        android:id="@+id/textLiveCashOut"
+        android:id="@+id/tvLiveCashOut"
         android:text="Cash Out ($):"
         android:textSize="20dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editAddOn"
+        android:layout_below="@+id/etAddOn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -135,10 +135,10 @@
         android:layout_marginTop="25dp"/>
 
     <EditText
-        android:id="@+id/editLiveCashOut"
+        android:id="@+id/etLiveCashOut"
         android:inputType="number|numberDecimal"
         android:textSize="15dp"
-        android:layout_below="@+id/textLiveCashOut"
+        android:layout_below="@+id/tvLiveCashOut"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
@@ -148,10 +148,10 @@
 
     <Button
         android:text="Trash Live Session"
-        android:id="@+id/buttonDeleteLiveSession"
+        android:id="@+id/btnDeleteLiveSession"
         android:onClick="onClickDeleteLiveSession"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/buttonSubmitLiveSession"
+        android:layout_above="@+id/btnSubmitLiveSession"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
     // Submit Button at Bottom of Page
     <Button
         android:text="Submit Live Session"
-        android:id="@+id/buttonSubmitLiveSession"
+        android:id="@+id/btnSubmitLiveSession"
         android:onClick="onClickSubmitLiveSession"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"

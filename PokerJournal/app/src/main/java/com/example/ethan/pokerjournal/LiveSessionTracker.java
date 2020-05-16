@@ -1,12 +1,13 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +15,6 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class LiveSessionTracker extends AppCompatActivity
 {
@@ -30,19 +28,21 @@ public class LiveSessionTracker extends AppCompatActivity
     private static final String LIVE_BUY_IN = "liveSessionBuyIn";
     private static final String LIVE_PAUSE_OFFSET = "liveSessionPauseOffset";
 
+    private Toolbar toolbar;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    private Toolbar toolbar;
-    TextView currentTotalBuyIn;
-    TextView addOnAmount;
-    Button startButton;
-    Button pauseButton;
-    Button resetButton;
 
-    String locationValue;
-    String buyInValue;
-    String sessionTypeValue;
-    String sessionBlindsValue;
+    TextView tvCurrTotalBuyIn;
+    TextView tvAddOnAmount;
+    Button startBtn;
+    Button pauseBtn;
+    Button resetBtn;
+
+    String inputLocation;
+    String inputBuyIn;
+    String inputType;
+    String inputBlinds;
+    String inputDate;
 
     int totalBuyIn;
 
@@ -57,29 +57,31 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_session_tracker);
-        prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-        editor = prefs.edit();
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        startButton = (Button) findViewById(R.id.timerStart);
-        pauseButton = (Button) findViewById(R.id.timerPause);
-        resetButton = (Button) findViewById(R.id.timerReset);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Intent intent = getIntent();
+
+        prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = prefs.edit();
 
         timer = (Chronometer) findViewById(R.id.timer);
+        startBtn = (Button) findViewById(R.id.timerStartBtn);
+        pauseBtn = (Button) findViewById(R.id.timerPauseBtn);
+        resetBtn = (Button) findViewById(R.id.timerResetBtn);
 
-        currentTotalBuyIn = (TextView) findViewById(R.id.textLiveBuyInTotal);
-        addOnAmount = (TextView) findViewById(R.id.editAddOn);
+        tvCurrTotalBuyIn = (TextView) findViewById(R.id.tvLiveBuyInTotal);
+        tvAddOnAmount = (TextView) findViewById(R.id.etAddOn);
 
-        locationValue = intent.getStringExtra("location");
-        buyInValue = intent.getStringExtra("buyIn");
-        sessionTypeValue = intent.getStringExtra("sessionType");
-        sessionBlindsValue = intent.getStringExtra("sessionBlinds");
+        Intent intent = getIntent();
+        inputLocation = intent.getStringExtra("location");
+        inputBuyIn = intent.getStringExtra("buyIn");
+        inputType = intent.getStringExtra("sessionType");
+        inputBlinds = intent.getStringExtra("sessionBlinds");
+        inputDate = intent.getStringExtra("date");
 
-        totalBuyIn = Integer.parseInt(buyInValue);
-        currentTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
-
+        totalBuyIn = Integer.parseInt(inputBuyIn);
+        tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
     }
 
     /*@Override
@@ -119,9 +121,9 @@ public class LiveSessionTracker extends AppCompatActivity
                 runningTimerBase = prefs.getLong(LIVE_TIMER_BASE, 0);
                 timer.setBase(runningTimerBase);
                 timer.start();
-                startButton.setText("Running");
-                startButton.setTextColor(getResources().getColor(R.color.white));
-                startButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                startBtn.setText("Running");
+                startBtn.setTextColor(getResources().getColor(R.color.white));
+                startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 running = true;
                 started = true;
             }
@@ -133,21 +135,21 @@ public class LiveSessionTracker extends AppCompatActivity
                 started = prefs.getBoolean(LIVE_STARTED, false);
                 if(started)
                 {
-                    pauseButton.setText("Paused");
-                    pauseButton.setTextColor(getResources().getColor(R.color.white));
-                    pauseButton.setBackgroundColor(getResources().getColor(R.color.darkBlue));
-                    startButton.setText("Resume");
-                    startButton.setTextColor(getResources().getColor(R.color.black));
-                    startButton.setBackgroundColor(getResources().getColor(R.color.green));
+                    pauseBtn.setText("Paused");
+                    pauseBtn.setTextColor(getResources().getColor(R.color.white));
+                    pauseBtn.setBackgroundColor(getResources().getColor(R.color.darkBlue));
+                    startBtn.setText("Resume");
+                    startBtn.setTextColor(getResources().getColor(R.color.black));
+                    startBtn.setBackgroundColor(getResources().getColor(R.color.green));
                 }
                 else
                 {
-                    pauseButton.setText("Pause");
-                    pauseButton.setTextColor(getResources().getColor(R.color.black));
-                    pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
-                    startButton.setText("Start");
-                    startButton.setTextColor(getResources().getColor(R.color.black));
-                    startButton.setBackgroundColor(getResources().getColor(R.color.green));
+                    pauseBtn.setText("Pause");
+                    pauseBtn.setTextColor(getResources().getColor(R.color.black));
+                    pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
+                    startBtn.setText("Start");
+                    startBtn.setTextColor(getResources().getColor(R.color.black));
+                    startBtn.setBackgroundColor(getResources().getColor(R.color.green));
                 }
             }
         }
@@ -162,9 +164,9 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.putBoolean(LIVE_RUNNING, running);
         editor.putBoolean(LIVE_STARTED, started);
         editor.putLong(LIVE_TIMER_BASE, runningTimerBase);
-        editor.putString(LIVE_TYPE, sessionTypeValue);
-        editor.putString(LIVE_BLINDS, sessionBlindsValue);
-        editor.putString(LIVE_LOCATION, locationValue);
+        editor.putString(LIVE_TYPE, inputType);
+        editor.putString(LIVE_BLINDS, inputBlinds);
+        editor.putString(LIVE_LOCATION, inputLocation);
         editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
         if(running)
         {
@@ -184,9 +186,9 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.putBoolean(LIVE_RUNNING, running);
         editor.putBoolean(LIVE_STARTED, started);
         editor.putLong(LIVE_TIMER_BASE, runningTimerBase);
-        editor.putString(LIVE_TYPE, sessionTypeValue);
-        editor.putString(LIVE_BLINDS, sessionBlindsValue);
-        editor.putString(LIVE_LOCATION, locationValue);
+        editor.putString(LIVE_TYPE, inputType);
+        editor.putString(LIVE_BLINDS, inputBlinds);
+        editor.putString(LIVE_LOCATION, inputLocation);
         editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
         if(running)
         {
@@ -231,12 +233,12 @@ public class LiveSessionTracker extends AppCompatActivity
             timer.setBase(runningTimerBase);
             timer.start();
             pauseOffset = 0;
-            startButton.setText("Running");
-            startButton.setTextColor(getResources().getColor(R.color.white));
-            startButton.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-            pauseButton.setText("Pause");
-            pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
-            pauseButton.setTextColor(getResources().getColor(R.color.black));
+            startBtn.setText("Running");
+            startBtn.setTextColor(getResources().getColor(R.color.white));
+            startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            pauseBtn.setText("Pause");
+            pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
+            pauseBtn.setTextColor(getResources().getColor(R.color.black));
         }
     }
 
@@ -246,12 +248,12 @@ public class LiveSessionTracker extends AppCompatActivity
         {
             timer.stop();
             pauseOffset = SystemClock.elapsedRealtime() - timer.getBase(); // time passed since timer started and timer paused
-            pauseButton.setText("Paused");
-            pauseButton.setTextColor(getResources().getColor(R.color.white));
-            pauseButton.setBackgroundColor(getResources().getColor(R.color.darkBlue));
-            startButton.setText("Resume");
-            startButton.setTextColor(getResources().getColor(R.color.black));
-            startButton.setBackgroundColor(getResources().getColor(R.color.green));
+            pauseBtn.setText("Paused");
+            pauseBtn.setTextColor(getResources().getColor(R.color.white));
+            pauseBtn.setBackgroundColor(getResources().getColor(R.color.darkBlue));
+            startBtn.setText("Resume");
+            startBtn.setTextColor(getResources().getColor(R.color.black));
+            startBtn.setBackgroundColor(getResources().getColor(R.color.green));
             running = false;
         }
     }
@@ -262,12 +264,12 @@ public class LiveSessionTracker extends AppCompatActivity
         runningTimerBase = SystemClock.elapsedRealtime();
         timer.setBase(runningTimerBase);
         pauseOffset = 0;
-        pauseButton.setText("Pause");
-        pauseButton.setTextColor(getResources().getColor(R.color.black));
-        pauseButton.setBackgroundColor(getResources().getColor(R.color.blue));
-        startButton.setText("Start");
-        startButton.setTextColor(getResources().getColor(R.color.black));
-        startButton.setBackgroundColor(getResources().getColor(R.color.green));
+        pauseBtn.setText("Pause");
+        pauseBtn.setTextColor(getResources().getColor(R.color.black));
+        pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
+        startBtn.setText("Start");
+        startBtn.setTextColor(getResources().getColor(R.color.black));
+        startBtn.setBackgroundColor(getResources().getColor(R.color.green));
         started = false;
         running = false;
     }
@@ -275,39 +277,58 @@ public class LiveSessionTracker extends AppCompatActivity
     // Edit Session Entries
     public void onClickAddOnRebuy(View v)
     {
-        if(addOnAmount.getText().toString().isEmpty())
+        if(tvAddOnAmount.getText().toString().isEmpty())
         {
             Toast noRebuyEntry = Toast.makeText(getApplication(), "Please fill in the \"Add On ($)\" field", Toast.LENGTH_SHORT);
             noRebuyEntry.show();
             return;
         }
-        int addOnValue = Integer.parseInt(addOnAmount.getText().toString());
+        int addOnValue = Integer.parseInt(tvAddOnAmount.getText().toString());
         totalBuyIn += addOnValue;
-        currentTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
-        addOnAmount.setText("");
+        tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
+        tvAddOnAmount.setText("");
     }
 
     public void onClickDeleteLiveSession(View  v)
     {
-        editor.putBoolean(LIVE_ACTIVE, false);
-        editor.commit();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-        finish();
+        // Confirmation Delete Session Alert
+        AlertDialog.Builder altdial = new AlertDialog.Builder(LiveSessionTracker.this);
+        altdial.setMessage("Do you want to delete this live session?").setCancelable(false).setPositiveButton("Delete Session", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which)
+            {
+                editor.putBoolean(LIVE_ACTIVE, false);
+                editor.commit();
+                Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                finish();
+            }
+        }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which)
+            {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog alert = altdial.create();
+        alert.setTitle("Delete Live Session");
+        alert.show();
     }
 
     // Submit Live Session
     public void onClickSubmitLiveSession(View v)
     {
-        long time = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
+        long sessionTime = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
 
         Toast zeroMinutes = Toast.makeText(getApplication(), "Session can't be less than a minute!", Toast.LENGTH_SHORT);
         Toast timerNotStarted = Toast.makeText(getApplication(), "Timer was not started!", Toast.LENGTH_SHORT);
         Toast noCashOutEntry = Toast.makeText(getApplication(), "Please fill in the \"Cash Out ($)\" field", Toast.LENGTH_SHORT);
 
         // Make Sure Cash Out Field is Filled, Timer is Started, Time is Over a Minute Long
-        EditText editCashOut = (EditText) findViewById(R.id.editLiveCashOut);
+        EditText editCashOut = (EditText) findViewById(R.id.etLiveCashOut);
         if(started == false)
         {
             timerNotStarted.show();
@@ -318,7 +339,7 @@ public class LiveSessionTracker extends AppCompatActivity
             noCashOutEntry.show();
             return;
         }
-        else if((int) time == 0)
+        else if((int) sessionTime == 0)
         {
             zeroMinutes.show();
             return;
@@ -327,16 +348,10 @@ public class LiveSessionTracker extends AppCompatActivity
         DatabaseHelper db = new DatabaseHelper(this);
         Session session = new Session();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate today = LocalDate.now();
-        String date = today.format(formatter);
-
-        // Input Cash Out Entry
-        int cashOut = Integer.parseInt(editCashOut.getText().toString());
+        int inputCashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
-        session.setEntries(sessionTypeValue, sessionBlindsValue, locationValue, date, (int) time, totalBuyIn, cashOut);
-
+        session.setEntries(inputType, inputBlinds, inputLocation, inputDate, (int) sessionTime, totalBuyIn, inputCashOut);
         db.createSession(session);
 
         editor.putBoolean(LIVE_ACTIVE, false);

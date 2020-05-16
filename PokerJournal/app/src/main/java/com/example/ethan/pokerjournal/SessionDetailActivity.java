@@ -120,7 +120,7 @@ public class SessionDetailActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    // Reset Button Resets Sessions
+    // Deletes Poker Session
     public void onClickDeleteSession(View v)
     {
 

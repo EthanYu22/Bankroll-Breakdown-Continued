@@ -11,25 +11,30 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class LiveSessionFormActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
-    TextView inputLocation;
-    TextView inputBuyIn;
+
     Spinner spinType;
     Spinner spinBlinds;
+    EditText etLocation;
+    EditText etBuyIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_session_form);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        inputLocation = (TextView) findViewById(R.id.editLiveLocation);
-        inputBuyIn = (TextView) findViewById(R.id.editLiveBuyIn);
+        etLocation = (EditText) findViewById(R.id.etLiveLocation);
+        etBuyIn = (EditText) findViewById(R.id.etLiveBuyIn);
 
         spinType = (Spinner) findViewById(R.id.spinnerLiveSessionType);
         spinBlinds = (Spinner) findViewById(R.id.spinnerLiveSessionBlinds);
@@ -59,32 +64,23 @@ public class LiveSessionFormActivity extends AppCompatActivity
     // Live Session Button Leads to Live Session Form
     public void onClickLiveSessionTracker(View v)
     {
-        Toast toast = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
-
-        EditText editLocation = (EditText) findViewById(R.id.editLiveLocation);
-        if (editLocation.getText().toString().isEmpty())
+        Toast fillOutFields = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
+        if (etLocation.getText().toString().isEmpty() || etBuyIn.getText().toString().isEmpty())
         {
-            toast.show();
+            fillOutFields.show();
             return;
         }
 
-        EditText editBuyIn = (EditText) findViewById(R.id.editLiveBuyIn);
-        if (editBuyIn.getText().toString().isEmpty())
-        {
-            toast.show();
-            return;
-        }
-
-        String location = inputLocation.getText().toString();
-        String buyIn = inputBuyIn.getText().toString();
-        String sessionType = spinType.getSelectedItem().toString();
-        String sessionBlinds = spinBlinds.getSelectedItem().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();
+        String inputDate = today.format(formatter);
 
         Intent intent = new Intent(this, LiveSessionTracker.class);
-        intent.putExtra("location",location);
-        intent.putExtra("buyIn",buyIn);
-        intent.putExtra("sessionType", sessionType);
-        intent.putExtra("sessionBlinds",sessionBlinds);
+        intent.putExtra("sessionType", spinType.getSelectedItem().toString());
+        intent.putExtra("sessionBlinds", spinBlinds.getSelectedItem().toString());
+        intent.putExtra("location", etLocation.getText().toString());
+        intent.putExtra("buyIn", etBuyIn.getText().toString());
+        intent.putExtra("date", inputDate);
         startActivity(intent);
         finish();
     }
