@@ -27,6 +27,7 @@ public class LiveSessionTracker extends AppCompatActivity
     private static final String LIVE_LOCATION = "liveSessionLocation";
     private static final String LIVE_BUY_IN = "liveSessionBuyIn";
     private static final String LIVE_PAUSE_OFFSET = "liveSessionPauseOffset";
+    private static final String LIVE_DATE = "liveSessionDate";
 
     private Toolbar toolbar;
     SharedPreferences prefs;
@@ -116,6 +117,10 @@ public class LiveSessionTracker extends AppCompatActivity
         super.onResume();
         if(prefs.getBoolean(LIVE_ACTIVE, false))
         {
+            inputType = prefs.getString(LIVE_TYPE, "");
+            inputBlinds = prefs.getString(LIVE_BLINDS, "");
+            inputLocation = prefs.getString(LIVE_LOCATION, "");
+            inputDate = prefs.getString(LIVE_DATE, "");
             if(prefs.getBoolean(LIVE_RUNNING, true))
             {
                 runningTimerBase = prefs.getLong(LIVE_TIMER_BASE, 0);
@@ -168,6 +173,7 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.putString(LIVE_BLINDS, inputBlinds);
         editor.putString(LIVE_LOCATION, inputLocation);
         editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
+        editor.putString(LIVE_DATE, inputDate);
         if(running)
         {
             editor.putLong(LIVE_PAUSE_OFFSET, 0);
@@ -190,6 +196,7 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.putString(LIVE_BLINDS, inputBlinds);
         editor.putString(LIVE_LOCATION, inputLocation);
         editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
+        editor.putString(LIVE_DATE, inputDate);
         if(running)
         {
             editor.putLong(LIVE_PAUSE_OFFSET, 0);
