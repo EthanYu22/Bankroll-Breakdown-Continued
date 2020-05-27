@@ -1,12 +1,15 @@
 package com.example.ethan.pokerjournal;
 
+import android.app.Notification;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import static com.example.ethan.pokerjournal.App.LIVE_SESSION_ID;
 
 public class LiveSessionTracker extends AppCompatActivity
 {
@@ -32,6 +36,7 @@ public class LiveSessionTracker extends AppCompatActivity
     private Toolbar toolbar;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+    private NotificationManagerCompat notificationManager;
 
     TextView tvCurrTotalBuyIn;
     TextView tvAddOnAmount;
@@ -52,6 +57,7 @@ public class LiveSessionTracker extends AppCompatActivity
     private long runningTimerBase;
     private boolean started = false;
     private boolean running;
+    long sessionTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +69,7 @@ public class LiveSessionTracker extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        notificationManager = NotificationManagerCompat.from(this);
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
 
@@ -114,6 +121,9 @@ public class LiveSessionTracker extends AppCompatActivity
     @Override
     public void onResume()
     {
+        String notifTitle = "Live Session Timer";
+        String notifMessage;
+
         super.onResume();
         if(prefs.getBoolean(LIVE_ACTIVE, false))
         {
@@ -131,6 +141,20 @@ public class LiveSessionTracker extends AppCompatActivity
                 startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 running = true;
                 started = true;
+
+                sessionTime = SystemClock.elapsedRealtime() - runningTimerBase;
+                notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
+                long elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
+
+                //PendingIntent contentIntent = PendingIntent.getActivity()
+                Notification notification = new NotificationCompat.Builder(this, LIVE_SESSION_ID)
+                        .setSmallIcon(R.drawable.icon)
+                        //.setContentTitle(notifTitle)
+                        //.setContentText(notifMessage)
+                        .setWhen(System.currentTimeMillis() - elapsedTime)
+                        .setUsesChronometer(true)
+                        .build();
+                notificationManager.notify(1, notification);
             }
             else
             {
@@ -156,10 +180,38 @@ public class LiveSessionTracker extends AppCompatActivity
                     startBtn.setTextColor(getResources().getColor(R.color.black));
                     startBtn.setBackgroundColor(getResources().getColor(R.color.green));
                 }
+
+                sessionTime = SystemClock.elapsedRealtime() - (SystemClock.elapsedRealtime() - pauseOffset);
+                notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
+                long elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
+
+                //PendingIntent contentIntent = PendingIntent.getActivity()
+                Notification notification = new NotificationCompat.Builder(this, LIVE_SESSION_ID)
+                        .setSmallIcon(R.drawable.icon)
+                        //.setContentTitle(notifTitle)
+                        //.setContentText(notifMessage)
+                        .setWhen(System.currentTimeMillis() - elapsedTime)
+                        .setUsesChronometer(true)
+                        .build();
+                notificationManager.notify(1, notification);
             }
         }
         editor.putBoolean(LIVE_ACTIVE, true);
         editor.commit();
+
+        sessionTime = (SystemClock.elapsedRealtime() - timer.getBase()) / 1000;
+        notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
+        long elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
+
+        //PendingIntent contentIntent = PendingIntent.getActivity()
+        Notification notification = new NotificationCompat.Builder(this, LIVE_SESSION_ID)
+                .setSmallIcon(R.drawable.icon)
+                //.setContentTitle(notifTitle)
+                //.setContentText(notifMessage)
+                .setWhen(System.currentTimeMillis() - elapsedTime)
+                .setUsesChronometer(true)
+                .build();
+        notificationManager.notify(1, notification);
     }
 
     @Override
@@ -328,7 +380,7 @@ public class LiveSessionTracker extends AppCompatActivity
     // Submit Live Session
     public void onClickSubmitLiveSession(View v)
     {
-        long sessionTime = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
+        sessionTime = (SystemClock.elapsedRealtime() - timer.getBase()) / 60000;
 
         Toast zeroMinutes = Toast.makeText(getApplication(), "Session can't be less than a minute!", Toast.LENGTH_SHORT);
         Toast timerNotStarted = Toast.makeText(getApplication(), "Timer was not started!", Toast.LENGTH_SHORT);
