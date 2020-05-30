@@ -104,6 +104,7 @@ public class StatsFragment extends Fragment
         TextView ws = (TextView) getView().findViewById(R.id.winningSession); // Winning Sessions
         TextView ls = (TextView) getView().findViewById(R.id.losingSession); // Losing Sessions
         TextView bs = (TextView) getView().findViewById(R.id.breakevenSession); // Breakeven Sessions
+        bs.setVisibility(View.GONE);
         TextView ts = (TextView) getView().findViewById(R.id.totalSession); // Total Sessions
         TextView abi = (TextView) getView().findViewById(R.id.avgBuy); // Average Buy In
         TextView aco = (TextView) getView().findViewById(R.id.avgCashOut); // Average Cash Out
@@ -122,7 +123,6 @@ public class StatsFragment extends Fragment
             aco.setText("Avg Cash Out: ");
             ws.setText("Winning Sessions: ");
             ls.setText("Losing Sessions: ");
-            bs.setText("Breakeven Sessions: ");
             bw.setText("Largest Win: ");
             bl.setText("Largest Loss: ");
 
@@ -158,7 +158,11 @@ public class StatsFragment extends Fragment
             aco.setText("Avg Cash Out: $" + avgCashOut);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
-            bs.setText("Breakeven Sessions: " + breakevenSession);
+            if(breakevenSession > 0)
+            {
+                bs.setVisibility(View.VISIBLE);
+                bs.setText("Breakeven Sessions: " + breakevenSession);
+            }
             bw.setText("Largest Win: $" + biggestWin);
             bl.setText("Largest Loss: $" + Math.abs(biggestLoss));
         }

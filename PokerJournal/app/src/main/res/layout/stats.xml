@@ -6,8 +6,6 @@
     android:paddingBottom="16dp"
     tools:context="com.example.ethan.pokerjournal.StatsFragment">
 
-    // Display "Stats"
-
     <TextView
         android:id="@+id/stats"
         android:layout_width="wrap_content"
@@ -35,7 +33,6 @@
         android:layout_below="@+id/hourlyRate"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -62,24 +59,6 @@
         android:id="@+id/totalSession"
         android:text="Session Count:"
         android:layout_below="@+id/avgHours"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/avgBuy"
-        android:text="Avg Buy In:"
-        android:layout_below="@+id/biggestLoss"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/avgCashOut"
-        android:text="Avg Cash Out:"
-        android:layout_below="@+id/avgBuy"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
@@ -125,6 +104,24 @@
         android:id="@+id/biggestLoss"
         android:text="Largest Loss:"
         android:layout_below="@+id/biggestWin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/avgBuy"
+        android:text="Avg Buy In:"
+        android:layout_below="@+id/biggestLoss"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/avgCashOut"
+        android:text="Avg Cash Out:"
+        android:layout_below="@+id/avgBuy"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"

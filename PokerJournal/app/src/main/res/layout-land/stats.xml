@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:text="Stats"
             android:textColor="#000000"
             android:textSize="25dp"
@@ -34,12 +34,12 @@
 
         <TextView
             android:id="@+id/netProfit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:text="Net Profit:"
+            android:layout_below="@+id/hourlyRate"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="110dp"
-            android:text="Net Profit:" />
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/hoursPlayed"
@@ -56,7 +56,7 @@
             android:text="Avg Hourly Session Duration:"
             android:layout_below="@+id/hoursPlayed"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="35dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -70,27 +70,9 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/avgBuy"
-            android:text="Avg Buy In:"
-            android:layout_below="@+id/totalSession"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/avgCashOut"
-            android:text="Avg Cash Out:"
-            android:layout_below="@+id/avgBuy"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
             android:id="@+id/winningSession"
             android:text="Winning Sessions:"
-            android:layout_below="@+id/avgCashOut"
+            android:layout_below="@+id/totalSession"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
@@ -106,11 +88,20 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/biggestWin"
-            android:text="Largest Win:"
+            android:id="@+id/breakevenSession"
+            android:text="Breakeven Sessions:"
             android:layout_below="@+id/losingSession"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/biggestWin"
+            android:text="Largest Win:"
+            android:layout_below="@+id/breakevenSession"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -120,19 +111,39 @@
             android:layout_below="@+id/biggestWin"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/avgBuy"
+            android:text="Avg Buy In:"
+            android:layout_below="@+id/biggestLoss"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/avgCashOut"
+            android:text="Avg Cash Out:"
+            android:layout_below="@+id/avgBuy"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
-            android:text="Statistical Graph"
             android:id="@+id/buttonStatsGraph"
-            android:onClick="onClickStatsGraph"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/avgCashOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="onClickStatsGraph"
+            android:text="Statistical Graph"
+            android:layout_marginTop="35dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"/>
 
