@@ -26,6 +26,7 @@ public class BankFormActivity extends AppCompatActivity
     EditText etAmount;
     TextView selectDate;
     private DatePickerDialog.OnDateSetListener dateSelectListener;
+    boolean dateNotSelected = true;
     String inputDate;
 
     @Override
@@ -46,11 +47,22 @@ public class BankFormActivity extends AppCompatActivity
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
+                int year;
+                int month;
+                int day;
+                if(dateNotSelected){
+                    Calendar cal = Calendar.getInstance();
+                    year = cal.get(Calendar.YEAR);
+                    month = cal.get(Calendar.MONTH);
+                    day = cal.get(Calendar.DAY_OF_MONTH);
+                }
+                else
+                {
+                    String currDate = selectDate.getText().toString();
+                    year = Integer.parseInt(currDate.substring(6,10));
+                    month = Integer.parseInt(currDate.substring(0,2)) - 1; // DatePicker Month goes from 0-11
+                    day = Integer.parseInt(currDate.substring(3,5));
+                }
                 DatePickerDialog dialog = new DatePickerDialog(
                         BankFormActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth, dateSelectListener,
@@ -67,6 +79,7 @@ public class BankFormActivity extends AppCompatActivity
                 String displayDate = String.format("%02d", month) + "/" + String.format("%02d", day) + "/" + year;
                 selectDate.setText(displayDate);
                 inputDate = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+                dateNotSelected = false;
             }
         };
     }

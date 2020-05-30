@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 // Edits Bank Transaction Entries
 public class BankEditActivity extends AppCompatActivity
@@ -58,11 +57,10 @@ public class BankEditActivity extends AppCompatActivity
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                String currDate = bank.getDate();
-                int year = Integer.parseInt(currDate.substring(0,4));
-                int month = Integer.parseInt(currDate.substring(5,7)) - 1; // DatePicker Month goes from 0-11
-                int day = Integer.parseInt(currDate.substring(8,10));
+                String currDate = selectDate.getText().toString();
+                int year = Integer.parseInt(currDate.substring(6,10));
+                int month = Integer.parseInt(currDate.substring(0,2)) - 1; // DatePicker Month goes from 0-11
+                int day = Integer.parseInt(currDate.substring(3,5));
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         BankEditActivity.this,
