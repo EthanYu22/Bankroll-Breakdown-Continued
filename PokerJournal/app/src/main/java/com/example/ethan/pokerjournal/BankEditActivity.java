@@ -54,6 +54,7 @@ public class BankEditActivity extends AppCompatActivity
 
         selectDate = (TextView) findViewById(R.id.tvSelectDate);
         selectDate.setText(bank.getConvertedDateMMddyyyy());
+        inputDate = bank.getDate();
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

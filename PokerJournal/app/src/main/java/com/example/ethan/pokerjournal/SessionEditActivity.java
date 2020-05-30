@@ -68,6 +68,7 @@ public class SessionEditActivity extends AppCompatActivity
 
         selectDate = (TextView) findViewById(R.id.tvSelectDate);
         selectDate.setText(session.getConvertedDateMMddyyyy());
+        inputDate = session.getDate();
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

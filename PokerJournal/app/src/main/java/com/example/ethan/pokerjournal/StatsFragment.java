@@ -54,6 +54,7 @@ public class StatsFragment extends Fragment
         double hourlyRate;
         int winningSession = 0;
         int losingSession = 0;
+        int breakevenSession = 0;
         int totalSessions = 0;
         int biggestWin = 0;
         int biggestLoss = 0;
@@ -88,13 +89,11 @@ public class StatsFragment extends Fragment
             {
                 losingSession++;
             }
-
-            // Get Total Sessions
-            totalSessions = winningSession + losingSession;
-            if (session.getCashOut() - session.getBuyIn() == 0)
+            else
             {
-                totalSessions++;
+                breakevenSession++;
             }
+            totalSessions = sessionList.size();
         }
 
         // Displays Session Statistics
@@ -104,6 +103,7 @@ public class StatsFragment extends Fragment
         TextView hr = (TextView) getView().findViewById(R.id.hourlyRate); // Hourly Rate
         TextView ws = (TextView) getView().findViewById(R.id.winningSession); // Winning Sessions
         TextView ls = (TextView) getView().findViewById(R.id.losingSession); // Losing Sessions
+        TextView bs = (TextView) getView().findViewById(R.id.breakevenSession); // Breakeven Sessions
         TextView ts = (TextView) getView().findViewById(R.id.totalSession); // Total Sessions
         TextView abi = (TextView) getView().findViewById(R.id.avgBuy); // Average Buy In
         TextView aco = (TextView) getView().findViewById(R.id.avgCashOut); // Average Cash Out
@@ -122,6 +122,7 @@ public class StatsFragment extends Fragment
             aco.setText("Avg Cash Out: ");
             ws.setText("Winning Sessions: ");
             ls.setText("Losing Sessions: ");
+            bs.setText("Breakeven Sessions: ");
             bw.setText("Largest Win: ");
             bl.setText("Largest Loss: ");
 
@@ -157,6 +158,7 @@ public class StatsFragment extends Fragment
             aco.setText("Avg Cash Out: $" + avgCashOut);
             ws.setText("Winning Sessions: " + winningSession);
             ls.setText("Losing Sessions: " + losingSession);
+            bs.setText("Breakeven Sessions: " + breakevenSession);
             bw.setText("Largest Win: $" + biggestWin);
             bl.setText("Largest Loss: $" + Math.abs(biggestLoss));
         }
