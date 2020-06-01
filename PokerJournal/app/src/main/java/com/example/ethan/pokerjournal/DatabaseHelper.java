@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 {
 
     // DB Info
-    private static final String DATABASE_NAME = "pokerJournalDatabase";
+    private static final String DATABASE_NAME = "BANKROLL_BREAKDOWN_DB";
     private static final int DATABASE_VERSION = 9;
 
     // Session & Bank Tables
@@ -269,5 +270,26 @@ public class DatabaseHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_BANK, BANK_ID + " = ?", new String[]{String.valueOf(bankId)});
+    }
+
+    // Query for All Past Distinct Session Locations
+    public String[] getPastLocations(){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectLocationsQuery = "SELECT Distinct(location) FROM " + TABLE_SESSIONS;
+
+        Cursor c = db.rawQuery(selectLocationsQuery, null);
+        String[] pastLocations = new String[c.getCount()];
+
+        int i = 0;
+        if (c.moveToFirst())
+        {
+            do
+            {
+                pastLocations[i] = c.getString(0);
+                i++;
+            } while (c.moveToNext());
+        }
+        return pastLocations;
     }
 }

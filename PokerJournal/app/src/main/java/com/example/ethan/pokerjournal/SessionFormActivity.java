@@ -2,14 +2,18 @@ package com.example.ethan.pokerjournal;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,9 +28,11 @@ public class SessionFormActivity extends AppCompatActivity
 {
 
     private Toolbar toolbar;
+    DatabaseHelper db;
     Spinner spinSessionType;
     Spinner spinSessionBlinds;
-    EditText etLocation;
+    AppCompatAutoCompleteTextView etLocation;
+    private String[] pastLocations;
     EditText etTime;
     EditText etBuyIn;
     EditText etCashOut;
@@ -41,21 +47,28 @@ public class SessionFormActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session_form);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Set Up Widgets
-        etLocation = (EditText) findViewById(R.id.etLocation);
-        etTime = (EditText) findViewById(R.id.etTime);
-        etBuyIn = (EditText) findViewById(R.id.etBuyIn);
-        etCashOut = (EditText) findViewById(R.id.etCashOut);
+        db = new DatabaseHelper(this);
+        pastLocations = db.getPastLocations();
 
-        spinSessionType = (Spinner) findViewById(R.id.spinnerSessionType);
-        spinSessionBlinds = (Spinner) findViewById(R.id.spinnerSessionBlinds);
+        // Set Up Widgets
+        etLocation = findViewById(R.id.etLocation);
+        etTime = findViewById(R.id.etTime);
+        etBuyIn = findViewById(R.id.etBuyIn);
+        etCashOut = findViewById(R.id.etCashOut);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, pastLocations);
+        etLocation.setAdapter(adapter);
+
+        spinSessionType = findViewById(R.id.spinnerSessionType);
+        spinSessionBlinds = findViewById(R.id.spinnerSessionBlinds);
         spinSessionBlinds.setSelection(4);
 
-        selectDate = (TextView) findViewById(R.id.tvSelectDate);
+        selectDate = findViewById(R.id.tvSelectDate);
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,9 +110,18 @@ public class SessionFormActivity extends AppCompatActivity
         };
     }
 
-
+    @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pastLocations = db.getPastLocations();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, pastLocations);
+        etLocation.setAdapter(adapter);
     }
 
     // Functionality of Toolbar Back Arrow
@@ -119,7 +141,6 @@ public class SessionFormActivity extends AppCompatActivity
     // Submit Poker Session
     public void onClickSessionButton(View v)
     {
-        DatabaseHelper db = new DatabaseHelper(this);
         Session session = new Session();
         Toast fillOutFields = Toast.makeText(getApplication(), "Please fill out all the fields", Toast.LENGTH_SHORT);
 

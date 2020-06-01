@@ -23,7 +23,6 @@
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
 
-    // Display "Session Type:"
     <TextView
         android:id="@+id/tvSessionType"
         android:text="Session Type:"
@@ -36,7 +35,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display SessionType Spinner Under textSessionType With Entries Listed in session_types in strings.xml
     <Spinner
         android:id="@+id/spinnerSessionType"
         android:entries="@array/session_types"
@@ -48,7 +46,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Session Blinds:" Under spinnerSessionType
     <TextView
         android:id="@+id/tvSessionBlinds"
         android:text="Session Blinds:"
@@ -61,7 +58,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display SessionBlinds Spinner Under textSessionBlinds With Entries Listed in session_blinds in strings.xml
     <Spinner
         android:id="@+id/spinnerSessionBlinds"
         android:entries="@array/session_blinds"
@@ -73,7 +69,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Date:" Under spinnerSessionBlinds
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
@@ -105,9 +100,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Location Under textLocation
-
-    <EditText
+    <android.support.v7.widget.AppCompatAutoCompleteTextView
         android:id="@+id/etLocation"
         android:inputType="text"
         android:textSize="15dp"
@@ -117,9 +110,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:completionThreshold="1"
+        android:imeOptions="actionNext"/>
 
-    // Display "Time (Mins):" Under editLocation
     <TextView
         android:id="@+id/tvTime"
         android:text="Time (Mins):"
@@ -131,7 +125,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Duration: Under textTime
     <EditText
         android:id="@+id/etTime"
         android:inputType="number|numberDecimal"
@@ -144,7 +137,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Buy In (Dollars):" Under editTime
     <TextView
         android:id="@+id/tvBuyIn"
         android:text="Buy In ($):"
@@ -155,8 +147,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
-
-    // Display Form for Buy In Under textBuyIn
 
     <EditText
         android:id="@+id/etBuyIn"
@@ -170,7 +160,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display "Cash Out (Dollars):" Under editBuyIn
     <TextView
         android:id="@+id/tvSessionCashOut"
         android:text="Cash Out ($):"
@@ -182,7 +171,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Display Form for Cash Out Under textSessionCashOut
     <EditText
         android:id="@+id/etCashOut"
         android:inputType="number|numberDecimal"
@@ -195,7 +183,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"/>
 
-    // Submit Button at Bottom of Page
     <Button
         android:text="Submit"
         android:id="@+id/btnSubmitSession"

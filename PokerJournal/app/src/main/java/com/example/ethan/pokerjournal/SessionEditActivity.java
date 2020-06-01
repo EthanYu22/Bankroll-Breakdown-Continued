@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,7 +30,8 @@ public class SessionEditActivity extends AppCompatActivity
     int sessionId;
     Spinner spinSessionType;
     Spinner spinSessionBlinds;
-    EditText etLocation;
+    AppCompatAutoCompleteTextView etLocation;
+    private String[] pastLocations;
     EditText etTime;
     EditText etBuyIn;
     EditText etCashOut;
@@ -49,9 +52,10 @@ public class SessionEditActivity extends AppCompatActivity
         db = new DatabaseHelper(this);
         sessionId = MainActivity.sessionId;
         session = db.getSession(sessionId);
+        pastLocations = db.getPastLocations();
 
         // Set up Widgets w/ Current Session Data
-        etLocation = (EditText) findViewById(R.id.etLocation);
+        etLocation = findViewById(R.id.etLocation);
         etTime = (EditText) findViewById(R.id.etTime);
         etBuyIn = (EditText) findViewById(R.id.etBuyIn);
         etCashOut = (EditText) findViewById(R.id.etCashOut);
@@ -59,6 +63,10 @@ public class SessionEditActivity extends AppCompatActivity
         etTime.setText(Integer.toString((int)(session.getTime())));
         etBuyIn.setText(Integer.toString((int)(session.getBuyIn())));
         etCashOut.setText(Integer.toString((int)(session.getCashOut())));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, pastLocations);
+        etLocation.setAdapter(adapter);
 
         spinSessionType = (Spinner) findViewById(R.id.spinnerSessionType);
         spinSessionBlinds = (Spinner) findViewById(R.id.spinnerSessionBlinds);
@@ -96,8 +104,18 @@ public class SessionEditActivity extends AppCompatActivity
         };
     }
 
+    @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pastLocations = db.getPastLocations();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, pastLocations);
+        etLocation.setAdapter(adapter);
     }
 
     // Functionality of Toolbar Back Arrow

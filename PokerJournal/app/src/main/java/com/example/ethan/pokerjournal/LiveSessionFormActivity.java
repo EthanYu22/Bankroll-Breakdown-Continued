@@ -3,9 +3,11 @@ package com.example.ethan.pokerjournal;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,10 +19,12 @@ import java.time.format.DateTimeFormatter;
 public class LiveSessionFormActivity extends AppCompatActivity
 {
     private Toolbar toolbar;
+    DatabaseHelper db;
 
     Spinner spinType;
     Spinner spinBlinds;
-    EditText etLocation;
+    AppCompatAutoCompleteTextView etLocation;
+    private String[] pastLocations;
     EditText etBuyIn;
 
     @Override
@@ -33,18 +37,28 @@ public class LiveSessionFormActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        etLocation = (EditText) findViewById(R.id.etLiveLocation);
+        db = new DatabaseHelper(this);
+        pastLocations = db.getPastLocations();
+
+        etLocation =  findViewById(R.id.etLiveLocation);
         etBuyIn = (EditText) findViewById(R.id.etLiveBuyIn);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, pastLocations);
+        etLocation.setAdapter(adapter);
 
         spinType = (Spinner) findViewById(R.id.spinnerLiveSessionType);
         spinBlinds = (Spinner) findViewById(R.id.spinnerLiveSessionBlinds);
         spinBlinds.setSelection(4);
     }
 
-    // Action When On Live Session Form Page
-    public void onResume()
-    {
+    @Override
+    public void onResume() {
         super.onResume();
+        pastLocations = db.getPastLocations();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, pastLocations);
+        etLocation.setAdapter(adapter);
     }
 
     // Functionality of Toolbar Back Arrow
