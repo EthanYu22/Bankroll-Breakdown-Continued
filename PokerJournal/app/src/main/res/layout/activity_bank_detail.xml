@@ -14,13 +14,15 @@
         android:layout_height="wrap_content">
 
         // Set Up Toolbar
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:background="?attr/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Bankroll Transaction Details" />
     </android.support.design.widget.AppBarLayout>
 
     // Display "Date:"
