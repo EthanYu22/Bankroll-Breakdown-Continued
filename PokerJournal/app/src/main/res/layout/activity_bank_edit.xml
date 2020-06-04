@@ -42,7 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTransType"
         android:layout_centerHorizontal="true"
-        android:entries="@array/deposit_withdraw" />
+        android:entries="@array/deposit_withdraw"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/tvDate"
