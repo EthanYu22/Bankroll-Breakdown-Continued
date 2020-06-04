@@ -127,6 +127,7 @@ public class LiveSessionTracker extends AppCompatActivity
                 timer.setBase(runningTimerBase);
                 timer.start();
                 startBtn.setText("Running");
+                timer.setTextColor(getResources().getColor(R.color.green));
                 startBtn.setTextColor(getResources().getColor(R.color.white));
                 startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 running = true;
@@ -141,6 +142,7 @@ public class LiveSessionTracker extends AppCompatActivity
                 if(started)
                 {
                     pauseBtn.setText("Paused");
+                    timer.setTextColor(getResources().getColor(R.color.blue));
                     pauseBtn.setTextColor(getResources().getColor(R.color.white));
                     pauseBtn.setBackgroundColor(getResources().getColor(R.color.darkBlue));
                     startBtn.setText("Resume");
@@ -240,6 +242,7 @@ public class LiveSessionTracker extends AppCompatActivity
             timer.setBase(runningTimerBase);
             timer.start();
             pauseOffset = 0;
+            timer.setTextColor(getResources().getColor(R.color.green));
             startBtn.setText("Running");
             startBtn.setTextColor(getResources().getColor(R.color.white));
             startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -255,6 +258,7 @@ public class LiveSessionTracker extends AppCompatActivity
         {
             timer.stop();
             pauseOffset = SystemClock.elapsedRealtime() - timer.getBase(); // time passed since timer started and timer paused
+            timer.setTextColor(getResources().getColor(R.color.blue));
             pauseBtn.setText("Paused");
             pauseBtn.setTextColor(getResources().getColor(R.color.white));
             pauseBtn.setBackgroundColor(getResources().getColor(R.color.darkBlue));
@@ -271,6 +275,7 @@ public class LiveSessionTracker extends AppCompatActivity
         runningTimerBase = SystemClock.elapsedRealtime();
         timer.setBase(runningTimerBase);
         pauseOffset = 0;
+        timer.setTextColor(getResources().getColor(R.color.grey));
         pauseBtn.setText("Pause");
         pauseBtn.setTextColor(getResources().getColor(R.color.black));
         pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));

@@ -25,13 +25,26 @@
             app:title="Live Poker Session" />
     </android.support.design.widget.AppBarLayout>
 
-    <Chronometer
-        android:id="@+id/timer"
+    <TextView
+        android:id="@+id/tvSessionTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp" />
+        android:layout_marginTop="80dp"
+        android:text="Live Session Time:"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <Chronometer
+        android:id="@+id/timer"
+        android:layout_below="@id/tvSessionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:textColor="@color/grey"/>
 
     <Button
         android:id="@+id/timerStartBtn"
