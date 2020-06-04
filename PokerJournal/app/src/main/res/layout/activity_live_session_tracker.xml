@@ -97,7 +97,7 @@
 
     <TextView
         android:id="@+id/tvAddOn"
-        android:text="Add On ($)"
+        android:text="Add On ($):"
         android:inputType="text|textAutoComplete"
         android:gravity="center"
         android:textSize="20dp"
@@ -126,7 +126,7 @@
     // Display Form for Location Under textLocation
     <Button
         android:id="@+id/AddOnRebuyBtn"
-        android:text="Rebuy"
+        android:text="Add On"
         android:onClick="onClickAddOnRebuy"
         android:layout_below="@+id/tvLiveBuyInTotal"
         android:ems="5"
