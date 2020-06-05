@@ -232,14 +232,13 @@ public class MainActivity extends AppCompatActivity
     public void onClickStatsGraph(View v)
     {
         sessionList = db.getAllSessions();
-        if(sessionList.size() < 2){
-            Toast noSessions = Toast.makeText(getApplication(), "Need two sessions to display.", Toast.LENGTH_SHORT);
+        if(sessionList.size() < 1){
+            Toast noSessions = Toast.makeText(getApplication(), "Need at least one logged poker session to display.", Toast.LENGTH_SHORT);
             noSessions.setGravity(Gravity.CENTER, 0, 0);
             noSessions.show();
             return;
         }
         Intent intent = new Intent(this, StatsGraphActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 }
