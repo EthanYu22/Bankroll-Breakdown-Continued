@@ -6,7 +6,7 @@ import android.app.NotificationManager;
 import android.os.Build;
 
 
-public class App extends Application {
+public class Notification extends Application {
     public static final String LIVE_SESSION_ID = "liveSession";
 
     @Override
@@ -18,14 +18,14 @@ public class App extends Application {
 
     private void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel1 = new NotificationChannel(LIVE_SESSION_ID,
-                    "Live Session - Live Session Time: ",
-                    NotificationManager.IMPORTANCE_LOW
+            NotificationChannel liveSession = new NotificationChannel(LIVE_SESSION_ID,
+                    "Live Poker Session",
+                    NotificationManager.IMPORTANCE_MAX
             );
-            channel1.setDescription("Bankroll Breakdown Live Session");
+            liveSession.setDescription("Bankroll Breakdown Live Session");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel1);
+            manager.createNotificationChannel(liveSession);
         }
     }
 }
