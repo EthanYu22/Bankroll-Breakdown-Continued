@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import static com.example.ethan.pokerjournal.Notification.LIVE_SESSION_ID;
+import static java.lang.Long.*;
 
 public class LiveSessionTracker extends AppCompatActivity
 {
@@ -36,7 +38,7 @@ public class LiveSessionTracker extends AppCompatActivity
     private static final String LIVE_PAUSE_OFFSET = "liveSessionPauseOffset";
     private static final String LIVE_DATE = "liveSessionDate";
 
-    private static final String notifTitle = "Live Poker Session";
+    private static final String notifTitle = "Live Session Time";
     private static String notifMessage = "Hello";
     private static long elapsedTime;
 
@@ -97,32 +99,16 @@ public class LiveSessionTracker extends AppCompatActivity
 
         totalBuyIn = Integer.parseInt(inputBuyIn);
         tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
-    }
 
-    /*@Override
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        if(savedInstanceState != null)
-        {
-            timer.setBase(savedInstanceState.getLong("savedTime"));
-            timer.start();
-        }
-        buyInValue = Integer.toString(savedInstanceState.getInt("savedTotalBuyIn"));
-        locationValue = savedInstanceState.getString("savedLocation");
-        sessionTypeValue = savedInstanceState.getString("savedType");
-        sessionBlindsValue = savedInstanceState.getString("savedBlinds");
+        final Handler handler = new Handler();
+        final int delay = 1000; //milliseconds
+        handler.postDelayed(new Runnable(){
+            public void run(){
+                sendLiveSessionNotification();
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putLong("savedTime",timer.getBase());
-        savedInstanceState.putInt("savedTotalBuyIn", totalBuyIn);
-        savedInstanceState.putString("savedLocation", locationValue);
-        savedInstanceState.putString("savedType", sessionTypeValue);
-        savedInstanceState.putString("savedBlinds", sessionBlindsValue);
-    }*/
 
     // Action When On Live Session Form Page
     @Override
@@ -151,7 +137,6 @@ public class LiveSessionTracker extends AppCompatActivity
                 elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
 
                 sendLiveSessionNotification();
-
             }
             else
             {
@@ -159,6 +144,10 @@ public class LiveSessionTracker extends AppCompatActivity
                 pauseOffset = prefs.getLong(LIVE_PAUSE_OFFSET, 0);
                 timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
                 started = prefs.getBoolean(LIVE_STARTED, false);
+                sessionTime = SystemClock.elapsedRealtime() - (SystemClock.elapsedRealtime() - pauseOffset);
+                notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
+                elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
+
                 if(started)
                 {
                     pauseBtn.setText("Paused");
@@ -167,6 +156,7 @@ public class LiveSessionTracker extends AppCompatActivity
                     startBtn.setText("Resume");
                     startBtn.setTextColor(getResources().getColor(R.color.black));
                     startBtn.setBackgroundColor(getResources().getColor(R.color.green));
+                    sendLiveSessionNotification();
                 }
                 else
                 {
@@ -177,12 +167,6 @@ public class LiveSessionTracker extends AppCompatActivity
                     startBtn.setTextColor(getResources().getColor(R.color.black));
                     startBtn.setBackgroundColor(getResources().getColor(R.color.green));
                 }
-
-                sessionTime = SystemClock.elapsedRealtime() - (SystemClock.elapsedRealtime() - pauseOffset);
-                notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
-                elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
-
-                sendLiveSessionNotification();
             }
         }
         editor.putBoolean(LIVE_ACTIVE, true);
@@ -279,12 +263,12 @@ public class LiveSessionTracker extends AppCompatActivity
         PendingIntent actionIntent = PendingIntent.getBroadcast(this,
                 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        notifMessage = Integer.toString((int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
         Notification notification = new NotificationCompat.Builder(this, LIVE_SESSION_ID)
                 .setSmallIcon(R.drawable.icon_larger)
                 .setContentTitle(notifTitle)
-                //.setContentText(notifMessage)
-                .setWhen(System.currentTimeMillis() - elapsedTime)
-                .setUsesChronometer(true)
+                .setContentText(notifMessage)
+                .setShowWhen(false)
                 .setColor(getResources().getColor(R.color.colorPrimaryDark))
                 .setContentIntent(contentIntent)
                 //.setAutoCancel(true)
@@ -377,6 +361,7 @@ public class LiveSessionTracker extends AppCompatActivity
                 Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
+                notificationManager.cancel(1);
                 finish();
             }
         }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
