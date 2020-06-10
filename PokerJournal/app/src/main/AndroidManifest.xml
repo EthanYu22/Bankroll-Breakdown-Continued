@@ -29,7 +29,8 @@
         <activity android:name=".BankDetailActivity" />
         <activity android:name=".BankEditActivity" />
         <activity android:name=".StatsGraphActivity" />
+        <service android:name=".LiveSessionChronometerService"/>
         <receiver android:name=".NotificationReceiver"/>
     </application>
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
 </manifest>

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +38,7 @@ public class LiveSessionTracker extends AppCompatActivity
     private static final String LIVE_BUY_IN = "liveSessionBuyIn";
     private static final String LIVE_PAUSE_OFFSET = "liveSessionPauseOffset";
     private static final String LIVE_DATE = "liveSessionDate";
+    private static final String LIVE_SESSION_CHRONOMETER = "liveSessionChronometer";
 
     private static final String notifTitle = "Live Session Time";
     private static String notifMessage = "Hello";
@@ -46,6 +48,7 @@ public class LiveSessionTracker extends AppCompatActivity
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     private NotificationManagerCompat notificationManager;
+    private Handler handler;
 
     TextView tvCurrTotalBuyIn;
     TextView tvAddOnAmount;
@@ -100,7 +103,8 @@ public class LiveSessionTracker extends AppCompatActivity
         totalBuyIn = Integer.parseInt(inputBuyIn);
         tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
 
-        final Handler handler = new Handler();
+        Log.d("WWW:ETHAN:YU","onCreateCalled");
+        handler = new Handler();
         final int delay = 1000; //milliseconds
         handler.postDelayed(new Runnable(){
             public void run(){
@@ -108,6 +112,8 @@ public class LiveSessionTracker extends AppCompatActivity
                 handler.postDelayed(this, delay);
             }
         }, delay);
+
+        startService();
     }
 
     // Action When On Live Session Form Page
@@ -247,6 +253,19 @@ public class LiveSessionTracker extends AppCompatActivity
         return super.onOptionsItemSelected(menuItem);
     }
 
+    public void startService()
+    {
+        Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
+        serviceIntent.putExtra("LIVE_SESSION_CHRONOMETER", "Whatever");
+        startService(serviceIntent);
+    }
+
+    public void stopStervice()
+    {
+        Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
+        stopService(serviceIntent);
+    }
+
     public void sendLiveSessionNotification()
     {
         Intent activityIntent = new Intent(this, LiveSessionTracker.class);
@@ -258,12 +277,30 @@ public class LiveSessionTracker extends AppCompatActivity
         PendingIntent contentIntent = PendingIntent.getActivity(this,
                 0, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        /**
+         * Intent activityIntent = new Intent(this, LiveSessionTracker.class);
+         *         activityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+         *         activityIntent.putExtra("sessionType", prefs.getString("liveSessionType",""));
+         *         activityIntent.putExtra("sessionBlinds",prefs.getString("liveSessionBlinds",""));
+         *         activityIntent.putExtra("location", prefs.getString("liveSessionLocation", ""));
+         *         activityIntent.putExtra("buyIn",prefs.getString("liveSessionBuyIn","0"));
+         *         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+         *         stackBuilder.addNextIntentWithParentStack(activityIntent);
+         *         PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+         */
+
         Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
         broadcastIntent.putExtra("toastMessage", "Hello World!");
         PendingIntent actionIntent = PendingIntent.getBroadcast(this,
                 0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        notifMessage = Integer.toString((int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
+        if(running){
+            notifMessage = Integer.toString((int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
+
+        }else{
+            notifMessage = Integer.toString((int) ((SystemClock.elapsedRealtime() - SystemClock.elapsedRealtime()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - SystemClock.elapsedRealtime()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - SystemClock.elapsedRealtime()) % 60000 / 1000));
+        }
+
         Notification notification = new NotificationCompat.Builder(this, LIVE_SESSION_ID)
                 .setSmallIcon(R.drawable.icon_larger)
                 .setContentTitle(notifTitle)
@@ -358,10 +395,11 @@ public class LiveSessionTracker extends AppCompatActivity
             {
                 editor.putBoolean(LIVE_ACTIVE, false);
                 editor.commit();
+                handler.removeCallbacksAndMessages(null);
+                notificationManager.cancel(1);
                 Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                notificationManager.cancel(1);
                 finish();
             }
         }).setNegativeButton("Go Back", new DialogInterface.OnClickListener()
@@ -416,6 +454,7 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.putBoolean(LIVE_ACTIVE, false);
         editor.commit();
 
+        handler.removeCallbacksAndMessages(null);
         notificationManager.cancel(1);
 
         Intent intent = new Intent(this, MainActivity.class);
