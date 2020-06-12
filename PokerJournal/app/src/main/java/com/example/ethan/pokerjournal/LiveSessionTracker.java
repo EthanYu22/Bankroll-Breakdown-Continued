@@ -1,19 +1,16 @@
 package com.example.ethan.pokerjournal;
 
-import android.app.Notification;
-import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Handler;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,32 +20,26 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import static com.example.ethan.pokerjournal.Notification.LIVE_SESSION_ID;
-import static java.lang.Long.*;
 
 public class LiveSessionTracker extends AppCompatActivity
 {
-    private static final String LIVE_ACTIVE = "liveSessionActive";
-    private static final String LIVE_STARTED = "liveSessionStarted";
-    private static final String LIVE_RUNNING = "liveSessionRunning";
-    private static final String LIVE_TIMER_BASE = "liveSessionTimerBase";
-    private static final String LIVE_TYPE = "liveSessionType";
-    private static final String LIVE_BLINDS = "liveSessionBlinds";
-    private static final String LIVE_LOCATION = "liveSessionLocation";
-    private static final String LIVE_BUY_IN = "liveSessionBuyIn";
-    private static final String LIVE_PAUSE_OFFSET = "liveSessionPauseOffset";
-    private static final String LIVE_DATE = "liveSessionDate";
-    private static final String LIVE_SESSION_CHRONOMETER = "liveSessionChronometer";
 
-    private static final String notifTitle = "Live Session Time";
-    private static String notifMessage = "Hello";
-    private static long elapsedTime;
+    private static final String ONLY_ALLOW_ONCE = "onlyAllowOnce";
+    private static final String LIVE_SESSION_ACTIVE = "liveSessionActive";
+    private static final String LIVE_SESSION_TIME_STARTED = "liveSessionTimeStarted";
+    private static final String LIVE_SESSION_TIME_RUNNING = "liveSessionTimeRunning";
+    private static final String LIVE_SESSION_TIMER_BASE = "liveSessionTimerBase";
+    private static final String LIVE_SESSION_TYPE = "liveSessionType";
+    private static final String LIVE_SESSION_BLINDS = "liveSessionBlinds";
+    private static final String LIVE_SESSION_LOCATION = "liveSessionLocation";
+    private static final String LIVE_SESSION_BUY_IN = "liveSessionBuyIn";
+    private static final String LIVE_SESSION_PAUSE_OFFSET = "liveSessionPauseOffset";
+    private static final String LIVE_SESSION_DATE = "liveSessionDate";
+    private static final String NOTIF_TITLE = "Live Session Time";
 
     private Toolbar toolbar;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    private NotificationManagerCompat notificationManager;
-    private Handler handler;
 
     TextView tvCurrTotalBuyIn;
     TextView tvAddOnAmount;
@@ -61,15 +52,19 @@ public class LiveSessionTracker extends AppCompatActivity
     String inputType;
     String inputBlinds;
     String inputDate;
-
     int totalBuyIn;
 
     private Chronometer timer;
     private long pauseOffset;
     private long runningTimerBase;
-    private boolean started = false;
-    private boolean running;
+    private boolean timerStarted;
+    private boolean timerRunning;
     long sessionTime;
+
+    private boolean mShouldUnbind;
+    private boolean serviceStarted;
+    private LiveSessionChronometerService mBoundService; // To invoke the bound service, first make sure that this value is not null.
+    private ServiceConnection mConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,9 +76,30 @@ public class LiveSessionTracker extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        notificationManager = NotificationManagerCompat.from(this);
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
+
+        mConnection = new ServiceConnection()
+        {
+            public void onServiceConnected(ComponentName className, IBinder service)
+            {
+                // This is called when the connection with the service has been
+                // established, giving us the service object we can use to
+                // interact with the service.  Because we have bound to a explicit
+                // service that we know is running in our own process, we can
+                // cast its IBinder to a concrete class and directly access it.
+                mBoundService = ((LiveSessionChronometerService.LocalBinder) service).getService();
+            }
+
+            public void onServiceDisconnected(ComponentName className)
+            {
+                // This is called when the connection with the service has been
+                // unexpectedly disconnected -- that is, its process crashed.
+                // Because it is running in our same process, we should never
+                // see this happen.
+                mBoundService = null;
+            }
+        };
 
         timer = (Chronometer) findViewById(R.id.timer);
         startBtn = (Button) findViewById(R.id.timerStartBtn);
@@ -100,20 +116,48 @@ public class LiveSessionTracker extends AppCompatActivity
         inputBlinds = intent.getStringExtra("sessionBlinds");
         inputDate = intent.getStringExtra("date");
 
-        totalBuyIn = Integer.parseInt(inputBuyIn);
+        if (inputBuyIn == null)
+        {
+            totalBuyIn = Integer.parseInt(prefs.getString("liveSessionBuyIn", "0"));
+        }
+        else
+        {
+            totalBuyIn = Integer.parseInt(inputBuyIn);
+
+        }
         tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
 
-        Log.d("WWW:ETHAN:YU","onCreateCalled");
-        handler = new Handler();
-        final int delay = 1000; //milliseconds
-        handler.postDelayed(new Runnable(){
-            public void run(){
-                sendLiveSessionNotification();
-                handler.postDelayed(this, delay);
-            }
-        }, delay);
+        boolean onlyAllowOnce = prefs.getBoolean("onlyAllowOnce", true);
+        if (onlyAllowOnce)
+        {
+            onlyAllowOnce = false;
+            editor.putBoolean(ONLY_ALLOW_ONCE, onlyAllowOnce);
+            editor.putString(LIVE_SESSION_TYPE, inputType);
+            editor.putString(LIVE_SESSION_BLINDS, inputBlinds);
+            editor.putString(LIVE_SESSION_LOCATION, inputLocation);
+            editor.putString(LIVE_SESSION_DATE, inputDate);
+        }
+        editor.putString(LIVE_SESSION_BUY_IN, Integer.toString(totalBuyIn));
+        editor.commit();
 
-        startService();
+        Log.d("LiveSessionTracker", "LiveSessionTracker onCreate Method Called");
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        Log.d("LiveSessionTracker", "LiveSessionTracker onStart Method Called");
+        if (!serviceStarted)
+        {
+            Log.d("onStart", "Starting Service");
+            startService();
+        }
+        if (!mShouldUnbind)
+        {
+            Log.d("onStart", "Binding Service");
+            doBindService();
+        }
     }
 
     // Action When On Live Session Form Page
@@ -121,40 +165,34 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
-        if(prefs.getBoolean(LIVE_ACTIVE, false))
+        if (prefs.getBoolean(LIVE_SESSION_ACTIVE, false))
         {
-            inputType = prefs.getString(LIVE_TYPE, "");
-            inputBlinds = prefs.getString(LIVE_BLINDS, "");
-            inputLocation = prefs.getString(LIVE_LOCATION, "");
-            inputDate = prefs.getString(LIVE_DATE, "");
-            if(prefs.getBoolean(LIVE_RUNNING, true))
+            inputType = prefs.getString(LIVE_SESSION_TYPE, "");
+            inputBlinds = prefs.getString(LIVE_SESSION_BLINDS, "");
+            inputLocation = prefs.getString(LIVE_SESSION_LOCATION, "");
+            inputDate = prefs.getString(LIVE_SESSION_DATE, "");
+            if (prefs.getBoolean(LIVE_SESSION_TIME_RUNNING, true))
             {
-                runningTimerBase = prefs.getLong(LIVE_TIMER_BASE, 0);
+                runningTimerBase = prefs.getLong(LIVE_SESSION_TIMER_BASE, 0);
                 timer.setBase(runningTimerBase);
                 timer.start();
                 startBtn.setText("Running");
                 startBtn.setTextColor(getResources().getColor(R.color.white));
                 startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                running = true;
-                started = true;
+                timerRunning = true;
+                timerStarted = true;
 
                 sessionTime = SystemClock.elapsedRealtime() - runningTimerBase;
-                notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
-                elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
-
-                sendLiveSessionNotification();
             }
             else
             {
-                runningTimerBase = prefs.getLong(LIVE_TIMER_BASE, 0);
-                pauseOffset = prefs.getLong(LIVE_PAUSE_OFFSET, 0);
+                runningTimerBase = prefs.getLong(LIVE_SESSION_TIMER_BASE, 0);
+                pauseOffset = prefs.getLong(LIVE_SESSION_PAUSE_OFFSET, 0);
                 timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-                started = prefs.getBoolean(LIVE_STARTED, false);
+                timerStarted = prefs.getBoolean(LIVE_SESSION_TIME_STARTED, false);
                 sessionTime = SystemClock.elapsedRealtime() - (SystemClock.elapsedRealtime() - pauseOffset);
-                notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
-                elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
 
-                if(started)
+                if (timerStarted)
                 {
                     pauseBtn.setText("Paused");
                     pauseBtn.setTextColor(getResources().getColor(R.color.white));
@@ -162,7 +200,6 @@ public class LiveSessionTracker extends AppCompatActivity
                     startBtn.setText("Resume");
                     startBtn.setTextColor(getResources().getColor(R.color.black));
                     startBtn.setBackgroundColor(getResources().getColor(R.color.green));
-                    sendLiveSessionNotification();
                 }
                 else
                 {
@@ -175,60 +212,54 @@ public class LiveSessionTracker extends AppCompatActivity
                 }
             }
         }
-        editor.putBoolean(LIVE_ACTIVE, true);
+        editor.putBoolean(LIVE_SESSION_ACTIVE, true);
         editor.commit();
 
         sessionTime = (SystemClock.elapsedRealtime() - timer.getBase()) / 1000;
-        notifMessage =  String.format("%02d", sessionTime/60) + ":" + String.format("%02d", sessionTime % 60);
-        elapsedTime = SystemClock.elapsedRealtime() - timer.getBase();
-
-        sendLiveSessionNotification();
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        editor.putBoolean(LIVE_RUNNING, running);
-        editor.putBoolean(LIVE_STARTED, started);
-        editor.putLong(LIVE_TIMER_BASE, runningTimerBase);
-        editor.putString(LIVE_TYPE, inputType);
-        editor.putString(LIVE_BLINDS, inputBlinds);
-        editor.putString(LIVE_LOCATION, inputLocation);
-        editor.putString(LIVE_DATE, inputDate);
-        editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
-        if(running)
+        if (timerRunning)
         {
-            editor.putLong(LIVE_PAUSE_OFFSET, 0);
+            editor.putLong(LIVE_SESSION_PAUSE_OFFSET, 0);
         }
         else
         {
-            editor.putLong(LIVE_PAUSE_OFFSET, pauseOffset);
+            editor.putLong(LIVE_SESSION_PAUSE_OFFSET, pauseOffset);
         }
         editor.commit();
+
+        Log.d("LiveSessionTracker", "LiveSessionTracker onPause Method Called");
+        if (mShouldUnbind)
+        {
+            Log.d("onPause", "Unbinding Service");
+            doUnbindService();
+        }
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
-        editor.putBoolean(LIVE_RUNNING, running);
-        editor.putBoolean(LIVE_STARTED, started);
-        editor.putLong(LIVE_TIMER_BASE, runningTimerBase);
-        editor.putString(LIVE_TYPE, inputType);
-        editor.putString(LIVE_BLINDS, inputBlinds);
-        editor.putString(LIVE_LOCATION, inputLocation);
-        editor.putString(LIVE_DATE, inputDate);
-        editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
-        if(running)
+        if (timerRunning)
         {
-            editor.putLong(LIVE_PAUSE_OFFSET, 0);
+            editor.putLong(LIVE_SESSION_PAUSE_OFFSET, 0);
         }
         else
         {
-            editor.putLong(LIVE_PAUSE_OFFSET, pauseOffset);
+            editor.putLong(LIVE_SESSION_PAUSE_OFFSET, pauseOffset);
         }
         editor.commit();
+
+        Log.d("LiveSessionTracker", "LiveSessionTracker onDestroy Method Called");
+        if (mShouldUnbind)
+        {
+            Log.d("onDestroy", "Unbinding Service");
+            doUnbindService();
+        }
     }
 
     @Override
@@ -253,74 +284,53 @@ public class LiveSessionTracker extends AppCompatActivity
         return super.onOptionsItemSelected(menuItem);
     }
 
+    void doBindService()
+    {
+        // Attempts to establish a connection with the service.  We use an
+        // explicit class name because we want a specific service
+        // implementation that we know will be running in our own process
+        // (and thus won't be supporting component replacement by other
+        // applications).
+        Log.d("BIND SERVICE", "Chronometer Service is Bound");
+        if (bindService(new Intent(LiveSessionTracker.this, LiveSessionChronometerService.class), mConnection, Context.BIND_AUTO_CREATE))
+        {
+            mShouldUnbind = true;
+        }
+        else
+        {
+            Log.e("MY_APP_TAG", "Error: The requested service doesn't " + "exist, or this client isn't allowed access to it.");
+        }
+    }
+
+    void doUnbindService()
+    {
+        if (mShouldUnbind)
+        {
+            // Release information about the service's state.
+            unbindService(mConnection);
+            mShouldUnbind = false;
+        }
+    }
+
     public void startService()
     {
         Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
-        serviceIntent.putExtra("LIVE_SESSION_CHRONOMETER", "Whatever");
         startService(serviceIntent);
+        serviceStarted = true;
     }
 
-    public void stopStervice()
+    public void stopService()
     {
         Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
         stopService(serviceIntent);
-    }
-
-    public void sendLiveSessionNotification()
-    {
-        Intent activityIntent = new Intent(this, LiveSessionTracker.class);
-        activityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        activityIntent.putExtra("sessionType", prefs.getString("liveSessionType",""));
-        activityIntent.putExtra("sessionBlinds",prefs.getString("liveSessionBlinds",""));
-        activityIntent.putExtra("location", prefs.getString("liveSessionLocation", ""));
-        activityIntent.putExtra("buyIn",prefs.getString("liveSessionBuyIn","0"));
-        PendingIntent contentIntent = PendingIntent.getActivity(this,
-                0, activityIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        /**
-         * Intent activityIntent = new Intent(this, LiveSessionTracker.class);
-         *         activityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-         *         activityIntent.putExtra("sessionType", prefs.getString("liveSessionType",""));
-         *         activityIntent.putExtra("sessionBlinds",prefs.getString("liveSessionBlinds",""));
-         *         activityIntent.putExtra("location", prefs.getString("liveSessionLocation", ""));
-         *         activityIntent.putExtra("buyIn",prefs.getString("liveSessionBuyIn","0"));
-         *         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-         *         stackBuilder.addNextIntentWithParentStack(activityIntent);
-         *         PendingIntent contentIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-         */
-
-        Intent broadcastIntent = new Intent(this, NotificationReceiver.class);
-        broadcastIntent.putExtra("toastMessage", "Hello World!");
-        PendingIntent actionIntent = PendingIntent.getBroadcast(this,
-                0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if(running){
-            notifMessage = Integer.toString((int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
-
-        }else{
-            notifMessage = Integer.toString((int) ((SystemClock.elapsedRealtime() - SystemClock.elapsedRealtime()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - SystemClock.elapsedRealtime()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - SystemClock.elapsedRealtime()) % 60000 / 1000));
-        }
-
-        Notification notification = new NotificationCompat.Builder(this, LIVE_SESSION_ID)
-                .setSmallIcon(R.drawable.icon_larger)
-                .setContentTitle(notifTitle)
-                .setContentText(notifMessage)
-                .setShowWhen(false)
-                .setColor(getResources().getColor(R.color.colorPrimaryDark))
-                .setContentIntent(contentIntent)
-                //.setAutoCancel(true)
-                .setOnlyAlertOnce(true)
-                .addAction(R.mipmap.ic_launcher, "Toast", actionIntent)
-                .build();
-        notificationManager.notify(1, notification);
+        serviceStarted = false;
     }
 
     public void startTimer(View v)
     {
-        started = true;
-        if (!running)
+        mBoundService.startTimer();
+        if (!timerRunning)
         {
-            running = true;
             runningTimerBase = SystemClock.elapsedRealtime() - pauseOffset;
             timer.setBase(runningTimerBase);
             timer.start();
@@ -331,12 +341,20 @@ public class LiveSessionTracker extends AppCompatActivity
             pauseBtn.setText("Pause");
             pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
             pauseBtn.setTextColor(getResources().getColor(R.color.black));
+
+            timerStarted = true;
+            timerRunning = true;
+            editor.putLong(LIVE_SESSION_TIMER_BASE, runningTimerBase);
+            editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
+            editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+            editor.commit();
         }
     }
 
     public void pauseTimer(View v)
     {
-        if(running)
+        mBoundService.pauseTimer();
+        if (timerRunning)
         {
             timer.stop();
             pauseOffset = SystemClock.elapsedRealtime() - timer.getBase(); // time passed since timer started and timer paused
@@ -346,12 +364,16 @@ public class LiveSessionTracker extends AppCompatActivity
             startBtn.setText("Resume");
             startBtn.setTextColor(getResources().getColor(R.color.black));
             startBtn.setBackgroundColor(getResources().getColor(R.color.green));
-            running = false;
+
+            timerRunning = false;
+            editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+            editor.commit();
         }
     }
 
     public void resetTimer(View v)
     {
+        mBoundService.resetTimer();
         timer.stop();
         runningTimerBase = SystemClock.elapsedRealtime();
         timer.setBase(runningTimerBase);
@@ -362,14 +384,19 @@ public class LiveSessionTracker extends AppCompatActivity
         startBtn.setText("Start");
         startBtn.setTextColor(getResources().getColor(R.color.black));
         startBtn.setBackgroundColor(getResources().getColor(R.color.green));
-        started = false;
-        running = false;
+
+        timerStarted = false;
+        timerRunning = false;
+        editor.putLong(LIVE_SESSION_TIMER_BASE, runningTimerBase);
+        editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
+        editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+        editor.commit();
     }
 
     // Edit Session Entries
     public void onClickAddOnRebuy(View v)
     {
-        if(tvAddOnAmount.getText().toString().isEmpty())
+        if (tvAddOnAmount.getText().toString().isEmpty())
         {
             Toast noRebuyEntry = Toast.makeText(getApplication(), "Please fill in the \"Add On ($)\" field", Toast.LENGTH_SHORT);
             noRebuyEntry.show();
@@ -379,12 +406,12 @@ public class LiveSessionTracker extends AppCompatActivity
         totalBuyIn += addOnValue;
         tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
         tvAddOnAmount.setText("");
-        editor.putString(LIVE_BUY_IN, Integer.toString(totalBuyIn));
+
+        editor.putString(LIVE_SESSION_BUY_IN, Integer.toString(totalBuyIn));
         editor.commit();
-        sendLiveSessionNotification();
     }
 
-    public void onClickDeleteLiveSession(View  v)
+    public void onClickDeleteLiveSession(View v)
     {
         // Confirmation Delete Session Alert
         AlertDialog.Builder altdial = new AlertDialog.Builder(LiveSessionTracker.this);
@@ -393,10 +420,28 @@ public class LiveSessionTracker extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int which)
             {
-                editor.putBoolean(LIVE_ACTIVE, false);
+                editor.putBoolean(ONLY_ALLOW_ONCE, true);
+                editor.putBoolean(LIVE_SESSION_ACTIVE, false);
+                editor.putBoolean(LIVE_SESSION_TIME_RUNNING, false);
+                editor.putBoolean(LIVE_SESSION_TIME_STARTED, false);
+                editor.putLong(LIVE_SESSION_TIMER_BASE, 0);
+                editor.putString(LIVE_SESSION_TYPE, "");
+                editor.putString(LIVE_SESSION_BLINDS, "");
+                editor.putString(LIVE_SESSION_LOCATION, "");
+                editor.putString(LIVE_SESSION_DATE, "");
+                editor.putString(LIVE_SESSION_BUY_IN, "");
+                editor.putLong(LIVE_SESSION_PAUSE_OFFSET, 0);
                 editor.commit();
-                handler.removeCallbacksAndMessages(null);
-                notificationManager.cancel(1);
+
+                Log.d("LiveSessionTracker", "LiveSessionTracker onClickDeleteLiveSession Method Called");
+                if (mShouldUnbind)
+                {
+                    Log.d("onDestroy", "Unbinding Service");
+                    doUnbindService();
+                }
+                Log.d("onDestroy", "Stopping Service");
+                stopService();
+
                 Intent intent = new Intent(LiveSessionTracker.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
@@ -426,7 +471,7 @@ public class LiveSessionTracker extends AppCompatActivity
 
         // Make Sure Cash Out Field is Filled, Timer is Started, Time is Over a Minute Long
         EditText editCashOut = (EditText) findViewById(R.id.etLiveCashOut);
-        if(started == false)
+        if (timerStarted == false)
         {
             timerNotStarted.show();
             return;
@@ -436,7 +481,7 @@ public class LiveSessionTracker extends AppCompatActivity
             noCashOutEntry.show();
             return;
         }
-        else if((int) sessionTime == 0)
+        else if ((int) sessionTime == 0)
         {
             zeroMinutes.show();
             return;
@@ -451,11 +496,27 @@ public class LiveSessionTracker extends AppCompatActivity
         session.setEntries(inputType, inputBlinds, inputLocation, inputDate, (int) sessionTime, totalBuyIn, inputCashOut);
         db.createSession(session);
 
-        editor.putBoolean(LIVE_ACTIVE, false);
+        editor.putBoolean(ONLY_ALLOW_ONCE, true);
+        editor.putBoolean(LIVE_SESSION_ACTIVE, false);
+        editor.putBoolean(LIVE_SESSION_TIME_RUNNING, false);
+        editor.putBoolean(LIVE_SESSION_TIME_STARTED, false);
+        editor.putLong(LIVE_SESSION_TIMER_BASE, 0);
+        editor.putString(LIVE_SESSION_TYPE, "");
+        editor.putString(LIVE_SESSION_BLINDS, "");
+        editor.putString(LIVE_SESSION_LOCATION, "");
+        editor.putString(LIVE_SESSION_DATE, "");
+        editor.putString(LIVE_SESSION_BUY_IN, "");
+        editor.putLong(LIVE_SESSION_PAUSE_OFFSET, 0);
         editor.commit();
 
-        handler.removeCallbacksAndMessages(null);
-        notificationManager.cancel(1);
+        Log.d("LiveSessionTracker", "LiveSessionTracker onClickSubmitLiveSession Method Called");
+        if (mShouldUnbind)
+        {
+            Log.d("onDestroy", "Unbinding Service");
+            doUnbindService();
+        }
+        Log.d("onDestroy", "Stopping Service");
+        stopService();
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
