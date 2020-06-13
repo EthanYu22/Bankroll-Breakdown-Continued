@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Chronometer;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,56 +22,58 @@ import static com.example.ethan.pokerjournal.Notification.LIVE_SESSION_ID;
 
 public class LiveSessionChronometerService extends Service
 {
-
+    // Live Session Shared Preference Constant Names
+    private static final String NOTIF_TITLE = "Live Session Time";
     private static final String LIVE_SESSION_ACTIVE = "liveSessionActive";
     private static final String LIVE_SESSION_TIME_STARTED = "liveSessionTimeStarted";
     private static final String LIVE_SESSION_TIME_RUNNING = "liveSessionTimeRunning";
     private static final String LIVE_SESSION_TIMER_BASE = "liveSessionTimerBase";
-    private static final String LIVE_SESSION_PAUSE_OFFSET = "liveSessionPauseOffset";
-    private static final String NOTIF_TITLE = "Live Session Time";
+    private static final String LIVE_SESSION_TIME_CURRENTLY_LOGGED = "liveSessionTimeCurrentlyLogged";
 
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
 
-    private Chronometer timer;
-    private long pauseOffset;
+    // Chronometer Timer variables
+    private Chronometer timerDisplay;
+    private long timeCurrentlyLogged;
     private long runningTimerBase;
+    private boolean timerStarted;
     private boolean timerRunning;
-    private String sessionTimeStr;
+    private String sessionTime;
 
+    // Notification Components
     private NotificationManager notificationManager;
-    private int notificationID = 25;
-    private final IBinder mBinder = new LocalBinder();
-
-    private NotificationCompat.Builder runningNotification;
-    private NotificationCompat.Builder pausedNotification;
-    private NotificationCompat.Builder newNotification;
-
+    private static final int notificationID = 25;
     private Intent pauseTimer;
     private Intent resumeTimer;
     private Intent resetTimer;
-
     private PendingIntent contentIntent;
     private PendingIntent pauseActionIntent;
     private PendingIntent resumeActionIntent;
     private PendingIntent resetActionIntent;
+    private NotificationCompat.Builder runningNotification;
+    private NotificationCompat.Builder pausedNotification;
+    private NotificationCompat.Builder newNotification;
 
+    // Threading tasks
     private TimerTask task;
     private Timer timerNotifUpdate;
     private boolean isTimerTaskRunning;
+
+    private final IBinder mBinder = new LocalBinder();
 
     @Override
     public void onCreate()
     {
         super.onCreate();
 
-        Log.d("Chronometer Service", "Chronometer Service onCreate Method Called");
+        Log.d("Chronometer Service Lifecycle", "onCreate Method Called");
 
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
 
-        timer = new Chronometer(this);
-        timer.setBase(SystemClock.elapsedRealtime());
+        timerDisplay = new Chronometer(this);
+        timerDisplay.setBase(SystemClock.elapsedRealtime());
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -84,58 +85,43 @@ public class LiveSessionChronometerService extends Service
         resetTimer = new Intent(this, LiveSessionChronometerService.class);
         resetTimer.putExtra("resetTimer", true);
 
-        // The PendingIntent to launch our activity if the user selects this notification
+        // PendingIntent to launch our activity if the user selects this notification
         contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, LiveSessionTracker.class), 0);
+        // PendingIntent to launch this service activity
         pauseActionIntent = PendingIntent.getService(this, 1, pauseTimer, PendingIntent.FLAG_UPDATE_CURRENT);
         resumeActionIntent = PendingIntent.getService(this, 2, resumeTimer, PendingIntent.FLAG_UPDATE_CURRENT);
         resetActionIntent = PendingIntent.getService(this, 3, resetTimer, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Set the info for the views that show in the notification panel.
+        // Set the configuration for the foreground notification
         runningNotification = new NotificationCompat.Builder(this, LIVE_SESSION_ID).setSmallIcon(R.drawable.icon_larger)  // the status icon
                 .setContentTitle(NOTIF_TITLE)  // the label of the entry
                 .setShowWhen(false).setColor(getResources().getColor(R.color.colorPrimaryDark)).setContentIntent(contentIntent)  // The intent to send when the entry is clicked
                 .addAction(R.mipmap.ic_launcher, "Pause", pauseActionIntent).addAction(R.mipmap.ic_launcher, "Reset", resetActionIntent).setOnlyAlertOnce(true);
-
-        // Set the info for the views that show in the notification panel.
         pausedNotification = new NotificationCompat.Builder(this, LIVE_SESSION_ID).setSmallIcon(R.drawable.icon_larger)  // the status icon
                 .setContentTitle(NOTIF_TITLE)  // the label of the entry
                 .setShowWhen(false).setColor(getResources().getColor(R.color.colorPrimaryDark)).setContentIntent(contentIntent)  // The intent to send when the entry is clicked
                 .addAction(R.mipmap.ic_launcher, "Resume", resumeActionIntent).addAction(R.mipmap.ic_launcher, "Reset", resetActionIntent).setOnlyAlertOnce(true);
-
-        // Set the info for the views that show in the notification panel.
         newNotification = new NotificationCompat.Builder(this, LIVE_SESSION_ID).setSmallIcon(R.drawable.icon_larger)  // the status icon
                 .setContentTitle(NOTIF_TITLE)  // the label of the entry
                 .setShowWhen(false).setColor(getResources().getColor(R.color.colorPrimaryDark)).setContentIntent(contentIntent)  // The intent to send when the entry is clicked
                 .addAction(R.mipmap.ic_launcher, "Start", resumeActionIntent).setOnlyAlertOnce(true);
-
-        if (prefs.getBoolean(LIVE_SESSION_TIME_RUNNING, true))
-        {
-            runningTimerBase = prefs.getLong(LIVE_SESSION_TIMER_BASE, 0);
-            timer.setBase(runningTimerBase);
-            timerRunning = true;
-        }
-        else
-        {
-            runningTimerBase = prefs.getLong(LIVE_SESSION_TIMER_BASE, 0);
-            pauseOffset = prefs.getLong(LIVE_SESSION_PAUSE_OFFSET, 0);
-            timer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-        }
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        Log.d("Chronometer Service", "Chronometer Service onStartCommand Method Called");
 
-        sessionTimeStr = "00:00";
-        newNotification.setContentText(sessionTimeStr);
+        Log.d("Chronometer Service Lifecycle", "onStartCommand Method Called");
+
+        // Start off a new foreground notification
+        sessionTime = "00:00";
+        newNotification.setContentText(sessionTime);
         startForeground(notificationID, newNotification.build());
 
+        // Call servie functions based on notification button clicks
         boolean pause = intent.getBooleanExtra("pauseTimer", false);
         boolean start = intent.getBooleanExtra("resumeTimer", false);
         boolean reset = intent.getBooleanExtra("resetTimer", false);
-
         if (start)
         {
             startTimer();
@@ -149,8 +135,12 @@ public class LiveSessionChronometerService extends Service
             resetTimer();
         }
 
+        // Run update notification live session timer thread when timer running
         if (!isTimerTaskRunning)
         {
+
+            Log.d("Chronometer Service", "Timer Task Method Called");
+
             isTimerTaskRunning = true;
             task = new TimerTask()
             {
@@ -176,20 +166,26 @@ public class LiveSessionChronometerService extends Service
             timerNotifUpdate.scheduleAtFixedRate(task, 0, 1000);
         }
 
-        return START_STICKY;
+        // If service is destroyed, restart service redelivering last sent intent
+        return START_REDELIVER_INTENT;
     }
 
     @Override
     public void onDestroy()
     {
-        Log.d("Chronometer Service", "Chronometer Service onDestroy Method Called");
+
+        Log.d("Chronometer Service Lifecycle", "onDestroy Method Called");
+
         super.onDestroy();
-        stopUpdates();
-        stopSelf(); // Calls for service to close
+        stopThreadUpdates();
+        stopSelf();
     }
 
-    private void stopUpdates()
+    private void stopThreadUpdates()
     {
+
+        Log.d("Chronometer Service", "stopThreadUpdates Method Called");
+
         if (isTimerTaskRunning)
         {
             task.cancel();
@@ -198,6 +194,99 @@ public class LiveSessionChronometerService extends Service
             timerNotifUpdate = null;
             isTimerTaskRunning = false;
         }
+    }
+
+    private void showNotification()
+    {
+
+        Log.d("Chronometer Service", "showNotification Method Called");
+
+        // Display hours
+        if (((SystemClock.elapsedRealtime() - timerDisplay.getBase()) / 3600000) > 0)
+        {
+            sessionTime = Integer.toString((int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 60000 / 1000));
+        }
+        // Display minutes and seconds
+        else
+        {
+            sessionTime = String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 60000 / 1000));
+        }
+
+        runningNotification.setContentText(sessionTime);
+        notificationManager.notify(notificationID, runningNotification.build());
+    }
+
+    public void startTimer()
+    {
+
+        Log.d("Chronometer Service", "startTimer Method Called");
+
+        if (!timerRunning)
+        {
+            runningTimerBase = SystemClock.elapsedRealtime() - timeCurrentlyLogged;
+            timerDisplay.setBase(runningTimerBase);
+
+            timeCurrentlyLogged = 0;
+            timerStarted = true;
+            timerRunning = true;
+        }
+
+        // Display hours
+        if (((SystemClock.elapsedRealtime() - timerDisplay.getBase()) / 3600000) > 0)
+        {
+            sessionTime = Integer.toString((int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 60000 / 1000));
+        }
+        // Display minutes and seconds
+        else
+        {
+            sessionTime = String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timerDisplay.getBase()) % 60000 / 1000));
+        }
+
+        runningNotification.setContentText(sessionTime);
+        notificationManager.notify(notificationID, runningNotification.build());
+    }
+
+    public void pauseTimer()
+    {
+
+        Log.d("Chronometer Service", "pauseTimer Method Called");
+
+        if (timerRunning)
+        {
+            timeCurrentlyLogged = SystemClock.elapsedRealtime() - timerDisplay.getBase(); // time passed since timer started and timer paused
+            timerRunning = false;
+        }
+
+        // Display hours
+        if (((SystemClock.elapsedRealtime() - timerDisplay.getBase()) / 3600000) > 0)
+        {
+            sessionTime = Integer.toString((int) (timeCurrentlyLogged / 3600000)) + ":" + String.format("%02d", (int) ((timeCurrentlyLogged) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((timeCurrentlyLogged) % 60000 / 1000));
+        }
+        // Display minutes and seconds
+        else
+        {
+            sessionTime = String.format("%02d", (int) ((timeCurrentlyLogged) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((timeCurrentlyLogged) % 60000 / 1000));
+        }
+
+        pausedNotification.setContentText(sessionTime);
+        notificationManager.notify(notificationID, pausedNotification.build());
+    }
+
+    public void resetTimer()
+    {
+
+        Log.d("Chronometer Service", "resetTimer Method Called");
+
+        runningTimerBase = SystemClock.elapsedRealtime();
+        timerDisplay.setBase(runningTimerBase);
+
+        sessionTime = "00:00";
+        timeCurrentlyLogged = 0;
+        timerStarted = false;
+        timerRunning = false;
+
+        newNotification.setContentText(sessionTime);
+        notificationManager.notify(notificationID, newNotification.build());
     }
 
     @Nullable
@@ -215,70 +304,8 @@ public class LiveSessionChronometerService extends Service
         }
     }
 
-    private void showNotification()
+    public String sayHello()
     {
-        if (((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000) > 0)
-        {
-            sessionTimeStr = Integer.toString((int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
-        }
-        else
-        {
-            sessionTimeStr = String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
-        }
-        // Set the info for the views that show in the notification panel.
-        runningNotification.setContentText(sessionTimeStr);
-        notificationManager.notify(notificationID, runningNotification.build());
+        return "Hello";
     }
-
-    public void startTimer()
-    {
-        if (!timerRunning)
-        {
-            timerRunning = true;
-            runningTimerBase = SystemClock.elapsedRealtime() - pauseOffset;
-            timer.setBase(runningTimerBase);
-            pauseOffset = 0;
-        }
-        if (((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000) > 0)
-        {
-            sessionTimeStr = Integer.toString((int) ((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
-        }
-        else
-        {
-            sessionTimeStr = String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((SystemClock.elapsedRealtime() - timer.getBase()) % 60000 / 1000));
-        }
-        runningNotification.setContentText(sessionTimeStr);
-        notificationManager.notify(notificationID, runningNotification.build());
-    }
-
-    public void pauseTimer()
-    {
-        if (timerRunning)
-        {
-            pauseOffset = SystemClock.elapsedRealtime() - timer.getBase(); // time passed since timer started and timer paused
-            timerRunning = false;
-        }
-        if (((SystemClock.elapsedRealtime() - timer.getBase()) / 3600000) > 0)
-        {
-            sessionTimeStr = Integer.toString((int) (pauseOffset / 3600000)) + ":" + String.format("%02d", (int) ((pauseOffset) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((pauseOffset) % 60000 / 1000));
-        }
-        else
-        {
-            sessionTimeStr = String.format("%02d", (int) ((pauseOffset) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((pauseOffset) % 60000 / 1000));
-        }
-        pausedNotification.setContentText(sessionTimeStr);
-        notificationManager.notify(notificationID, pausedNotification.build());
-    }
-
-    public void resetTimer()
-    {
-        runningTimerBase = SystemClock.elapsedRealtime();
-        timer.setBase(runningTimerBase);
-        pauseOffset = 0;
-        timerRunning = false;
-        sessionTimeStr = "00:00";
-        newNotification.setContentText(sessionTimeStr);
-        notificationManager.notify(notificationID, newNotification.build());
-    }
-
 }

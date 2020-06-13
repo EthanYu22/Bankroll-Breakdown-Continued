@@ -21,7 +21,7 @@ public class Notification extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel liveSession = new NotificationChannel(LIVE_SESSION_ID,
                     "Live Poker Session",
-                    NotificationManager.IMPORTANCE_MAX
+                    NotificationManager.IMPORTANCE_DEFAULT
             );
             liveSession.setDescription("Bankroll Breakdown Live Session");
 
