@@ -72,9 +72,13 @@ public class LiveSessionTracker extends AppCompatActivity
     private LiveSessionChronometerService mBoundService; // To invoke the bound service, first make sure that this value is not null.
     private ServiceConnection mConnection;
 
+    // Receiever components
     private TimerStartReceiver timerStartReceiver = null;
     private TimerPauseReceiver timerPauseReceiver = null;
     private TimerResetReceiver timerResetReceiver = null;
+    private boolean shouldUnregisterStartReceiver;
+    private boolean shouldUnregisterPauseReceiver;
+    private boolean shouldUnregisterResetReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -172,20 +176,6 @@ public class LiveSessionTracker extends AppCompatActivity
             doBindService();
         }
 
-        if(mBoundService != null)
-        {
-            Log.d("Service Says Hello to the World", mBoundService.sayHello());
-        }
-    }
-
-    // Action When On Live Session Form Page
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onResume Method Called");
-
         if (timerStartReceiver == null) timerStartReceiver = new TimerStartReceiver();
         if (timerPauseReceiver == null) timerPauseReceiver = new TimerPauseReceiver();
         if (timerResetReceiver == null) timerResetReceiver = new TimerResetReceiver();
@@ -197,6 +187,18 @@ public class LiveSessionTracker extends AppCompatActivity
         registerReceiver(timerStartReceiver, startFilter);
         registerReceiver(timerPauseReceiver, pauseFilter);
         registerReceiver(timerResetReceiver, resetFilter);
+        shouldUnregisterStartReceiver = true;
+        shouldUnregisterPauseReceiver = true;
+        shouldUnregisterResetReceiver = true;
+    }
+
+    // Action When On Live Session Form Page
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onResume Method Called");
 
         // Fill in variables onResume if returning to running live session
         if (prefs.getBoolean(LIVE_SESSION_ACTIVE, false))
@@ -258,17 +260,36 @@ public class LiveSessionTracker extends AppCompatActivity
         super.onPause();
 
         Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onPause Method Called");
+    }
 
-        if (timerStartReceiver != null) unregisterReceiver(timerStartReceiver);
-        if (timerPauseReceiver != null) unregisterReceiver(timerPauseReceiver);
-        if (timerResetReceiver != null) unregisterReceiver(timerResetReceiver);
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+
+        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStop Method Called");
+
+        if (shouldUnregisterStartReceiver)
+        {
+            unregisterReceiver(timerStartReceiver);
+            shouldUnregisterStartReceiver = false;
+        }
+        if (shouldUnregisterPauseReceiver)
+        {
+            unregisterReceiver(timerPauseReceiver);
+            shouldUnregisterPauseReceiver = false;
+        }
+        if (shouldUnregisterResetReceiver)
+        {
+            unregisterReceiver(timerResetReceiver);
+            shouldUnregisterResetReceiver = false;
+        }
 
         if (mShouldUnbind)
         {
-            Log.d("onPause", "Unbinding Service");
+            Log.d("onStop", "Unbinding Service");
             doUnbindService();
         }
-        stopService();
     }
 
     @Override
@@ -276,9 +297,21 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onDestroy();
 
-        if (timerStartReceiver != null) unregisterReceiver(timerStartReceiver);
-        if (timerPauseReceiver != null) unregisterReceiver(timerPauseReceiver);
-        if (timerResetReceiver != null) unregisterReceiver(timerResetReceiver);
+        if (shouldUnregisterStartReceiver)
+        {
+            unregisterReceiver(timerStartReceiver);
+            shouldUnregisterStartReceiver = false;
+        }
+        if (shouldUnregisterPauseReceiver)
+        {
+            unregisterReceiver(timerPauseReceiver);
+            shouldUnregisterPauseReceiver = false;
+        }
+        if (shouldUnregisterResetReceiver)
+        {
+            unregisterReceiver(timerResetReceiver);
+            shouldUnregisterResetReceiver = false;
+        }
 
         Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onDestroy Method Called");
 
@@ -287,7 +320,6 @@ public class LiveSessionTracker extends AppCompatActivity
             Log.d("onDestroy", "Unbinding Service");
             doUnbindService();
         }
-        stopService();
     }
 
     @Override
@@ -533,6 +565,8 @@ public class LiveSessionTracker extends AppCompatActivity
 
                                 Log.d("LiveSessionTracker", "Confirm onClickDeleteLiveSession Method Chosen");
 
+                                stopService();
+
                                 // Reset all shared preferences data
                                 editor.putBoolean(ONLY_ALLOW_ONCE, true);
                                 editor.putBoolean(LIVE_SESSION_ACTIVE, false);
@@ -607,6 +641,8 @@ public class LiveSessionTracker extends AppCompatActivity
             zeroMinutes.show();
             return;
         }
+
+        stopService();
 
         int inputCashOut = Integer.parseInt(editCashOut.getText().toString());
 
