@@ -1,9 +1,11 @@
 package com.example.ethan.pokerjournal;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,6 +38,8 @@ public class LiveSessionTracker extends AppCompatActivity
     private static final String LIVE_SESSION_TIMER_BASE = "liveSessionTimerBase";
     private static final String LIVE_SESSION_TIME_CURRENTLY_LOGGED = "liveSessionTimeCurrentlyLogged";
 
+    private static final String REFRESH_DATA_INTENT = "Update Activity Time";
+
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
@@ -67,6 +71,10 @@ public class LiveSessionTracker extends AppCompatActivity
     private boolean serviceStarted;
     private LiveSessionChronometerService mBoundService; // To invoke the bound service, first make sure that this value is not null.
     private ServiceConnection mConnection;
+
+    private TimerStartReceiver timerStartReceiver = null;
+    private TimerPauseReceiver timerPauseReceiver = null;
+    private TimerResetReceiver timerResetReceiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -163,6 +171,11 @@ public class LiveSessionTracker extends AppCompatActivity
             Log.d("onStart", "Binding Service");
             doBindService();
         }
+
+        if(mBoundService != null)
+        {
+            Log.d("Service Says Hello to the World", mBoundService.sayHello());
+        }
     }
 
     // Action When On Live Session Form Page
@@ -172,6 +185,18 @@ public class LiveSessionTracker extends AppCompatActivity
         super.onResume();
 
         Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onResume Method Called");
+
+        if (timerStartReceiver == null) timerStartReceiver = new TimerStartReceiver();
+        if (timerPauseReceiver == null) timerPauseReceiver = new TimerPauseReceiver();
+        if (timerResetReceiver == null) timerResetReceiver = new TimerResetReceiver();
+
+        IntentFilter startFilter = new IntentFilter("startTimer");
+        IntentFilter pauseFilter = new IntentFilter("pauseTimer");
+        IntentFilter resetFilter = new IntentFilter("resetTimer");
+
+        registerReceiver(timerStartReceiver, startFilter);
+        registerReceiver(timerPauseReceiver, pauseFilter);
+        registerReceiver(timerResetReceiver, resetFilter);
 
         // Fill in variables onResume if returning to running live session
         if (prefs.getBoolean(LIVE_SESSION_ACTIVE, false))
@@ -234,17 +259,26 @@ public class LiveSessionTracker extends AppCompatActivity
 
         Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onPause Method Called");
 
+        if (timerStartReceiver != null) unregisterReceiver(timerStartReceiver);
+        if (timerPauseReceiver != null) unregisterReceiver(timerPauseReceiver);
+        if (timerResetReceiver != null) unregisterReceiver(timerResetReceiver);
+
         if (mShouldUnbind)
         {
             Log.d("onPause", "Unbinding Service");
             doUnbindService();
         }
+        stopService();
     }
 
     @Override
     public void onDestroy()
     {
         super.onDestroy();
+
+        if (timerStartReceiver != null) unregisterReceiver(timerStartReceiver);
+        if (timerPauseReceiver != null) unregisterReceiver(timerPauseReceiver);
+        if (timerResetReceiver != null) unregisterReceiver(timerResetReceiver);
 
         Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onDestroy Method Called");
 
@@ -253,6 +287,7 @@ public class LiveSessionTracker extends AppCompatActivity
             Log.d("onDestroy", "Unbinding Service");
             doUnbindService();
         }
+        stopService();
     }
 
     @Override
@@ -341,9 +376,6 @@ public class LiveSessionTracker extends AppCompatActivity
 
         Log.d("LiveSessionTracker", "startTimer Method Called");
 
-        // Start service notification timer
-        mBoundService.startTimer();
-
         if (!timerRunning)
         {
             runningTimerBase = SystemClock.elapsedRealtime() - timeCurrentlyLogged;
@@ -366,6 +398,9 @@ public class LiveSessionTracker extends AppCompatActivity
             editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
             editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
             editor.commit();
+
+            // Start service notification timer
+            mBoundService.startTimer();
         }
     }
 
@@ -373,9 +408,6 @@ public class LiveSessionTracker extends AppCompatActivity
     {
 
         Log.d("LiveSessionTracker", "pauseTimer Method Called");
-
-        // Pause service notification timer
-        mBoundService.pauseTimer();
 
         if (timerRunning)
         {
@@ -394,6 +426,9 @@ public class LiveSessionTracker extends AppCompatActivity
             editor.putLong(LIVE_SESSION_TIME_CURRENTLY_LOGGED, timeCurrentlyLogged);
             editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
             editor.commit();
+
+            // Pause service notification timer
+            mBoundService.pauseTimer();
         }
     }
 
@@ -402,29 +437,32 @@ public class LiveSessionTracker extends AppCompatActivity
 
         Log.d("LiveSessionTracker", "resetTimer Method Called");
 
-        // Reset service notification timer
-        mBoundService.resetTimer();
+        if (timerStarted)
+        {
+            timerDisplay.stop();
+            runningTimerBase = SystemClock.elapsedRealtime();
+            timerDisplay.setBase(runningTimerBase);
 
-        timerDisplay.stop();
-        runningTimerBase = SystemClock.elapsedRealtime();
-        timerDisplay.setBase(runningTimerBase);
+            pauseBtn.setText("Pause");
+            pauseBtn.setTextColor(getResources().getColor(R.color.black));
+            pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
+            startBtn.setText("Start");
+            startBtn.setTextColor(getResources().getColor(R.color.black));
+            startBtn.setBackgroundColor(getResources().getColor(R.color.green));
 
-        pauseBtn.setText("Pause");
-        pauseBtn.setTextColor(getResources().getColor(R.color.black));
-        pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
-        startBtn.setText("Start");
-        startBtn.setTextColor(getResources().getColor(R.color.black));
-        startBtn.setBackgroundColor(getResources().getColor(R.color.green));
+            timeCurrentlyLogged = 0;
+            timerStarted = false;
+            timerRunning = false;
 
-        timeCurrentlyLogged = 0;
-        timerStarted = false;
-        timerRunning = false;
+            editor.putLong(LIVE_SESSION_TIME_CURRENTLY_LOGGED, 0);
+            editor.putLong(LIVE_SESSION_TIMER_BASE, runningTimerBase);
+            editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
+            editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+            editor.commit();
 
-        editor.putLong(LIVE_SESSION_TIME_CURRENTLY_LOGGED, 0);
-        editor.putLong(LIVE_SESSION_TIMER_BASE, runningTimerBase);
-        editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
-        editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
-        editor.commit();
+            // Reset service notification timer
+            mBoundService.resetTimer();
+        }
     }
 
     public void onClickAddOnRebuy(View v)
@@ -449,6 +487,35 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.commit();
     }
 
+    private class TimerStartReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            Log.d("TimerStartReceiver", "Service Start Broadcast Received");
+            startTimer(null);
+        }
+    }
+
+    private class TimerPauseReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            Log.d("TimerPauseReceiver", "Service Pause Broadcast Received");
+            pauseTimer(null);
+        }
+    }
+
+    private class TimerResetReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            Log.d("TimerResetReceiver", "Service Reset Broadcast Received");
+            resetTimer(null);
+        }
+    }
     public void onClickDeleteLiveSession(View v)
     {
 
@@ -465,14 +532,6 @@ public class LiveSessionTracker extends AppCompatActivity
                             {
 
                                 Log.d("LiveSessionTracker", "Confirm onClickDeleteLiveSession Method Chosen");
-
-                                if (mShouldUnbind)
-                                {
-                                    Log.d("onDestroy", "Unbinding Service");
-                                    doUnbindService();
-                                }
-                                Log.d("onDestroy", "Stopping Service");
-                                stopService();
 
                                 // Reset all shared preferences data
                                 editor.putBoolean(ONLY_ALLOW_ONCE, true);
@@ -524,7 +583,7 @@ public class LiveSessionTracker extends AppCompatActivity
         }
         else
         {
-            inputSessionTime = (SystemClock.elapsedRealtime() - timeCurrentlyLogged) / 60000;
+            inputSessionTime = timeCurrentlyLogged / 60000;
         }
 
         Toast zeroMinutes = Toast.makeText(getApplication(), "Session can't be less than a minute!", Toast.LENGTH_SHORT);
@@ -549,22 +608,34 @@ public class LiveSessionTracker extends AppCompatActivity
             return;
         }
 
-        DatabaseHelper db = new DatabaseHelper(this);
-        Session session = new Session();
-
         int inputCashOut = Integer.parseInt(editCashOut.getText().toString());
 
         // Set Entries into DB
+        Session session = new Session();
         session.setEntries(inputType, inputBlinds, inputLocation, inputDate, (int) inputSessionTime, totalBuyIn, inputCashOut);
-        db.createSession(session);
-
-        if (mShouldUnbind)
+        DatabaseHelper db = null;
+        try
         {
-            Log.d("onDestroy", "Unbinding Service");
-            doUnbindService();
+            db = new DatabaseHelper(this);
+            db.createSession(session);
         }
-        Log.d("onDestroy", "Stopping Service");
-        stopService();
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally
+        {
+            try
+            {
+                if (db != null)
+                {
+                    db.close();
+                }
+            } catch (Exception e)
+            {
+                Log.d("DB Connection Closing Error", "Database failed to close!");
+            }
+        }
 
         editor.putBoolean(ONLY_ALLOW_ONCE, true);
         editor.putBoolean(LIVE_SESSION_ACTIVE, false);

@@ -105,6 +105,7 @@ public class LiveSessionChronometerService extends Service
                 .setContentTitle(NOTIF_TITLE)  // the label of the entry
                 .setShowWhen(false).setColor(getResources().getColor(R.color.colorPrimaryDark)).setContentIntent(contentIntent)  // The intent to send when the entry is clicked
                 .addAction(R.mipmap.ic_launcher, "Start", resumeActionIntent).setOnlyAlertOnce(true);
+
     }
 
     @Override
@@ -114,9 +115,29 @@ public class LiveSessionChronometerService extends Service
         Log.d("Chronometer Service Lifecycle", "onStartCommand Method Called");
 
         // Start off a new foreground notification
-        sessionTime = "00:00";
-        newNotification.setContentText(sessionTime);
-        startForeground(notificationID, newNotification.build());
+        // If time is paused
+        if(timerStarted && !timerRunning)
+        {
+            // Display hours
+            if (((SystemClock.elapsedRealtime() - timerDisplay.getBase()) / 3600000) > 0)
+            {
+                sessionTime = Integer.toString((int) (timeCurrentlyLogged / 3600000)) + ":" + String.format("%02d", (int) ((timeCurrentlyLogged) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((timeCurrentlyLogged) % 60000 / 1000));
+            }
+            // Display minutes and seconds
+            else
+            {
+                sessionTime = String.format("%02d", (int) ((timeCurrentlyLogged) % 3600000 / 60000)) + ":" + String.format("%02d", (int) ((timeCurrentlyLogged) % 60000 / 1000));
+            }
+            pausedNotification.setContentText(sessionTime);
+            startForeground(notificationID, pausedNotification.build());
+        }
+        // If time is new or reset
+        else
+        {
+            sessionTime = "00:00";
+            newNotification.setContentText(sessionTime);
+            startForeground(notificationID, newNotification.build());
+        }
 
         // Call servie functions based on notification button clicks
         boolean pause = intent.getBooleanExtra("pauseTimer", false);
@@ -244,6 +265,9 @@ public class LiveSessionChronometerService extends Service
 
         runningNotification.setContentText(sessionTime);
         notificationManager.notify(notificationID, runningNotification.build());
+
+        sendBroadcast(new Intent("startTimer"));
+
     }
 
     public void pauseTimer()
@@ -270,6 +294,8 @@ public class LiveSessionChronometerService extends Service
 
         pausedNotification.setContentText(sessionTime);
         notificationManager.notify(notificationID, pausedNotification.build());
+
+        sendBroadcast(new Intent("pauseTimer"));
     }
 
     public void resetTimer()
@@ -287,6 +313,9 @@ public class LiveSessionChronometerService extends Service
 
         newNotification.setContentText(sessionTime);
         notificationManager.notify(notificationID, newNotification.build());
+
+        sendBroadcast(new Intent("resetTimer"));
+
     }
 
     @Nullable
