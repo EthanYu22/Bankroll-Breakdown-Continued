@@ -222,8 +222,8 @@ public class LiveSessionTracker extends AppCompatActivity
                 timerDisplay.setBase(runningTimerBase);
                 timerDisplay.start();
 
+                timerDisplay.setTextColor(getResources().getColor(R.color.green));
                 startBtn.setText("Running");
-                timer.setTextColor(getResources().getColor(R.color.green));
                 startBtn.setTextColor(getResources().getColor(R.color.white));
                 startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
@@ -239,8 +239,8 @@ public class LiveSessionTracker extends AppCompatActivity
                 // If session timer is paused
                 if (timerStarted)
                 {
+                    timerDisplay.setTextColor(getResources().getColor(R.color.blue));
                     pauseBtn.setText("Paused");
-                    timer.setTextColor(getResources().getColor(R.color.blue));
                     pauseBtn.setTextColor(getResources().getColor(R.color.white));
                     pauseBtn.setBackgroundColor(getResources().getColor(R.color.darkBlue));
                     startBtn.setText("Resume");
@@ -250,6 +250,7 @@ public class LiveSessionTracker extends AppCompatActivity
                 // If session timer hasn't been started
                 else
                 {
+                    timerDisplay.setTextColor(getResources().getColor(R.color.grey));
                     pauseBtn.setText("Pause");
                     pauseBtn.setTextColor(getResources().getColor(R.color.black));
                     pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
@@ -453,6 +454,7 @@ public class LiveSessionTracker extends AppCompatActivity
             timerDisplay.setBase(runningTimerBase);
             timerDisplay.start();
 
+            timerDisplay.setTextColor(getResources().getColor(R.color.green));
             startBtn.setText("Running");
             startBtn.setTextColor(getResources().getColor(R.color.white));
             startBtn.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -484,6 +486,7 @@ public class LiveSessionTracker extends AppCompatActivity
         {
             timerDisplay.stop();
 
+            timerDisplay.setTextColor(getResources().getColor(R.color.blue));
             pauseBtn.setText("Paused");
             pauseBtn.setTextColor(getResources().getColor(R.color.white));
             pauseBtn.setBackgroundColor(getResources().getColor(R.color.darkBlue));
@@ -514,6 +517,7 @@ public class LiveSessionTracker extends AppCompatActivity
             runningTimerBase = SystemClock.elapsedRealtime();
             timerDisplay.setBase(runningTimerBase);
 
+            timerDisplay.setTextColor(getResources().getColor(R.color.grey));
             pauseBtn.setText("Pause");
             pauseBtn.setTextColor(getResources().getColor(R.color.black));
             pauseBtn.setBackgroundColor(getResources().getColor(R.color.blue));
