@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
 {
 
     // DB Info
-    private static final String DATABASE_NAME = "BANKROLL_BREAKDOWN_DB";
+    private static final String DATABASE_NAME = "Bankroll Breakdown Database";
     private static final int DATABASE_VERSION = 9;
 
     // Session & Bank Tables
