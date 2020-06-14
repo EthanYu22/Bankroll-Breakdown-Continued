@@ -38,8 +38,6 @@ public class LiveSessionTracker extends AppCompatActivity
     private static final String LIVE_SESSION_TIMER_BASE = "liveSessionTimerBase";
     private static final String LIVE_SESSION_TIME_CURRENTLY_LOGGED = "liveSessionTimeCurrentlyLogged";
 
-    private static final String REFRESH_DATA_INTENT = "Update Activity Time";
-
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
 
@@ -67,10 +65,10 @@ public class LiveSessionTracker extends AppCompatActivity
     private boolean timerRunning;
 
     // Service components
-    private boolean mShouldUnbind;
-    private boolean serviceStarted;
     private LiveSessionChronometerService mBoundService; // To invoke the bound service, first make sure that this value is not null.
     private ServiceConnection mConnection;
+    private boolean mShouldUnbind;
+    private boolean serviceStarted;
 
     // Receiever components
     private TimerStartReceiver timerStartReceiver = null;
@@ -86,7 +84,7 @@ public class LiveSessionTracker extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_session_tracker);
 
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onCreate Method Called");
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onCreate Method Called");
 
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
@@ -163,16 +161,16 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onStart();
 
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStart Method Called");
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStart Method Called");
 
         if (!serviceStarted)
         {
-            Log.d("onStart", "Starting Service");
+            // Log.d("onStart", "Starting Service");
             startService();
         }
         if (!mShouldUnbind)
         {
-            Log.d("onStart", "Binding Service");
+            // Log.d("onStart", "Binding Service");
             doBindService();
         }
 
@@ -184,12 +182,21 @@ public class LiveSessionTracker extends AppCompatActivity
         IntentFilter pauseFilter = new IntentFilter("pauseTimer");
         IntentFilter resetFilter = new IntentFilter("resetTimer");
 
-        registerReceiver(timerStartReceiver, startFilter);
-        registerReceiver(timerPauseReceiver, pauseFilter);
-        registerReceiver(timerResetReceiver, resetFilter);
-        shouldUnregisterStartReceiver = true;
-        shouldUnregisterPauseReceiver = true;
-        shouldUnregisterResetReceiver = true;
+        if (!shouldUnregisterStartReceiver)
+        {
+            registerReceiver(timerStartReceiver, startFilter);
+            shouldUnregisterStartReceiver = true;
+        }
+        if (!shouldUnregisterPauseReceiver)
+        {
+            registerReceiver(timerPauseReceiver, pauseFilter);
+            shouldUnregisterPauseReceiver = true;
+        }
+        if (!shouldUnregisterResetReceiver)
+        {
+            registerReceiver(timerResetReceiver, resetFilter);
+            shouldUnregisterResetReceiver = true;
+        }
     }
 
     // Action When On Live Session Form Page
@@ -198,7 +205,7 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onResume();
 
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onResume Method Called");
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onResume Method Called");
 
         // Fill in variables onResume if returning to running live session
         if (prefs.getBoolean(LIVE_SESSION_ACTIVE, false))
@@ -259,7 +266,7 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onPause();
 
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onPause Method Called");
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onPause Method Called");
     }
 
     @Override
@@ -267,7 +274,7 @@ public class LiveSessionTracker extends AppCompatActivity
     {
         super.onStop();
 
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStop Method Called");
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStop Method Called");
 
         if (shouldUnregisterStartReceiver)
         {
@@ -287,7 +294,7 @@ public class LiveSessionTracker extends AppCompatActivity
 
         if (mShouldUnbind)
         {
-            Log.d("onStop", "Unbinding Service");
+            // Log.d("onStop", "Unbinding Service");
             doUnbindService();
         }
     }
@@ -313,11 +320,11 @@ public class LiveSessionTracker extends AppCompatActivity
             shouldUnregisterResetReceiver = false;
         }
 
-        Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onDestroy Method Called");
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onDestroy Method Called");
 
         if (mShouldUnbind)
         {
-            Log.d("onDestroy", "Unbinding Service");
+            // Log.d("onDestroy", "Unbinding Service");
             doUnbindService();
         }
     }
@@ -326,7 +333,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onBackPressed()
     {
 
-        Log.d("LiveSessionTracker", "onBackPressed Method Called");
+        // Log.d("LiveSessionTracker", "onBackPressed Method Called");
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -337,7 +344,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
 
-        Log.d("LiveSessionTracker", "Toolbar back arrow Method Called");
+        // Log.d("LiveSessionTracker", "Toolbar back arrow Method Called");
 
         int id = menuItem.getItemId();
 
@@ -358,7 +365,7 @@ public class LiveSessionTracker extends AppCompatActivity
     void doBindService()
     {
 
-        Log.d("LiveSessionTracker", "doBindService Method Called");
+        // Log.d("LiveSessionTracker", "doBindService Method Called");
 
         if (bindService(new Intent(LiveSessionTracker.this, LiveSessionChronometerService.class), mConnection, Context.BIND_AUTO_CREATE))
         {
@@ -370,10 +377,40 @@ public class LiveSessionTracker extends AppCompatActivity
         }
     }
 
+    private class TimerStartReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            // Log.d("TimerStartReceiver", "Service Start Broadcast Received");
+            startTimer(null);
+        }
+    }
+
+    private class TimerPauseReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            // Log.d("TimerPauseReceiver", "Service Pause Broadcast Received");
+            pauseTimer(null);
+        }
+    }
+
+    private class TimerResetReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            // Log.d("TimerResetReceiver", "Service Reset Broadcast Received");
+            resetTimer(null);
+        }
+    }
+
     void doUnbindService()
     {
 
-        Log.d("LiveSessionTracker", "doUnbindService Method Called");
+        // Log.d("LiveSessionTracker", "doUnbindService Method Called");
 
         if (mShouldUnbind)
         {
@@ -386,7 +423,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void startService()
     {
 
-        Log.d("LiveSessionTracker", "startService Method Called");
+        // Log.d("LiveSessionTracker", "startService Method Called");
 
         Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
         startService(serviceIntent);
@@ -396,7 +433,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void stopService()
     {
 
-        Log.d("LiveSessionTracker", "stopService Method Called");
+        // Log.d("LiveSessionTracker", "stopService Method Called");
 
         Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
         stopService(serviceIntent);
@@ -406,7 +443,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void startTimer(View v)
     {
 
-        Log.d("LiveSessionTracker", "startTimer Method Called");
+        // Log.d("LiveSessionTracker", "startTimer Method Called");
 
         if (!timerRunning)
         {
@@ -439,7 +476,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void pauseTimer(View v)
     {
 
-        Log.d("LiveSessionTracker", "pauseTimer Method Called");
+        // Log.d("LiveSessionTracker", "pauseTimer Method Called");
 
         if (timerRunning)
         {
@@ -467,7 +504,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void resetTimer(View v)
     {
 
-        Log.d("LiveSessionTracker", "resetTimer Method Called");
+        // Log.d("LiveSessionTracker", "resetTimer Method Called");
 
         if (timerStarted)
         {
@@ -500,7 +537,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onClickAddOnRebuy(View v)
     {
 
-        Log.d("LiveSessionTracker", "onClickAddOnRebuy Method Called");
+        // Log.d("LiveSessionTracker", "onClickAddOnRebuy Method Called");
 
         if (tvAddOnAmount.getText().toString().isEmpty())
         {
@@ -519,39 +556,10 @@ public class LiveSessionTracker extends AppCompatActivity
         editor.commit();
     }
 
-    private class TimerStartReceiver extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            Log.d("TimerStartReceiver", "Service Start Broadcast Received");
-            startTimer(null);
-        }
-    }
-
-    private class TimerPauseReceiver extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            Log.d("TimerPauseReceiver", "Service Pause Broadcast Received");
-            pauseTimer(null);
-        }
-    }
-
-    private class TimerResetReceiver extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            Log.d("TimerResetReceiver", "Service Reset Broadcast Received");
-            resetTimer(null);
-        }
-    }
     public void onClickDeleteLiveSession(View v)
     {
 
-        Log.d("LiveSessionTracker", "onClickDeleteLiveSession Method Called");
+        // Log.d("LiveSessionTracker", "onClickDeleteLiveSession Method Called");
 
         // Confirmation Delete Session Alert
         AlertDialog.Builder dialogDeleteSession = new AlertDialog.Builder(LiveSessionTracker.this);
@@ -563,7 +571,7 @@ public class LiveSessionTracker extends AppCompatActivity
                             public void onClick(DialogInterface dialogInterface, int which)
                             {
 
-                                Log.d("LiveSessionTracker", "Confirm onClickDeleteLiveSession Method Chosen");
+                                // Log.d("LiveSessionTracker", "Confirm onClickDeleteLiveSession Method Chosen");
 
                                 stopService();
 
@@ -593,7 +601,7 @@ public class LiveSessionTracker extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int which)
                     {
 
-                        Log.d("LiveSessionTracker", "Cancel onClickDeleteLiveSession Method Chosen");
+                        // Log.d("LiveSessionTracker", "Cancel onClickDeleteLiveSession Method Chosen");
 
                         dialogInterface.cancel();
                     }
@@ -608,7 +616,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onClickSubmitLiveSession(View v)
     {
 
-        Log.d("LiveSessionTracker", "onClickSubmitLiveSession Method Called");
+        // Log.d("LiveSessionTracker", "onClickSubmitLiveSession Method Called");
 
         long inputSessionTime;
         if(timerRunning)
@@ -669,7 +677,7 @@ public class LiveSessionTracker extends AppCompatActivity
                 }
             } catch (Exception e)
             {
-                Log.d("DB Connection Closing Error", "Database failed to close!");
+                // Log.d("DB Connection Closing Error", "Database failed to close!");
             }
         }
 

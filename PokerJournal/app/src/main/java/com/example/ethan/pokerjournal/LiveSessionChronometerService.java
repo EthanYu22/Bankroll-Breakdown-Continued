@@ -68,7 +68,7 @@ public class LiveSessionChronometerService extends Service
     {
         super.onCreate();
 
-        Log.d("Chronometer Service Lifecycle", "onCreate Method Called");
+        // Log.d("Chronometer Service Lifecycle", "onCreate Method Called");
 
         prefs = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = prefs.edit();
@@ -129,13 +129,13 @@ public class LiveSessionChronometerService extends Service
     public int onStartCommand(Intent intent, int flags, int startId)
     {
 
-        Log.d("Chronometer Service Lifecycle", "onStartCommand Method Called");
+        // Log.d("Chronometer Service Lifecycle", "onStartCommand Method Called");
 
         // Start off a new foreground notification
         if(firstNotificationCall)
         {
 
-            Log.d("Chronometer Service", "Enters firstNotificationCall Block");
+            // Log.d("Chronometer Service", "Enters firstNotificationCall Block");
 
             // If time is paused
             if (timerStarted && !timerRunning)
@@ -167,7 +167,7 @@ public class LiveSessionChronometerService extends Service
         if (!isTimerTaskRunning)
         {
 
-            Log.d("Chronometer Service", "Timer Task Method Called");
+            // Log.d("Chronometer Service", "Timer Task Method Called");
 
             isTimerTaskRunning = true;
             task = new TimerTask()
@@ -194,7 +194,7 @@ public class LiveSessionChronometerService extends Service
             timerNotifUpdate.scheduleAtFixedRate(task, 0, 1000);
         }
 
-        // Call servie functions based on notification button clicks
+        // Call service functions based on notification button clicks
         boolean pause = intent.getBooleanExtra("pauseTimer", false);
         boolean start = intent.getBooleanExtra("resumeTimer", false);
         boolean reset = intent.getBooleanExtra("resetTimer", false);
@@ -219,7 +219,7 @@ public class LiveSessionChronometerService extends Service
     public void onDestroy()
     {
 
-        Log.d("Chronometer Service Lifecycle", "onDestroy Method Called");
+        // Log.d("Chronometer Service Lifecycle", "onDestroy Method Called");
 
         super.onDestroy();
         stopThreadUpdates();
@@ -229,7 +229,7 @@ public class LiveSessionChronometerService extends Service
     private void stopThreadUpdates()
     {
 
-        Log.d("Chronometer Service", "stopThreadUpdates Method Called");
+        // Log.d("Chronometer Service", "stopThreadUpdates Method Called");
 
         if (isTimerTaskRunning)
         {
@@ -264,7 +264,7 @@ public class LiveSessionChronometerService extends Service
     public void startTimer()
     {
 
-        Log.d("Chronometer Service", "startTimer Method Called");
+        // Log.d("Chronometer Service", "startTimer Method Called");
 
         if (!timerRunning)
         {
@@ -289,6 +289,13 @@ public class LiveSessionChronometerService extends Service
             runningNotification.setContentText(sessionTime);
             notificationManager.notify(notificationID, runningNotification.build());
 
+            editor.putLong(LIVE_SESSION_TIME_CURRENTLY_LOGGED, 0);
+            editor.putLong(LIVE_SESSION_TIMER_BASE, runningTimerBase);
+            editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
+            editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+            editor.commit();
+
+            // Start activity timer
             sendBroadcast(new Intent("startTimer"));
         }
     }
@@ -296,7 +303,7 @@ public class LiveSessionChronometerService extends Service
     public void pauseTimer()
     {
 
-        Log.d("Chronometer Service", "pauseTimer Method Called");
+        // Log.d("Chronometer Service", "pauseTimer Method Called");
 
         if (timerRunning)
         {
@@ -317,6 +324,11 @@ public class LiveSessionChronometerService extends Service
             pausedNotification.setContentText(sessionTime);
             notificationManager.notify(notificationID, pausedNotification.build());
 
+            editor.putLong(LIVE_SESSION_TIME_CURRENTLY_LOGGED, timeCurrentlyLogged);
+            editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+            editor.commit();
+
+            // Pause activity timer
             sendBroadcast(new Intent("pauseTimer"));
         }
     }
@@ -324,7 +336,7 @@ public class LiveSessionChronometerService extends Service
     public void resetTimer()
     {
 
-        Log.d("Chronometer Service", "resetTimer Method Called");
+        // Log.d("Chronometer Service", "resetTimer Method Called");
 
         if(timerStarted)
         {
@@ -339,6 +351,13 @@ public class LiveSessionChronometerService extends Service
             newNotification.setContentText(sessionTime);
             notificationManager.notify(notificationID, newNotification.build());
 
+            editor.putLong(LIVE_SESSION_TIME_CURRENTLY_LOGGED, 0);
+            editor.putLong(LIVE_SESSION_TIMER_BASE, runningTimerBase);
+            editor.putBoolean(LIVE_SESSION_TIME_STARTED, timerStarted);
+            editor.putBoolean(LIVE_SESSION_TIME_RUNNING, timerRunning);
+            editor.commit();
+
+            // Reset activity timer
             sendBroadcast(new Intent("resetTimer"));
         }
     }
@@ -356,10 +375,5 @@ public class LiveSessionChronometerService extends Service
         {
             return LiveSessionChronometerService.this;
         }
-    }
-
-    public String sayHello()
-    {
-        return "Hello";
     }
 }
