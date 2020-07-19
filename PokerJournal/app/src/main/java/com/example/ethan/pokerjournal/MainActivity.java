@@ -3,23 +3,28 @@ package com.example.ethan.pokerjournal;
 Uses a Guide From www.androidhive.info for Tabs and SQLite
  */
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -88,16 +93,37 @@ public class MainActivity extends AppCompatActivity
         viewPager.setAdapter(adapter);
     }
 
-    // Functionality of Toolbar Back Arrow
+    // Toolbar Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_items, menu);
+        return true;
+    }
+
+    // Functionality of Toolbar Menu Items
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
-        int id = menuItem.getItemId();
-
-        if (id == android.R.id.home)
+        switch(menuItem.getItemId())
         {
-            if(viewPager.getCurrentItem() != 0){
-                tabLayout.getTabAt(viewPager.getCurrentItem() - 1).select();
-            }
+            case android.R.id.home:
+                if(viewPager.getCurrentItem() != 0){
+                    tabLayout.getTabAt(viewPager.getCurrentItem() - 1).select();
+                }
+                return true;
+
+            case R.id.preferences:
+                Toast.makeText(this, "Preferences Selected", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.exportBankTransactions:
+                onClickExportBankTransactions();
+                return true;
+
+            case R.id.exportPokerSessions:
+                onClickExportPokerSessions();
+                return true;
         }
         return super.onOptionsItemSelected(menuItem);
     }
@@ -240,5 +266,71 @@ public class MainActivity extends AppCompatActivity
         }
         Intent intent = new Intent(this, StatsGraphActivity.class);
         startActivity(intent);
+    }
+
+    public void onClickExportPokerSessions()
+    {
+        sessionList = db.getAllSessions();
+
+        StringBuilder sessionListData = new StringBuilder();
+        sessionListData.append("Session ID,Session Type,Blinds,Location,Date,Session Duration,Buy In,Cash Out");
+        for(int i = 0; i < sessionList.size(); i++)
+        {
+            sessionListData.append("\n" + sessionList.get(i).id + "," + sessionList.get(i).type + "," + sessionList.get(i).blinds + "," + sessionList.get(i).location + "," + sessionList.get(i).date + "," + sessionList.get(i).time + "," + sessionList.get(i).buyIn + "," + sessionList.get(i).cashOut);
+        }
+
+        try
+        {
+            FileOutputStream sessionOut = openFileOutput("pokerSessionList.csv", Context.MODE_PRIVATE);
+            sessionOut.write(sessionListData.toString().getBytes());
+            sessionOut.close();
+
+            Context context = getApplicationContext();
+            File sessionFileLocation = new File(getFilesDir(), "pokerSessionList.csv");
+            Uri sessionPath = FileProvider.getUriForFile(context, "com.example.ethan.pokerjournal.fileprovider", sessionFileLocation);
+            Intent fileIntent = new Intent(Intent.ACTION_SEND);
+            fileIntent.setType("text/csv");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Bankroll Breakdown - Poker Session Data");
+            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fileIntent.putExtra(Intent.EXTRA_STREAM, sessionPath);
+            startActivity(Intent.createChooser(fileIntent, "Send mail"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void onClickExportBankTransactions()
+    {
+        bankList = db.getAllBanks();
+
+        StringBuilder bankTransactionListData = new StringBuilder();
+        bankTransactionListData.append("Transaction ID,Transaction Type,Amount,Date");
+        for(int i = 0; i < bankList.size(); i++)
+        {
+            bankTransactionListData.append("\n" +  bankList.get(i).id + "," + bankList.get(i).type + "," + bankList.get(i).amount + "," + bankList.get(i).date);
+        }
+
+        try
+        {
+            FileOutputStream bankTransactionOut = openFileOutput("bankTransactionList.csv", Context.MODE_PRIVATE);
+            bankTransactionOut.write(bankTransactionListData.toString().getBytes());
+            bankTransactionOut.close();
+
+            Context context = getApplicationContext();
+            File bankTransactionFileLocation = new File(getFilesDir(), "bankTransactionList.csv");
+            Uri bankTransactionPath = FileProvider.getUriForFile(context, "com.example.ethan.pokerjournal.fileprovider", bankTransactionFileLocation);
+            Intent fileIntent = new Intent(Intent.ACTION_SEND);
+            fileIntent.setType("text/csv");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Bankroll Breakdown - Bank Transaction Data");
+            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fileIntent.putExtra(Intent.EXTRA_STREAM, bankTransactionPath);
+            startActivity(Intent.createChooser(fileIntent, "Send mail"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

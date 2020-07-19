@@ -1,0 +1,8 @@
+<paths>
+    <files-path
+        name="Bankroll Transaction Data"
+        path="."/>
+    <files-path
+        name="Poker Session Data"
+        path="."/>
+</paths>

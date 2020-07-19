@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/preferences"
+        android:title="Preferences"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/exportData"
+        android:title="Export Data"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/exportBankTransactions"
+                android:title="Bank Transactions" />
+
+            <item android:id="@+id/exportPokerSessions"
+                android:title="Poker Sessions" />
+        </menu>
+    </item>
+
+    <item android:id="@+id/importData"
+        android:title="Import Data"
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/importBankTransactions"
+                android:title="Bank Transactions" />
+
+            <item android:id="@+id/importPokerSessions"
+                android:title="Poker Sessions" />
+        </menu>
+    </item>
+</menu>
