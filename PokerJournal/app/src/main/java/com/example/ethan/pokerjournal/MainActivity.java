@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,15 +24,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 {
 
     public static int sessionId; // Used to Hold Session View ID
     public static int bankId; // Used to Hold Bank View ID
+    public final static int REQUEST_CODE_BANK_TRANSACTIONS = 1000;
+    public final static int REQUEST_CODE_POKER_SESSIONS = 2000;
     DatabaseHelper db;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -123,6 +134,14 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.exportPokerSessions:
                 onClickExportPokerSessions();
+                return true;
+
+            case R.id.importBankTransactions:
+                onClickImportBankTransactions();
+                return true;
+
+            case R.id.importPokerSessions:
+                onClickImportPokerSessions();
                 return true;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -268,29 +287,115 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void onClickExportBankTransactions()
+    {
+        bankList = db.getAllBanks();
+
+        StringBuilder bankTransactionListData = new StringBuilder();
+        bankTransactionListData.append("Date,Transaction Type,Amount");
+        for(int i = 0; i < bankList.size(); i++)
+        {
+            bankTransactionListData.append("\n" + bankList.get(i).date + "," + bankList.get(i).type + "," + bankList.get(i).amount);
+        }
+
+        try
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            LocalDate today = LocalDate.now();
+            String exportDate = today.format(formatter);
+            String fileName = "bankTransactionList " + exportDate + ".csv";
+
+            FileOutputStream bankTransactionOut = openFileOutput(fileName, Context.MODE_PRIVATE);
+            bankTransactionOut.write(bankTransactionListData.toString().getBytes());
+            bankTransactionOut.close();
+
+            Context context = getApplicationContext();
+            File bankTransactionFileLocation = new File(getFilesDir(), fileName);
+            Uri bankTransactionPath = FileProvider.getUriForFile(context, "com.example.ethan.pokerjournal.fileprovider", bankTransactionFileLocation);
+            Intent fileIntent = new Intent(Intent.ACTION_SEND);
+            fileIntent.setType("text/csv");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Bankroll Breakdown - Bank Transaction Data (" + exportDate + ")");
+            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            fileIntent.putExtra(Intent.EXTRA_STREAM, bankTransactionPath);
+            startActivity(Intent.createChooser(fileIntent, "Send mail"));
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void onClickImportBankTransactions()
+    {
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("text/*");
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+        startActivityForResult(chooseFile, REQUEST_CODE_BANK_TRANSACTIONS);
+    }
+
+    public void importBankTransactions(String path)
+    {
+        try
+        {
+            DatabaseHelper db = new DatabaseHelper(this);
+
+            File importedBankTransactions = new File(path);
+            FileInputStream bankTransactionIn = new FileInputStream(importedBankTransactions);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(bankTransactionIn));
+            String bankTransaction = "";
+            reader.readLine();
+            while((bankTransaction = reader.readLine()) != null)
+            {
+                // Date, Transaction Type, Amount
+                String[] split = bankTransaction.split(",");
+
+                String inputDate = split[0];
+                String inputType = split[1];
+                String inputAmount = split[2];
+
+                Bank bank = new Bank();
+                bank.setEntries(inputDate, inputType, Integer.parseInt(inputAmount));
+                db.createBank(bank);
+            }
+            deleteTempFile();
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public void onClickExportPokerSessions()
     {
         sessionList = db.getAllSessions();
 
         StringBuilder sessionListData = new StringBuilder();
-        sessionListData.append("Session ID,Session Type,Blinds,Location,Date,Session Duration,Buy In,Cash Out");
+        sessionListData.append("Session Type,Blinds,Location,Date,Buy In,Cash Out,Session Duration");
         for(int i = 0; i < sessionList.size(); i++)
         {
-            sessionListData.append("\n" + sessionList.get(i).id + "," + sessionList.get(i).type + "," + sessionList.get(i).blinds + "," + sessionList.get(i).location + "," + sessionList.get(i).date + "," + sessionList.get(i).time + "," + sessionList.get(i).buyIn + "," + sessionList.get(i).cashOut);
+            sessionListData.append("\n" + sessionList.get(i).type + "," + sessionList.get(i).blinds + "," + sessionList.get(i).location + "," + sessionList.get(i).date + "," + sessionList.get(i).buyIn + "," + sessionList.get(i).cashOut + "," + sessionList.get(i).time);
         }
 
         try
         {
-            FileOutputStream sessionOut = openFileOutput("pokerSessionList.csv", Context.MODE_PRIVATE);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+            LocalDate today = LocalDate.now();
+            String exportDate = today.format(formatter);
+            String fileName = "pokerSessionList " + exportDate + ".csv";
+
+            FileOutputStream sessionOut = openFileOutput(fileName, Context.MODE_PRIVATE);
             sessionOut.write(sessionListData.toString().getBytes());
             sessionOut.close();
 
             Context context = getApplicationContext();
-            File sessionFileLocation = new File(getFilesDir(), "pokerSessionList.csv");
+            File sessionFileLocation = new File(getFilesDir(), fileName);
             Uri sessionPath = FileProvider.getUriForFile(context, "com.example.ethan.pokerjournal.fileprovider", sessionFileLocation);
             Intent fileIntent = new Intent(Intent.ACTION_SEND);
             fileIntent.setType("text/csv");
-            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Bankroll Breakdown - Poker Session Data");
+            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Bankroll Breakdown - Poker Session Data (" + exportDate + ")");
             fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             fileIntent.putExtra(Intent.EXTRA_STREAM, sessionPath);
             startActivity(Intent.createChooser(fileIntent, "Send mail"));
@@ -301,36 +406,108 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void onClickExportBankTransactions()
+    public void onClickImportPokerSessions()
     {
-        bankList = db.getAllBanks();
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("text/*");
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
+        startActivityForResult(chooseFile, REQUEST_CODE_POKER_SESSIONS);
+    }
 
-        StringBuilder bankTransactionListData = new StringBuilder();
-        bankTransactionListData.append("Transaction ID,Transaction Type,Amount,Date");
-        for(int i = 0; i < bankList.size(); i++)
-        {
-            bankTransactionListData.append("\n" +  bankList.get(i).id + "," + bankList.get(i).type + "," + bankList.get(i).amount + "," + bankList.get(i).date);
-        }
-
+    public void importPokerSessions(String path)
+    {
         try
         {
-            FileOutputStream bankTransactionOut = openFileOutput("bankTransactionList.csv", Context.MODE_PRIVATE);
-            bankTransactionOut.write(bankTransactionListData.toString().getBytes());
-            bankTransactionOut.close();
+            DatabaseHelper db = new DatabaseHelper(this);
 
-            Context context = getApplicationContext();
-            File bankTransactionFileLocation = new File(getFilesDir(), "bankTransactionList.csv");
-            Uri bankTransactionPath = FileProvider.getUriForFile(context, "com.example.ethan.pokerjournal.fileprovider", bankTransactionFileLocation);
-            Intent fileIntent = new Intent(Intent.ACTION_SEND);
-            fileIntent.setType("text/csv");
-            fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Bankroll Breakdown - Bank Transaction Data");
-            fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            fileIntent.putExtra(Intent.EXTRA_STREAM, bankTransactionPath);
-            startActivity(Intent.createChooser(fileIntent, "Send mail"));
-        }
-        catch(Exception e)
+            File importedPokerSessions = new File(path);
+            FileInputStream pokerSessionsIn = new FileInputStream(importedPokerSessions);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(pokerSessionsIn));
+            String pokerSession = "";
+            reader.readLine();
+            while((pokerSession = reader.readLine()) != null)
+            {
+                // Session Type, Blinds, Location, Date, Buy In, Cash Out, Session Time
+                String[] split = pokerSession.split(",");
+
+                String inputType = split[0];
+                String inputBlinds = split[1];
+                String inputLocation = split[2];
+                String inputDate = split[3];
+                String inputTime = split[6];
+                String inputBuyIn = split[4];
+                String inputCashOut = split[5];
+
+                Session session = new Session();
+                session.setEntries(inputType, inputBlinds, inputLocation, inputDate, Integer.parseInt(inputTime), Integer.parseInt(inputBuyIn), Integer.parseInt(inputCashOut));
+                db.createSession(session);
+            }
+            deleteTempFile();
+        } catch (FileNotFoundException e)
         {
             e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch(requestCode)
+        {
+            case REQUEST_CODE_BANK_TRANSACTIONS:
+                if(resultCode == RESULT_OK)
+                {
+                    if(data != null)
+                    {
+                        final Uri uri = data.getData();
+                        try
+                        {
+                            Context context = this;
+                            final String path = RealPathUtil.getRealPath(context, uri);
+                            Toast.makeText(MainActivity.this, "Bank Transactions Imported Successfully!", Toast.LENGTH_LONG).show();
+                            importBankTransactions(path);
+                        } catch (Exception e)
+                        {
+                            Log.e("FileSelectorActivity", "File select error", e);
+                        }
+                    }
+                }
+
+            case REQUEST_CODE_POKER_SESSIONS:
+                if(resultCode == RESULT_OK)
+                {
+                    if(data != null)
+                    {
+                        final Uri uri = data.getData();
+                        try
+                        {
+                            Context context = this;
+                            final String path = RealPathUtil.getRealPath(context, uri);
+                            Toast.makeText(MainActivity.this, "Poker Sessions Imported Successfully", Toast.LENGTH_LONG).show();
+                            importPokerSessions(path);
+                        } catch (Exception e)
+                        {
+                            Log.e("FileSelectorActivity", "File select error", e);
+                        }
+                    }
+                }
+            break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void deleteTempFile() {
+        final File[] files = this.getCacheDir().listFiles();
+        if (files != null) {
+            for (final File file : files) {
+                if (file.getName().contains("TEMP_FILE")) {
+                    file.delete();
+                }
+            }
         }
     }
 }
