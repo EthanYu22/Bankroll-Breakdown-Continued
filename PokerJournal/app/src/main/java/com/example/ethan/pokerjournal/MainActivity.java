@@ -336,6 +336,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 
     public void importBankTransactions(String path)
     {
+        // Will want to add a check that the file is correct before going further, otherwise return
         try
         {
             DatabaseHelper db = new DatabaseHelper(this);
@@ -354,11 +355,22 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                 String inputType = split[1];
                 String inputAmount = split[2];
 
-                Bank bank = new Bank();
-                bank.setEntries(inputDate, inputType, Integer.parseInt(inputAmount));
-                db.createBank(bank);
+                try
+                {
+                    Bank bank = new Bank();
+                    bank.setEntries(inputType, inputDate, Integer.parseInt(inputAmount));
+                    db.createBank(bank);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Bank Transactions Failed to Import!", Toast.LENGTH_LONG).show();
+                    deleteTempFile();
+                    return;
+                }
             }
             deleteTempFile();
+            Toast.makeText(MainActivity.this, "Bank Transactions Imported Successfully!", Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e)
         {
             e.printStackTrace();
@@ -417,6 +429,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 
     public void importPokerSessions(String path)
     {
+        // Will want to add a check that the file is correct before going further, otherwise return
         try
         {
             DatabaseHelper db = new DatabaseHelper(this);
@@ -439,11 +452,22 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                 String inputBuyIn = split[4];
                 String inputCashOut = split[5];
 
-                Session session = new Session();
-                session.setEntries(inputType, inputBlinds, inputLocation, inputDate, Integer.parseInt(inputTime), Integer.parseInt(inputBuyIn), Integer.parseInt(inputCashOut));
-                db.createSession(session);
+                try
+                {
+                    Session session = new Session();
+                    session.setEntries(inputType, inputBlinds, inputLocation, inputDate, Integer.parseInt(inputTime), Integer.parseInt(inputBuyIn), Integer.parseInt(inputCashOut));
+                    db.createSession(session);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this, "Poker Sessions Failed to Import", Toast.LENGTH_LONG).show();
+                    deleteTempFile();
+                    return;
+                }
             }
             deleteTempFile();
+            Toast.makeText(MainActivity.this, "Poker Sessions Imported Successfully", Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e)
         {
             e.printStackTrace();
@@ -468,7 +492,6 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                         {
                             Context context = this;
                             final String path = RealPathUtil.getRealPath(context, uri);
-                            Toast.makeText(MainActivity.this, "Bank Transactions Imported Successfully!", Toast.LENGTH_LONG).show();
                             importBankTransactions(path);
                         } catch (Exception e)
                         {
@@ -476,6 +499,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                         }
                     }
                 }
+                break;
 
             case REQUEST_CODE_POKER_SESSIONS:
                 if(resultCode == RESULT_OK)
@@ -487,7 +511,6 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                         {
                             Context context = this;
                             final String path = RealPathUtil.getRealPath(context, uri);
-                            Toast.makeText(MainActivity.this, "Poker Sessions Imported Successfully", Toast.LENGTH_LONG).show();
                             importPokerSessions(path);
                         } catch (Exception e)
                         {
@@ -495,7 +518,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                         }
                     }
                 }
-            break;
+               break;
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
