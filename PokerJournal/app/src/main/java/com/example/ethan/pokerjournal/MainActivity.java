@@ -345,7 +345,17 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
             FileInputStream bankTransactionIn = new FileInputStream(importedBankTransactions);
             BufferedReader reader = new BufferedReader(new InputStreamReader(bankTransactionIn));
             String bankTransaction = "";
-            reader.readLine();
+
+            // Check header is correct
+            bankTransaction = reader.readLine();
+            if(!bankTransaction.equals("Date,Transaction Type,Amount"))
+            {
+                Toast.makeText(MainActivity.this, "Unauthorized File: Incorrect File Header", Toast.LENGTH_LONG).show();
+                bankTransactionIn.close();
+                reader.close();
+                return;
+            }
+
             while((bankTransaction = reader.readLine()) != null)
             {
                 // Date, Transaction Type, Amount
@@ -366,9 +376,13 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, "Bank Transactions Failed to Import!", Toast.LENGTH_LONG).show();
                     deleteTempFile();
+                    bankTransactionIn.close();
+                    reader.close();
                     return;
                 }
             }
+            bankTransactionIn.close();
+            reader.close();
             deleteTempFile();
             Toast.makeText(MainActivity.this, "Bank Transactions Imported Successfully!", Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e)
@@ -438,7 +452,17 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
             FileInputStream pokerSessionsIn = new FileInputStream(importedPokerSessions);
             BufferedReader reader = new BufferedReader(new InputStreamReader(pokerSessionsIn));
             String pokerSession = "";
-            reader.readLine();
+
+            // Check header is correct
+            pokerSession = reader.readLine();
+            if(!pokerSession.equals("Session Type,Blinds,Location,Date,Buy In,Cash Out,Session Duration"))
+            {
+                Toast.makeText(MainActivity.this, "Unauthorized File: Incorrect File Header", Toast.LENGTH_LONG).show();
+                pokerSessionsIn.close();
+                reader.close();
+                return;
+            }
+
             while((pokerSession = reader.readLine()) != null)
             {
                 // Session Type, Blinds, Location, Date, Buy In, Cash Out, Session Time
@@ -463,9 +487,13 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this, "Poker Sessions Failed to Import", Toast.LENGTH_LONG).show();
                     deleteTempFile();
+                    pokerSessionsIn.close();
+                    reader.close();
                     return;
                 }
             }
+            pokerSessionsIn.close();
+            reader.close();
             deleteTempFile();
             Toast.makeText(MainActivity.this, "Poker Sessions Imported Successfully", Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e)
