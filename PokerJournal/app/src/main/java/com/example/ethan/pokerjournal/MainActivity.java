@@ -121,7 +121,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 
         // Set up Preferences - toggleLoginPage MenuItem Title
         toggleLoginPageMenuItem = (MenuItem) menu.findItem(R.id.toggleLoginPage);
-        if(prefs.getBoolean("HasLoginPage", true)){
+        if(prefs.getBoolean("EnabledLoginPage", true)){
             editor.putString("PreferencesLoginPageTitle","Disable Login Page");
             editor.commit();
             toggleLoginPageMenuItem.setTitle(prefs.getString("PreferencesLoginPageTitle","Disable Login Page"));
@@ -584,14 +584,14 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
     }
 
     private void onClickToggleLoginPage(){
-        if(prefs.getBoolean("HasLoginPage", true)){
+        if(prefs.getBoolean("EnabledLoginPage", true)){
             Toast.makeText(this, "Login Page: Disabled", Toast.LENGTH_SHORT).show();
-            editor.putBoolean("HasLoginPage", false);
+            editor.putBoolean("EnabledLoginPage", false);
             editor.putString("PreferencesLoginPageTitle","Enable Login Page");
 
         } else {
             Toast.makeText(this, "Login Page: Enabled", Toast.LENGTH_SHORT).show();
-            editor.putBoolean("HasLoginPage", true);
+            editor.putBoolean("EnabledLoginPage", true);
             editor.putString("PreferencesLoginPageTitle","Disable Login Page");
         }
         editor.commit();
