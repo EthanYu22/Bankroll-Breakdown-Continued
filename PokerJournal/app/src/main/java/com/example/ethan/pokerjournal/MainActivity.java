@@ -57,6 +57,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
     private TabLayout tabLayout;
     ViewPagerAdapter adapter;
     private ViewPager viewPager;
+    MenuItem toggleLoginPageMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -80,6 +81,13 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        // Set up Preferences Login Page Toggle Title
+        editor.putString("PreferencesLoginPageTitle","");
+        editor.commit();
+
+
+
     }
 
     @Override
@@ -110,12 +118,25 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_items, menu);
+
+        // Set up Preferences - toggleLoginPage MenuItem Title
+        toggleLoginPageMenuItem = (MenuItem) menu.findItem(R.id.toggleLoginPage);
+        if(prefs.getBoolean("HasLoginPage", true)){
+            editor.putString("PreferencesLoginPageTitle","Disable Login Page");
+            editor.commit();
+            toggleLoginPageMenuItem.setTitle(prefs.getString("PreferencesLoginPageTitle","Disable Login Page"));
+        } else {
+            editor.putString("PreferencesLoginPageTitle","Enable Login Page");
+            editor.commit();
+            toggleLoginPageMenuItem.setTitle(prefs.getString("PreferencesLoginPageTitle","Enable Login Page"));
+        }
         return true;
     }
 
     // Functionality of Toolbar Menu Items
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
+        toggleLoginPageMenuItem.setTitle(prefs.getString("PreferencesLoginPageTitle","Enable Login Page"));
         switch(menuItem.getItemId())
         {
             case android.R.id.home:
@@ -124,8 +145,8 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                 }
                 return true;
 
-            case R.id.preferences:
-                Toast.makeText(this, "Preferences Selected", Toast.LENGTH_SHORT).show();
+            case R.id.toggleLoginPage:
+                onClickToggleLoginPage();
                 return true;
 
             case R.id.exportBankTransactions:
@@ -560,5 +581,19 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
                 }
             }
         }
+    }
+
+    private void onClickToggleLoginPage(){
+        if(prefs.getBoolean("HasLoginPage", true)){
+            Toast.makeText(this, "Login Page: Disabled", Toast.LENGTH_SHORT).show();
+            editor.putBoolean("HasLoginPage", false);
+            editor.putString("PreferencesLoginPageTitle","Enable Login Page");
+
+        } else {
+            Toast.makeText(this, "Login Page: Enabled", Toast.LENGTH_SHORT).show();
+            editor.putBoolean("HasLoginPage", true);
+            editor.putString("PreferencesLoginPageTitle","Disable Login Page");
+        }
+        editor.commit();
     }
 }

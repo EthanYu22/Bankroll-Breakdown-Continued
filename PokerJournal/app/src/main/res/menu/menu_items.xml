@@ -4,7 +4,12 @@
 
     <item android:id="@+id/preferences"
         android:title="Preferences"
-        app:showAsAction="never"/>
+        app:showAsAction="never">
+        <menu>
+            <item android:id="@+id/toggleLoginPage"
+                android:title="" />
+        </menu>
+    </item>
 
     <item android:id="@+id/exportData"
         android:title="Export Data"

@@ -25,14 +25,14 @@
         android:textSize="35sp" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:inputType="numberPassword"
-        android:hint="Enter Password" />
+        android:hint="Enter Password"
+        android:inputType="numberPassword" />
 
     <Button
         android:id="@+id/button"
