@@ -98,7 +98,7 @@ public class StatsGraphActivity extends AppCompatActivity
 
         dates[0] = beginDate;
         dataPoints[0] = new DataPoint(dates[0], 0);
-        series.appendData(dataPoints[0], true, 100);
+        series.appendData(dataPoints[0], true, 1000000);
 
         for (int i = 1; i < sessionList.size() + 1; i++)
         {
@@ -107,9 +107,9 @@ public class StatsGraphActivity extends AppCompatActivity
 
         for (int i = 1; i < sessionList.size() + 1; i++)
         {
-            netBankroll += (sessionList.get(i-1).getCashOut() - sessionList.get(i-1).getBuyIn());
+            netBankroll += (sessionList.get(i-1).getProfit());
             dataPoints[i] = new DataPoint(dates[i], netBankroll);
-            series.appendData(dataPoints[i], true, 100);
+            series.appendData(dataPoints[i], true, 1000000);
             if(minBankroll > netBankroll) minBankroll = netBankroll;
             if(maxBankroll < netBankroll) maxBankroll = netBankroll;
         }

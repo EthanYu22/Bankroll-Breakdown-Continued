@@ -79,8 +79,8 @@ public class SessionDetailActivity extends AppCompatActivity
         TextView cashOut = (TextView) findViewById(R.id.tvSessionCashOut);
 
         // Calculate Net Profit and Hourly Rate
-        int nProfit = session.getCashOut() - session.getBuyIn();
-        double hRate = nProfit / timeInHours;
+        int profit = session.getProfit();
+        double hRate = profit / timeInHours;
 
         // Set Significant Figures to 2 for Net Profit, Hourly Rate, Buy In, and Cash Out
         String hR = String.format("%.2f", Math.abs(hRate));
@@ -94,13 +94,13 @@ public class SessionDetailActivity extends AppCompatActivity
         {
             hourlyRate.setText("Session Hourly Rate: $" + hR);
         }
-        if (nProfit < 0)
+        if (profit < 0)
         {
-            netProfit.setText("Session Net Profit: -$" + Math.abs(nProfit));
+            netProfit.setText("Session Net Profit: -$" + Math.abs(profit));
         }
         else
         {
-            netProfit.setText("Session Net Profit: $" + nProfit);
+            netProfit.setText("Session Net Profit: $" + profit);
         }
         type.setText("Type: " + session.getType());
         blinds.setText("Blinds: " + session.getBlinds());

@@ -47,8 +47,8 @@ public class StatsFragment extends Fragment
         double totalHours = 0;
         double avgSessionDuration;
         int netProfit;
-        int buyIn = 0;
-        int cashOut = 0;
+        int totalBuyIn = 0;
+        int totalCashOut = 0;
         int avgBuyIn = 0;
         int avgCashOut = 0;
         double hourlyRate;
@@ -64,13 +64,13 @@ public class StatsFragment extends Fragment
         {
             session = sessionList.get(i);
             totalHours += session.getTime() / 60.0; // Net Hours
-            buyIn += session.getBuyIn(); // Net Buy In
-            cashOut += session.getCashOut(); // Net Cash Out
-            avgBuyIn = buyIn / sessionList.size(); // Average Buy In
-            avgCashOut = cashOut / sessionList.size(); // Average Cash Out
+            totalBuyIn += session.getBuyIn(); // Net Buy In
+            totalCashOut += session.getCashOut(); // Net Cash Out
+            avgBuyIn = totalBuyIn / sessionList.size(); // Average Buy In
+            avgCashOut = totalCashOut / sessionList.size(); // Average Cash Out
 
             // Find Biggest Win and Loss
-            int bigwin = session.getCashOut() - session.getBuyIn();
+            int bigwin = session.getProfit();
             if (bigwin > biggestWin)
             {
                 biggestWin = bigwin;
@@ -81,11 +81,11 @@ public class StatsFragment extends Fragment
             }
 
             // Tally Number of Winning and Losing Sessions
-            if (session.getCashOut() - session.getBuyIn() > 0)
+            if (session.getProfit() > 0)
             {
                 winningSession++;
             }
-            else if (session.getBuyIn() - session.getCashOut() > 0)
+            else if (session.getProfit() < 0)
             {
                 losingSession++;
             }
@@ -130,7 +130,7 @@ public class StatsFragment extends Fragment
         else
         { // If Sessions Are Played Display This
             // Calculate Net Profit, Hourly Rate, and Average Session Duration
-            netProfit = cashOut - buyIn;
+            netProfit = totalCashOut - totalBuyIn;
             hourlyRate = netProfit / totalHours;
             avgSessionDuration = totalHours / sessionList.size();
 

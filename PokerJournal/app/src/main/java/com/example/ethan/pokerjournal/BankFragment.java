@@ -71,16 +71,16 @@ public class BankFragment extends Fragment
         // Calculate Net Profit from Poker Sessions
         Session session;
         sessionList = db.getAllSessions();
-        int netProfit;
-        int buyIn = 0;
-        int cashOut = 0;
+        int netSessionProfit;
+        int totalSessionBuyIn = 0;
+        int totalSessionCashOut = 0;
         for (int i = 0; i < sessionList.size(); i++)
         {
             session = sessionList.get(i);
-            buyIn += session.getBuyIn();
-            cashOut += session.getCashOut();
+            totalSessionBuyIn += session.getBuyIn();
+            totalSessionCashOut += session.getCashOut();
         }
-        netProfit = cashOut - buyIn;
+        netSessionProfit = totalSessionCashOut - totalSessionBuyIn;
 
         // Calculate Net Bank Transactions
         Bank bank;
@@ -107,7 +107,7 @@ public class BankFragment extends Fragment
         }
 
         // Net Bankroll Amount
-        Bankroll = totalMoney + netProfit;
+        Bankroll = totalMoney + netSessionProfit;
 
         // Displays Net Bankroll Amount
         TextView bankroll = (TextView) getView().findViewById(R.id.textTotalMoney);

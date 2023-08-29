@@ -76,6 +76,10 @@ public class Session implements Comparator<Session>
 
     public void setCashOut(int cashOut) {this.cashOut = cashOut;}
 
+    public int getProfit(){
+        return cashOut - buyIn;
+    }
+
     // Converts Date to Display Format
     public String getConvertedDateMMddyyyy()
     {
@@ -90,7 +94,7 @@ public class Session implements Comparator<Session>
     @Override
     public String toString()
     {
-        int netProfit = cashOut - buyIn;
+        int netProfit = getProfit();
         if (netProfit < 0)
         {
             return " " + getConvertedDateMMddyyyy() + "\n Location: " + location + "\n -$" + -netProfit + " in " + String.format("%.2f", time/60.0) + " hours";

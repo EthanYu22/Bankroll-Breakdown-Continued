@@ -417,21 +417,27 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 
     public void onClickExportPokerSessions()
     {
+        int profit = 0;
         sessionList = db.getAllSessions();
 
         StringBuilder sessionListData = new StringBuilder();
-        sessionListData.append("Session Type,Blinds,Location,Date,Buy In,Cash Out,Session Duration");
+        sessionListData.append("Date,Net Profit ($),Buy In ($),Cash Out ($),Session Duration (Minutes),Blinds,Location,Session Type");
+
         for(int i = 0; i < sessionList.size(); i++)
         {
-            sessionListData.append("\n" + sessionList.get(i).type + "," + sessionList.get(i).blinds + "," + sessionList.get(i).location + "," + sessionList.get(i).date + "," + sessionList.get(i).buyIn + "," + sessionList.get(i).cashOut + "," + sessionList.get(i).time);
+            sessionListData.append("\n" + sessionList.get(i).date + "," + sessionList.get(i).getProfit() + "," + sessionList.get(i).buyIn + "," + sessionList.get(i).cashOut + "," + sessionList.get(i).time  + "," + sessionList.get(i).blinds + "," + sessionList.get(i).location + "," + sessionList.get(i).type);
+            profit += sessionList.get(i).getProfit();
         }
+
+        // Provide Net Profit
+        sessionListData.append("\n" + "Total Net Profit: $" + profit);
 
         try
         {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
             LocalDate today = LocalDate.now();
             String exportDate = today.format(formatter);
-            String fileName = "pokerSessionList " + exportDate + ".csv";
+            String fileName = "Poker Session Report - (" + exportDate + ").csv";
 
             FileOutputStream sessionOut = openFileOutput(fileName, Context.MODE_PRIVATE);
             sessionOut.write(sessionListData.toString().getBytes());
@@ -476,7 +482,7 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 
             // Check header is correct
             pokerSession = reader.readLine();
-            if(!pokerSession.equals("Session Type,Blinds,Location,Date,Buy In,Cash Out,Session Duration"))
+            if(!pokerSession.equals("Date,Net Profit ($),Buy In ($),Cash Out ($),Session Duration (Minutes),Blinds,Location,Session Type"))
             {
                 Toast.makeText(MainActivity.this, "Unauthorized File: Incorrect File Header", Toast.LENGTH_LONG).show();
                 pokerSessionsIn.close();
@@ -486,16 +492,17 @@ public class MainActivity<REQUEST_CODE> extends AppCompatActivity
 
             while((pokerSession = reader.readLine()) != null)
             {
-                // Session Type, Blinds, Location, Date, Buy In, Cash Out, Session Time
+                // Date, Profits, Buy In, Cash Out, Session Time, Blinds, Location, Session Type
                 String[] split = pokerSession.split(",");
 
-                String inputType = split[0];
-                String inputBlinds = split[1];
-                String inputLocation = split[2];
-                String inputDate = split[3];
-                String inputTime = split[6];
-                String inputBuyIn = split[4];
-                String inputCashOut = split[5];
+                String inputDate = split[0];
+                String inputBuyIn = split[2];
+                String inputCashOut = split[3];
+                String inputTime = split[4];
+                String inputBlinds = split[5];
+                String inputLocation = split[6];
+                String inputType = split[7];
+
 
                 try
                 {
