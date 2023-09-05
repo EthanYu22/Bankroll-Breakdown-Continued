@@ -45,6 +45,7 @@ public class LiveSessionTracker extends AppCompatActivity
     private Toolbar toolbar;
     private TextView tvCurrTotalBuyIn;
     private TextView tvAddOnAmount;
+    private TextView tvTakeOffAmount;
     private Button startBtn;
     private Button pauseBtn;
     private Button resetBtn;
@@ -99,6 +100,8 @@ public class LiveSessionTracker extends AppCompatActivity
         resetBtn = (Button) findViewById(R.id.timerResetBtn);
         tvCurrTotalBuyIn = (TextView) findViewById(R.id.tvLiveBuyInTotal);
         tvAddOnAmount = (TextView) findViewById(R.id.etAddOn);
+        tvTakeOffAmount = (TextView) findViewById(R.id.etTakeOff);
+
 
         // Get session variable data
         Intent intent = getIntent();
@@ -547,6 +550,33 @@ public class LiveSessionTracker extends AppCompatActivity
 
         editor.putString(LIVE_SESSION_BUY_IN, Integer.toString(totalBuyIn));
         editor.commit();
+    }
+
+    public void onClickTakeOffRebuy(View v)
+    {
+
+        // Log.d("LiveSessionTracker", "onClickTakeOffRebuy Method Called");
+
+        if (tvTakeOffAmount.getText().toString().isEmpty())
+        {
+            Toast noTakeOffEntry = Toast.makeText(getApplication(), "Please fill in the \"Take Off ($)\" field", Toast.LENGTH_SHORT);
+            noTakeOffEntry.show();
+            return;
+        }
+
+        int TakeOffValue = Integer.parseInt(tvTakeOffAmount.getText().toString());
+        if(TakeOffValue > totalBuyIn){
+            Toast noNegativeBuyIn = Toast.makeText(getApplication(), "The \"Take Off\" amount exceeds the \"Buy In Total\"", Toast.LENGTH_SHORT);
+            noNegativeBuyIn.show();
+        } else {
+            totalBuyIn -= TakeOffValue;
+
+            tvCurrTotalBuyIn.setText("Current Buy In Total: $" + totalBuyIn);
+            tvTakeOffAmount.setText("");
+
+            editor.putString(LIVE_SESSION_BUY_IN, Integer.toString(totalBuyIn));
+            editor.commit();
+        }
     }
 
     public void onClickDeleteLiveSession(View v)

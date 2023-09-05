@@ -137,11 +137,53 @@
         android:layout_marginTop="25dp"/>
 
     <TextView
+        android:id="@+id/tvTakeOff"
+        android:text="Take Off ($):"
+        android:inputType="text|textAutoComplete"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_below="@+id/tvAddOn"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"/>
+
+    <EditText
+        android:id="@+id/etTakeOff"
+        android:inputType="number|numberDecimal"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:layout_below="@+id/tvAddOn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="120dp"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="35dp"/>
+
+    // Display Form for Location Under textLocation
+    <Button
+        android:id="@+id/TakeOffRebuyBtn"
+        android:text="Take Off"
+        android:onClick="onClickTakeOffRebuy"
+        android:layout_below="@+id/tvAddOn"
+        android:ems="5"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="25dp"/>
+
+    <TextView
         android:id="@+id/tvLiveCashOut"
         android:text="Cash Out ($):"
         android:textSize="20dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etAddOn"
+        android:layout_below="@+id/etTakeOff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
