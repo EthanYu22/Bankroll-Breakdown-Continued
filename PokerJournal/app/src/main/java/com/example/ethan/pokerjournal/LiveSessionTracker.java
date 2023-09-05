@@ -154,14 +154,6 @@ public class LiveSessionTracker extends AppCompatActivity
                 mBoundService = null;
             }
         };
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-
-        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStart Method Called");
 
         if (!serviceStarted)
         {
@@ -197,6 +189,15 @@ public class LiveSessionTracker extends AppCompatActivity
             registerReceiver(timerResetReceiver, resetFilter);
             shouldUnregisterResetReceiver = true;
         }
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStart Method Called");
+
     }
 
     // Action When On Live Session Form Page
@@ -278,28 +279,14 @@ public class LiveSessionTracker extends AppCompatActivity
         super.onStop();
 
         // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onStop Method Called");
+    }
 
-        if (shouldUnregisterStartReceiver)
-        {
-            unregisterReceiver(timerStartReceiver);
-            shouldUnregisterStartReceiver = false;
-        }
-        if (shouldUnregisterPauseReceiver)
-        {
-            unregisterReceiver(timerPauseReceiver);
-            shouldUnregisterPauseReceiver = false;
-        }
-        if (shouldUnregisterResetReceiver)
-        {
-            unregisterReceiver(timerResetReceiver);
-            shouldUnregisterResetReceiver = false;
-        }
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
 
-        if (mShouldUnbind)
-        {
-            // Log.d("onStop", "Unbinding Service");
-            doUnbindService();
-        }
+        // Log.d("LiveSessionTracker Lifecycle", "LiveSessionTracker onRestart Method Called");
     }
 
     @Override
@@ -376,7 +363,7 @@ public class LiveSessionTracker extends AppCompatActivity
         }
         else
         {
-            Log.e("MY_APP_TAG", "Error: The requested service doesn't " + "exist, or this client isn't allowed access to it.");
+            // Log.e("MY_APP_TAG", "Error: The requested service doesn't " + "exist, or this client isn't allowed access to it.");
         }
     }
 
@@ -426,7 +413,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void startService()
     {
 
-        // Log.d("LiveSessionTracker", "startService Method Called");
+        // ("LiveSessionTracker", "startService Method Called");
 
         Intent serviceIntent = new Intent(this, LiveSessionChronometerService.class);
         startService(serviceIntent);
@@ -480,7 +467,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void pauseTimer(View v)
     {
 
-        // Log.d("LiveSessionTracker", "pauseTimer Method Called");
+        // ("LiveSessionTracker", "pauseTimer Method Called");
 
         if (timerRunning)
         {
@@ -607,7 +594,7 @@ public class LiveSessionTracker extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int which)
                     {
 
-                        // Log.d("LiveSessionTracker", "Cancel onClickDeleteLiveSession Method Chosen");
+                        // ("LiveSessionTracker", "Cancel onClickDeleteLiveSession Method Chosen");
 
                         dialogInterface.cancel();
                     }
@@ -622,7 +609,7 @@ public class LiveSessionTracker extends AppCompatActivity
     public void onClickSubmitLiveSession(View v)
     {
 
-        // Log.d("LiveSessionTracker", "onClickSubmitLiveSession Method Called");
+        // ("LiveSessionTracker", "onClickSubmitLiveSession Method Called");
 
         long inputSessionTime;
         if(timerRunning)
